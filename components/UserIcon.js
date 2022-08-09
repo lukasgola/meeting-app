@@ -16,7 +16,7 @@ const UserIcon = (props) => {
     }}>
         <CircularProgress
             activeStrokeColor={colors.primary}
-            activeStrokeSecondaryColor={colors.secondary}
+            //activeStrokeSecondaryColor={colors.secondary}
             activeStrokeWidth={props.size/25}
             inActiveStrokeColor={null}
             inActiveStrokeWidth={props.size/25}
