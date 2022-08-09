@@ -112,6 +112,16 @@ if(isLocation){
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     paddingHorizontal: 10,
+
+                    shadowColor: colors.primary,
+                    shadowOffset: {
+                        width: 0,
+                        height: 10,
+                    },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 5.84,
+
+                    elevation: 6,
                 }}
             >
                 <View
