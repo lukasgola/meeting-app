@@ -17,8 +17,9 @@ import { listUsers, listEvents } from '../src/graphql/queries';
 //Location
 import * as Location from "expo-location"
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import MapView, { Marker, PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE, Heatmap, Callout } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import getDirections from 'react-native-google-maps-directions'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -27,6 +28,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function Map({navigation, route}){
 
     const INITIAL_LOCATION = route.params.location;
+    const DEFAULT_DELTA = {latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
 
     const width = Dimensions.get('window').width;
 
@@ -37,8 +39,6 @@ export default function Map({navigation, route}){
     const [item, setItem] = useState(route.params.isEvent ? route.params.item : null);
 
     const [selectedPlaceId, setSelectedPlaceId] = useState();
-
-    
 
     const [users, setUsers] = useState([])
     const [parties, setParties] = useState([])
@@ -69,8 +69,8 @@ export default function Map({navigation, route}){
         const position = {
                 latitude: details.geometry.location.lat,
                 longitude: details.geometry.location.lng,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                latitudeDelta: DEFAULT_DELTA.latitudeDelta,
+                longitudeDelta: DEFAULT_DELTA.longitudeDelta
         
         }
         moveTo(position)
@@ -98,7 +98,11 @@ export default function Map({navigation, route}){
                 )
 
                 setUsers(usersResult.data.listUsers.items);
-                setSelectedPlaceId(route.params.isEvent ? route.params.item.id : null)
+                if(route.params.isEvent){
+                    setSelectedPlaceId(route.params.item.id)
+                    setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
+                }
+                
             }catch (e){
                 console.log(e);
             }
@@ -126,10 +130,9 @@ export default function Map({navigation, route}){
         setRegion({
             latitude: route.params.latitude,
             longitude: route.params.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: DEFAULT_DELTA.latitudeDelta,
+            longitudeDelta: DEFAULT_DELTA.longitudeDelta,
         })
-        
 
     }, [])
 
@@ -142,11 +145,13 @@ export default function Map({navigation, route}){
                     destination={destination}
                     apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
                     strokeWidth={3}
-                    strokeColor={colors.grey_d}
+                    strokeColor={colors.text} 
                     onReady={result => {
+                        
                         console.log(`Distance: ${result.distance} km`)
                         console.log(`Duration: ${result.duration} min.`)
-            
+                        
+/*
                         mapRef.current.fitToCoordinates(result.coordinates, {
                             edgePadding: {
                               right: 100,
@@ -156,7 +161,7 @@ export default function Map({navigation, route}){
                             },
                             animated: true
                         });
-
+*/
                     }}
                 />
             )
@@ -181,35 +186,66 @@ export default function Map({navigation, route}){
         }
     }
 
+    const handleGetDirections = (destLat, destLng) => {
+        const data = {
+           source: {
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude
+          },
+          destination: {
+            latitude: destLat,
+            longitude: destLng
+          },
+          params: [
+            {
+              key: "travelmode",
+              value: "driving"        // may be "walking", "bicycling" or "transit" as well
+            },
+            {
+              key: "dir_action",
+              value: "navigate"       // this instantly initializes navigation using the given travel mode
+            }
+          ]
+        }
+     
+        getDirections(data)
+      }
+
+
 
     const renderMarkers = () => {
-        if(region.latitudeDelta < 1) {
-            return(
-                parties.map((marker) => (
-                    <Marker
-                        key={marker.id}
-                        coordinate={{
-                            latitude: marker.latitude,
-                            longitude: marker.longitude
-                        }}
-                        onPress={() => [setSelectedPlaceId(marker.id), setItem(marker), setDestination({latitude: marker.latitude, longitude: marker.longitude})]}
-                    >
-                        <View style={{
-                            padding: 5,
+        return(
+            parties.map((marker) => (
+                <Marker
+                    key={marker.id}
+                    coordinate={{
+                        latitude: marker.latitude,
+                        longitude: marker.longitude
+                    }}
+                    onPress={() => [setSelectedPlaceId(marker.id), setItem(marker), setDestination({latitude: marker.latitude, longitude: marker.longitude})]}
+                >
+                    <Ionicons name='location' size={40} color={selectedPlaceId == marker.id ? colors.primary : colors.text} />
+                
+                    <Callout 
+                        tooltip
+                        onPress={() => handleGetDirections(latitude, longitude)}
+                        style={{ 
+                            backgroundColor: colors.grey_l, 
+                            borderRadius: 10, 
+                            padding: 5, 
+                            width: 100,
+                            height: 50,
                             justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 20,
-                            backgroundColor: selectedPlaceId == marker.id ? colors.text : colors.background,
-                            borderWidth: 2,
-                            borderColor: 'black'
-                        }}>
-                            <CustomText weight='bold' size={12} color={selectedPlaceId == marker.id ? colors.background : colors.text} >Party</CustomText>
-                        </View>
-                    </Marker>
-                        
-                ))
-            )
-        }
+                            alignItems: 'center'
+                        }}
+                    >
+                        <CustomText weight='bold'>Navigate</CustomText>
+                    </Callout>
+
+                </Marker>
+                    
+            ))
+        )
     }
 
 
@@ -217,6 +253,48 @@ export default function Map({navigation, route}){
 
     return (
         <View style={{flex: 1}}>
+
+            <MapView 
+                ref={mapRef}
+                style={{width: '100%', height: '100%'}} 
+                provider={PROVIDER_GOOGLE}
+                customMapStyle={mapSettings}
+                initialRegion={{
+                    latitude: INITIAL_LOCATION.latitude,
+                    longitude: INITIAL_LOCATION.longitude,
+                    latitudeDelta: 0.3922,
+                    longitudeDelta: 0.2421,
+                }}
+                onRegionChange={reg => setRegion(reg)}
+                showsUserLocation={true}
+                followsUserLocation={true}
+                showsMyLocationButton={true}
+            >
+
+                {renderMarkers()}
+
+                {renderMapViewDirections()}
+
+                <Heatmap
+                    initialRegion={{
+                        latitude: INITIAL_LOCATION.latitude,
+                        longitude: INITIAL_LOCATION.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                    points={parties}
+                    radius={50}
+                    gradient={{
+                        colors: ['black'],
+                        startPoints: [0.9],
+                        colorMapSize: 256
+                    }}
+                    opacity={0.3}
+                >
+
+                </Heatmap>
+
+            </MapView>
 
             <GooglePlacesAutocomplete
                 fetchDetails={true}
@@ -254,50 +332,6 @@ export default function Map({navigation, route}){
                     }
                     }}
             /> 
-
-            <MapView 
-                ref={mapRef}
-                style={{width: '100%', height: '100%'}} 
-                provider={PROVIDER_GOOGLE}
-                customMapStyle={mapSettings}
-                initialRegion={{
-                    latitude: INITIAL_LOCATION.latitude,
-                    longitude: INITIAL_LOCATION.longitude,
-                    latitudeDelta: 0.3922,
-                    longitudeDelta: 0.2421,
-                }}
-                onRegionChange={reg => setRegion(reg)}
-                showsUserLocation={true}
-                followsUserLocation={true}
-                showsMyLocationButton={true}
-                
-            >
-
-                {renderMarkers()}
-
-                {renderMapViewDirections()}
-
-                <Heatmap
-                    initialRegion={{
-                        latitude: INITIAL_LOCATION.latitude,
-                        longitude: INITIAL_LOCATION.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                    points={parties}
-                    radius={50}
-                    gradient={{
-                        colors: [ 'blue', 'red'],
-                        startPoints: [0.1, 0.99],
-                        colorMapSize: 256
-                    }}
-                    opacity={0.3}
-                >
-
-                </Heatmap>
-                
-
-            </MapView>
 
             <View style={{position: 'absolute', bottom: 20}}>
                 {renderParty()}
