@@ -32,10 +32,7 @@ const TrendingUser = ({item,navigation}) => {
                 <View style={{width: 80, height: 30, alignItems: 'center', justifyContent: 'center'}}>
                     <CustomText  weight='bold' color={colors.text}>{item.username}</CustomText>
                 </View>
-                <LinearGradient
-                    // Button Linear Gradient
-                    colors={[colors.primary, colors.secondary]}
-                    start={{x: 0.0, y: 0}} end={{x: 1, y: 0}}
+                <View
                     style={{
                         width: 100, 
                         height: 30, 
@@ -45,7 +42,7 @@ const TrendingUser = ({item,navigation}) => {
                         borderRadius: 10
                     }}>
                     <CustomText weight='bold' color='white'>Follow</CustomText>
-                </LinearGradient>
+                </View>
             </View>
         </TouchableOpacity>
     )
