@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "brynol",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\Users\\lukasz\\Desktop\\react\\Brynol\\amplify\\backend\\api\\brynol\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 365,
+      "apiKeyExpirationDate": "2023-07-28T20:24:20.042Z",
+      "keyDescription": ""
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": []
+  }
+}

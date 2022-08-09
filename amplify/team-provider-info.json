@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-brynol-dev-160406-authRole",
+      "UnauthRoleArn": "arn:aws:iam::459905738286:role/amplify-brynol-dev-160406-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::459905738286:role/amplify-brynol-dev-160406-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-brynol-dev-160406-deployment",
+      "UnauthRoleName": "amplify-brynol-dev-160406-unauthRole",
+      "StackName": "amplify-brynol-dev-160406",
+      "StackId": "arn:aws:cloudformation:eu-central-1:459905738286:stack/amplify-brynol-dev-160406/a6c45720-0c22-11ed-9241-02bac4959566",
+      "AmplifyAppId": "d17xp2wsi1o3ia"
+    },
+    "categories": {
+      "auth": {
+        "brynol8a2d15a4": {}
+      }
+    }
+  }
+}
