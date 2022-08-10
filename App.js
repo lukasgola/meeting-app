@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,10 +10,6 @@ import {ThemeProvider} from './theme/ThemeProvider';
 import AppStack from './navigation/AppStack';
 
 
-//Amplify
-import { Amplify, Auth } from 'aws-amplify';
-import awsconfig from './src/aws-exports'
-Amplify.configure(awsconfig);
 
 
 const getFonts = () => Font.loadAsync({
@@ -28,16 +24,18 @@ export default function App() {
 
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  
+
 
   if(fontsLoaded){
     return (
       <AppearanceProvider>
         <ThemeProvider>
-        <NavigationContainer> 
+            <NavigationContainer> 
 
-          <AppStack/>
+              <AppStack/>
 
-        </NavigationContainer> 
+            </NavigationContainer> 
         </ThemeProvider>
       </AppearanceProvider>
     );

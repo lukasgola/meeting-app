@@ -5,24 +5,34 @@ import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 
 import {useTheme} from '../theme/ThemeProvider';
 
+import { auth } from '../firebase/firebase-config';
+import { signOut } from "firebase/auth";
+
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomText from "./CustomText";
-
-import { Auth } from 'aws-amplify';
 
 const CustomDrawer = (props) => {
 
     const {colors, setScheme, isDark} = useTheme();
 
     const [isLoaded, setIsLoaded] = useState(false);
+    
 
     const toggleScheme = () => {
         isDark ? setScheme('light') : setScheme('dark');
     }
 
     const onSignOut = () => {
-        setIsLoaded(true)
-        Auth.signOut();
+        //setIsLoaded(true)
+
+        signOut(auth).then(() => {
+
+            console.log(auth.currentUser)
+            // Sign-out successful.
+          }).catch((error) => {
+            // An error happened.
+          });
     }
 
     return (

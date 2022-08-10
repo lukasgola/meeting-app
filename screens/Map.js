@@ -6,9 +6,6 @@ import {useTheme} from '../theme/ThemeProvider';
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
 
-//Amplify
-import { API, graphqlOperation } from 'aws-amplify'
-import { listUsers, listEvents } from '../src/graphql/queries';
 
 //Location
 import * as Location from "expo-location"
@@ -90,41 +87,11 @@ export default function Map({navigation, route}){
     };
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try{
 
-                const usersResult = await API.graphql(
-                    graphqlOperation(listUsers)
-                )
-
-                setUsers(usersResult.data.listUsers.items);
-                if(route.params.isEvent){
-                    setSelectedPlaceId(route.params.item.id)
-                    setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
-                }
-                
-            }catch (e){
-                console.log(e);
-            }
+        if(route.params.isEvent){
+            setSelectedPlaceId(route.params.item.id)
+            setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
-
-        fetchUsers();
-
-        const fetchParties = async () => {
-            try{
-
-                const partiesResult = await API.graphql(
-                    graphqlOperation(listEvents)
-                )
-
-                setParties(partiesResult.data.listEvents.items);
-
-            }catch (e){
-                console.log(e);
-            }
-        }
-
-        fetchParties();
 
         getLocation();
         setRegion({

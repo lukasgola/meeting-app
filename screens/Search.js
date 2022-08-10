@@ -11,11 +11,6 @@ import TrendingUser from '../components/TrendingUser';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
-import { API, graphqlOperation } from 'aws-amplify'
-import { listUsers, listEvents } from '../src/graphql/queries';
-
-
 export default function Search({navigation}){
 
 
@@ -29,37 +24,7 @@ export default function Search({navigation}){
     const [parties, setParties] = useState([])
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try{
-
-                const usersResult = await API.graphql(
-                    graphqlOperation(listUsers)
-                )
-
-                setUsers(usersResult.data.listUsers.items);
-
-            }catch (e){
-                console.log(e);
-            }
-        }
-
-        fetchUsers();
-
-        const fetchParties = async () => {
-            try{
-
-                const partiesResult = await API.graphql(
-                    graphqlOperation(listEvents)
-                )
-
-                setParties(partiesResult.data.listEvents.items);
-
-            }catch (e){
-                console.log(e);
-            }
-        }
-
-        fetchParties();
+        
     }, [])
 
 

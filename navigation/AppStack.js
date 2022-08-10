@@ -16,8 +16,12 @@ import SignUp from '../screens/SignUp';
 import ConfirmEmail from '../screens/ConfimEmail';
 import ForgotPassword from '../screens/ForgotPassword';
 
-import { Auth, Hub } from 'aws-amplify';
-import { ActivityIndicator, View } from 'react-native';
+
+//Firebase
+import { auth } from '../firebase/firebase-config';
+import { onAuthStateChanged } from "firebase/auth";
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -25,43 +29,14 @@ export default function AppStack({navigation}) {
 
     const {colors} = useTheme();
 
-    const [user, setUser] = useState(undefined)
-
-    const checkUser = async () => {
-        try {
-            const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
-            setUser(authUser);
-        }
-        catch (e){
-            setUser(null);
-        }
-        
-    }
+    const [isUser, setIsUser] = useState(false);
 
     useEffect(() => {
-        checkUser();
+        onAuthStateChanged(auth, (user) => {
+        if(user) setIsUser(true)
+        else setIsUser(false)
+        })
     }, [])
-
-    useEffect(() => {
-        const listener = data => {
-            console.log(data)
-            if(data.payload.event === 'signIn' || data.payload.event === 'signOut'){
-                checkUser();
-            }
-        }
-
-        Hub.listen('auth', listener);
-        return () => Hub.remove('auth', listener)
-    })
-
-    if(user === undefined){
-        return(
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
-                <ActivityIndicator />
-            </View>
-        )
-    }
-    
 
     return(
         <Stack.Navigator
@@ -73,7 +48,7 @@ export default function AppStack({navigation}) {
                 headerShown: false
             }}
         >
-            {user ? (
+            {isUser ? (
                 <>
                     <Stack.Screen 
                         name='DrawerStack' 

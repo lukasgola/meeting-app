@@ -8,9 +8,6 @@ import FlatListItem from '../components/FlatListItem';
 import PopularItem from '../components/PopularItem';
 import TrendingUser from '../components/TrendingUser';
 
-//Amplify
-import { API, graphqlOperation } from 'aws-amplify'
-import { listUsers, listEvents } from '../src/graphql/queries';
 
 //Location
 import * as Location from "expo-location"
@@ -59,39 +56,6 @@ export default function Main({navigation}){
     };
 
     useEffect(() => {
-        
-        const fetchUsers = async () => {
-            try{
-
-                const usersResult = await API.graphql(
-                    graphqlOperation(listUsers)
-                )
-
-                setUsers(usersResult.data.listUsers.items);
-                setIsUsers(true)
-            }catch (e){
-                console.log(e);
-            }
-        }
-
-        fetchUsers();
-        
-
-        const fetchParties = async () => {
-            try{
-
-                const partiesResult = await API.graphql(
-                    graphqlOperation(listEvents)
-                )
-
-                setParties(partiesResult.data.listEvents.items);
-                setIsParties(true)
-            }catch (e){
-                console.log(e);
-            }
-        }
-
-        fetchParties();
         getLocation();
     }, [])
 
