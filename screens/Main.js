@@ -15,13 +15,22 @@ import { listUsers, listEvents } from '../src/graphql/queries';
 //Location
 import * as Location from "expo-location"
 
+//Map
+import mapSettingsLight from '../data/mapSettingsLight';
+import mapSettingsDark from '../data/mapSettingsDark';
+import MapView, { Marker, PROVIDER_GOOGLE, Heatmap, Callout } from 'react-native-maps';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function Main({navigation}){
 
     const width = Dimensions.get('window').width;
+    
 
     const {colors} = useTheme();
+
+    const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
     const [users, setUsers] = useState([])
     const [isUsers, setIsUsers] = useState()
@@ -139,11 +148,35 @@ export default function Main({navigation}){
                                 }}
                                 onPress={() => navigation.navigate('Map', {location, isEvent})}
                             >
-                                <Image 
-                                    style={{width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: colors.grey_l}}
-                                    resizeMethod='resize' 
-                                    resizeMode='cover' 
-                                    source={require('../assets/images/map.jpg')} />
+                                <MapView 
+                                    style={{width: '100%', height: '100%', borderRadius: 10}} 
+                                    provider={PROVIDER_GOOGLE}
+                                    customMapStyle={mapSettings}
+                                    initialRegion={{
+                                        latitude: 50.5107,
+                                        longitude: 18.30056,
+                                        latitudeDelta: 0.0922, 
+                                        longitudeDelta: 0.0821
+                                    }}
+                                    zoomEnabled={false}
+                                    rotateEnabled={false}
+                                    scrollEnabled={false}
+
+                                >
+                                {parties.map((marker) => (
+                                    <Marker
+                                        key={marker.id}
+                                        coordinate={{
+                                            latitude: marker.latitude,
+                                            longitude: marker.longitude,
+                                        }}  
+                                    >
+                                        <Ionicons name='location' size={40} color={colors.primary} />
+
+                                    </Marker>
+                                ))}
+
+                                </MapView>
                             </TouchableOpacity>
                         </View>
                         

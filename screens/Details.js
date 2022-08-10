@@ -13,6 +13,12 @@ import * as Location from "expo-location"
 import {getDistance} from 'geolib';
 import Geocoder from 'react-native-geocoding';
 
+//Map settings
+import mapSettingsLight from '../data/mapSettingsLight';
+import mapSettingsDark from '../data/mapSettingsDark';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import getDirections from 'react-native-google-maps-directions'
+
 
 export default function Details({route, navigation}){
 
@@ -43,11 +49,13 @@ export default function Details({route, navigation}){
         longitude: route.params.item.longitude
     }
 
+    const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
+
     const isEvent = true;
 
     const [item, setItem] = useState(route.params.item)
 
-    const [city, setCity] = useState(null);
+    
 
     const [like, setLike] = useState(false)
 
@@ -59,6 +67,8 @@ export default function Details({route, navigation}){
     const [userLocation, setUserLocation] = useState(null);
     const [isLocation, setIsLocation] = useState(null);
 
+    const [city, setCity] = useState(null);
+    const [isCity, setIsCity] = useState(false);
 
     const getLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -79,6 +89,30 @@ export default function Details({route, navigation}){
         );
         return Math.round(dis/1000);
     };
+
+    const handleGetDirections = (destLat, destLng) => {
+        const data = {
+           source: {
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude
+          },
+          destination: {
+            latitude: destLat,
+            longitude: destLng
+          },
+          params: [
+            {
+              key: "travelmode",
+              value: "driving"        // may be "walking", "bicycling" or "transit" as well
+            },
+            {
+              key: "dir_action",
+              value: "navigate"       // this instantly initializes navigation using the given travel mode
+            }
+          ]
+        }
+        getDirections(data)
+      }
     
 
     useEffect(() => {
@@ -89,11 +123,12 @@ export default function Details({route, navigation}){
 		var addressComponent = json.results[1].address_components[2];
 			console.log(addressComponent);
             setCity(addressComponent.long_name)
+            setIsCity(true)
 		})
 		.catch(error => console.warn(error));
     }, [])
 
-if(isLocation){
+if(isLocation && isCity){
     return (
         <View
             style={{
@@ -158,16 +193,63 @@ if(isLocation){
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Map', {location, isEvent, item})}
                 >
-                    <ImageBackground
-                    source={require('../assets/images/map.jpg')}
-                    resizeMode='cover'
-                    resizeMethod='resize'
-                        style={{
-                            width: '100%',
-                            height: 300,
+                    <MapView 
+                        style={{width: '100%', height: 300}} 
+                        provider={PROVIDER_GOOGLE}
+                        customMapStyle={mapSettings}
+                        initialRegion={{
+                            latitude: route.params.item.latitude - 0.01,
+                            longitude: route.params.item.longitude,
+                            latitudeDelta: 0.0922, 
+                            longitudeDelta: 0.0421
                         }}
-                    />
+                        zoomEnabled={false}
+                        rotateEnabled={false}
+                        scrollEnabled={false}
+
+                    >
+
+                        <Marker
+                            key={route.params.item.id}
+                            coordinate={{
+                                latitude: route.params.item.latitude,
+                                longitude: route.params.item.longitude
+                            }}  
+                        >
+                            <Ionicons name='location' size={40} color={colors.primary} />
+
+                        </Marker>
+
+                    </MapView>
                 </TouchableOpacity>
+                
+                <TouchableOpacity 
+                    onPress={() => handleGetDirections(route.params.item.latitude, route.params.item.longitude)}
+                    style={{
+                        width: 100,
+                        height: 50,
+                        borderRadius: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'absolute',
+                        top: 10, right: 10,
+                        backgroundColor: colors.background,
+                        zIndex: 1,
+
+                        shadowColor: colors.text,
+                        shadowOffset: {
+                            width: 0,
+                            height: 5,
+                        },
+                        shadowOpacity: 0.2,
+                        shadowRadius: 3.84,
+
+                        elevation: 6,
+                    }}
+                >
+                    <CustomText weight='bold'>NAVIGATE</CustomText>
+                </TouchableOpacity>
+
                 <View
                     style={{
                         width: '100%',

@@ -6,20 +6,20 @@ import {useTheme} from '../theme/ThemeProvider';
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
 
-//Map settings
-import mapSettingsLight from '../data/mapSettingsLight';
-import mapSettingsDark from '../data/mapSettingsDark';
-
 //Amplify
 import { API, graphqlOperation } from 'aws-amplify'
 import { listUsers, listEvents } from '../src/graphql/queries';
 
 //Location
 import * as Location from "expo-location"
+
+//Map
+import mapSettingsLight from '../data/mapSettingsLight';
+import mapSettingsDark from '../data/mapSettingsDark';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView, { Marker, PROVIDER_GOOGLE, Heatmap, Callout } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import getDirections from 'react-native-google-maps-directions'
+
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -186,31 +186,6 @@ export default function Map({navigation, route}){
         }
     }
 
-    const handleGetDirections = (destLat, destLng) => {
-        const data = {
-           source: {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude
-          },
-          destination: {
-            latitude: destLat,
-            longitude: destLng
-          },
-          params: [
-            {
-              key: "travelmode",
-              value: "driving"        // may be "walking", "bicycling" or "transit" as well
-            },
-            {
-              key: "dir_action",
-              value: "navigate"       // this instantly initializes navigation using the given travel mode
-            }
-          ]
-        }
-     
-        getDirections(data)
-      }
-
 
 
     const renderMarkers = () => {
@@ -225,22 +200,6 @@ export default function Map({navigation, route}){
                     onPress={() => [setSelectedPlaceId(marker.id), setItem(marker), setDestination({latitude: marker.latitude, longitude: marker.longitude})]}
                 >
                     <Ionicons name='location' size={40} color={selectedPlaceId == marker.id ? colors.primary : colors.text} />
-                
-                    <Callout 
-                        tooltip
-                        onPress={() => handleGetDirections(latitude, longitude)}
-                        style={{ 
-                            backgroundColor: colors.grey_l, 
-                            borderRadius: 10, 
-                            padding: 5, 
-                            width: 100,
-                            height: 50,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <CustomText weight='bold'>Navigate</CustomText>
-                    </Callout>
 
                 </Marker>
                     

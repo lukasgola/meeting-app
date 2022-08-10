@@ -9,11 +9,18 @@
       "UnauthRoleName": "amplify-brynol-dev-160406-unauthRole",
       "StackName": "amplify-brynol-dev-160406",
       "StackId": "arn:aws:cloudformation:eu-central-1:459905738286:stack/amplify-brynol-dev-160406/a6c45720-0c22-11ed-9241-02bac4959566",
-      "AmplifyAppId": "d17xp2wsi1o3ia"
+      "AmplifyAppId": "d17xp2wsi1o3ia",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-brynol-dev-160406-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "auth": {
-        "brynol8a2d15a4": {}
+        "brynol97d4d7e797d4d7e7": {}
+      },
+      "function": {
+        "brynol97d4d7e797d4d7e7PostConfirmation": {
+          "deploymentBucketName": "amplify-brynol-dev-160406-deployment",
+          "s3Key": "amplify-builds/brynol97d4d7e797d4d7e7PostConfirmation-616b2f39484d70374471-build.zip"
+        }
       }
     }
   }

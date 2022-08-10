@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "brynol8a2d15a4_identitypool_8a2d15a4",
+    "identityPoolName": "brynol97d4d7e7_identitypool_97d4d7e7",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "brynol8a2d15a4",
-    "userPoolName": "brynol8a2d15a4_userpool_8a2d15a4",
+    "resourceNameTruncated": "brynol97d4d7e7",
+    "userPoolName": "brynol97d4d7e7_userpool_97d4d7e7",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -24,19 +24,28 @@
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
-    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientRefreshTokenValidity": "365",
     "userpoolClientWriteAttributes": [
       "email"
     ],
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "brynol8a2d15a4_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "brynol97d4d7e7_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "8a2d15a4",
-    "resourceName": "brynol8a2d15a4",
+    "sharedId": "97d4d7e7",
+    "resourceName": "brynol97d4d7e797d4d7e7",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "default",
+    "useDefault": "manual",
+    "thirdPartyAuth": false,
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": {
+      "PostConfirmation": [
+        "custom"
+      ]
+    },
+    "hostedUI": false,
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
