@@ -8,13 +8,15 @@ import CustomText from './CustomText';
 import CardItem from '../components/CardItem';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 
-const FlatListItem = ({item,navigation, user, location}) => {
+const FlatListItem = ({item, location}) => {
 
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
+    const navigation = useNavigation()
 
     
 
@@ -36,7 +38,7 @@ const FlatListItem = ({item,navigation, user, location}) => {
     <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickParty(item)}>
         <View style={[styles.card, {width: 0.9*width, backgroundColor: colors.grey_l}]}>
 
-            <CardItem item={item} user={user} location={location} />
+            <CardItem item={item} location={location} />
             
             <View style={styles.card_footer}>
                 <View style={styles.card_footer_half}>

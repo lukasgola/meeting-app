@@ -1,22 +1,20 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 
-import { LinearGradient } from 'expo-linear-gradient';
-
 import {useTheme} from '../theme/ThemeProvider';
+import { useNavigation } from '@react-navigation/native';
 
+//Components
 import CustomText from './CustomText';
-
 import UserIcon from '../components/UserIcon';
 
 
-const TrendingUser = ({item,navigation}) => {
+const TrendingUser = ({item}) => {
 
     const width = Dimensions.get('window').width;
-    const height = Dimensions.get('window').height;
-
 
     const {colors} = useTheme();
+    const navigation = useNavigation();
 
     const onClickUser = (item) => {
         navigation.navigate('PartyInfo', {item})

@@ -2,40 +2,41 @@ import React, { useState } from 'react';
 import {View, Dimensions, TouchableOpacity, Alert} from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 import {useForm, Controller} from 'react-hook-form';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 //Components
 import CustomText from '../components/CustomText';
 import CustomInput from '../components/CustomInput';
 
+//Firebase
+import { createUserWithEmail } from '../firebase/firebase-config'
 
-export default function ConfirmEmail({navigation}){
+export default function AddUser(){
 
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
-
     const route = useRoute();
+    const navigation = useNavigation()
+    const { control, handleSubmit } = useForm();
 
-    const { control, handleSubmit, watch } = useForm({
-        defaultValues: {username: route?.params?.username}
-    });
+    const getRandomProfilePicture = async () => {
+        const response = await fetch('https://randomuser.me/api')
+        const data = await response.json();
+        return data.results[0].picture.large;
+    }
 
-    const username = watch('username');
 
     const onConfirm = async data => {
 
-        
+        const avatar = await getRandomProfilePicture();
 
+        createUserWithEmail(route.params.email, route.params.password, data.username, avatar);
     };
 
     const onSignIn = () => {
         navigation.navigate('SignIn')
     }
-
-    const onResend = async () => {
-        
-    };
 
 
     return (
@@ -56,19 +57,6 @@ export default function ConfirmEmail({navigation}){
                         icon={'lock-closed-outline'}
                     />
                 </View>
-                <View style={{ width: '100%', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                    <CustomInput
-                        name="code"
-                        control={control}
-                        placeholder="Enter your confirmation code"
-                        rules={{
-                            required: 'Confirmation code is required',
-                        }}
-                        size={12} 
-                        color={colors.grey_l} 
-                        icon={'barcode-outline'}
-                    />
-                </View>
                 <TouchableOpacity 
                     onPress={handleSubmit(onConfirm)}
                     style={{ 
@@ -81,21 +69,6 @@ export default function ConfirmEmail({navigation}){
                         backgroundColor: colors.primary
                     }}>
                     <CustomText weight='bold' size={18} color={'white'}>Confirm</CustomText>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                    onPress={onResend}
-                    style={{ 
-                        width: '100%', 
-                        height: 50, 
-                        justifyContent: 'center', 
-                        alignItems: 'center', 
-                        marginTop: 20,
-                        borderRadius: 10,
-                        backgroundColor: colors.background,
-                        borderWidth: 1,
-                        borderColor: colors.primary
-                    }}>
-                    <CustomText weight='bold' size={18} color={colors.text}>Resend Code</CustomText>
                 </TouchableOpacity>
                 <TouchableOpacity 
                     onPress={onSignIn}

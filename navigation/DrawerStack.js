@@ -2,6 +2,9 @@ import React from 'react';
 import {useTheme} from '../theme/ThemeProvider';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+//Components
+import CustomDrawer from '../components/CustomDrawer'
+import CustomDrawerHeader from '../components/CustomDrawerHeader';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -9,11 +12,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomTabs from './BottomTabs';
 import Profile from '../screens/Profile';
 import Settings from '../screens/Settings';
-
-//Components
-import CustomDrawer from '../components/CustomDrawer'
-
-import CustomDrawerHeader from '../components/CustomDrawerHeader';
 
 const Drawer = createDrawerNavigator();
 

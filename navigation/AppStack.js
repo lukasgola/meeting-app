@@ -13,7 +13,7 @@ import Details from '../screens/Details';
 import Map from '../screens/Map';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
-import ConfirmEmail from '../screens/ConfimEmail';
+import AddUser from '../screens/AddUser';
 import ForgotPassword from '../screens/ForgotPassword';
 
 
@@ -25,7 +25,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 const Stack = createNativeStackNavigator();
 
-export default function AppStack({navigation}) {
+export default function AppStack() {
 
     const {colors} = useTheme();
 
@@ -86,10 +86,10 @@ export default function AppStack({navigation}) {
                         }}
                     />
                     <Stack.Screen 
-                        name='ConfirmEmail' 
-                        component={ConfirmEmail} 
+                        name='AddUser' 
+                        component={AddUser} 
                         options={{
-                            headerTitle: () => <CustomText weight='bold' size={16}>Confirm Email</CustomText>
+                            headerTitle: () => <CustomText weight='bold' size={16}>Add User</CustomText>
                         }}
                     />
                     <Stack.Screen 

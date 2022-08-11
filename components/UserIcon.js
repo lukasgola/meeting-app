@@ -9,7 +9,9 @@ const UserIcon = (props) => {
 
     const {colors} = useTheme();
 
+
   return (
+    
     <View style={{
         alignItems: 'center',
         justifyContent: 'center',
@@ -28,7 +30,7 @@ const UserIcon = (props) => {
             progressFormatter={(value) => {
                 'worklet';
                 
-                return value.toFixed(2); // 2 decimal places
+                return value // 2 decimal places
             }}
         />
         <Image style={{
@@ -36,7 +38,7 @@ const UserIcon = (props) => {
             width: props.size*0.85,
             height: props.size*0.85,
             borderRadius: props.size/2,
-        }} source={{ uri: props.photo.toString() || 'https://i.picsum.photos/id/362/200/300.jpg?hmac=YjZiJWaqrdKL4xFhgrjDw4Ic2tPzNLV975FWRb8td0s' }} />
+        }} source={{ uri: props.photo ||  'https://i.picsum.photos/id/362/200/300.jpg?hmac=YjZiJWaqrdKL4xFhgrjDw4Ic2tPzNLV975FWRb8td0s' }} />
     </View>
   );
 }

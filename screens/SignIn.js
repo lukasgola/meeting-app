@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {View, Dimensions, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
+
 import {useTheme} from '../theme/ThemeProvider';
+import { useNavigation } from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 
 //Components
@@ -11,23 +13,20 @@ import CustomInput from '../components/CustomInput';
 import { signInWithEmail } from '../firebase/firebase-config'
 
 
-export default function SignIn({navigation}){
+export default function SignIn(){
 
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
+    const navigation = useNavigation();
+    const { control, handleSubmit, formState: {errors} } = useForm();
 
     const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-    const {
-        control,
-        handleSubmit,
-        formState: {errors},
-      } = useForm();
-
+    
 
     const onSignIn = async data => {
-        const {username, email, password} = data;
+        const { email, password} = data;
         signInWithEmail(email, password);
     };
 

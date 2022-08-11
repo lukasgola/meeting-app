@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
+import { useNavigation } from '@react-navigation/native';
 
 //Components
 import CustomText from './CustomText';
@@ -10,13 +11,13 @@ import CardItem from '../components/CardItem';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-const PopularItem = ({item,navigation,user, location}) => {
+
+const PopularItem = ({item, location}) => {
 
     const width = Dimensions.get('window').width;
-    const height = Dimensions.get('window').height;
-
-
+    
     const {colors} = useTheme();
+    const navigation = useNavigation();
 
     const onClickParty = (item) => {
         navigation.navigate('Details', {item})
@@ -33,7 +34,7 @@ const PopularItem = ({item,navigation,user, location}) => {
         <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickParty(item)}>
             <View style={[styles.card, {width: 0.8*width, backgroundColor: colors.grey_l}]}>
 
-                <CardItem item={item} user={user} location={location} />
+                <CardItem item={item} location={location} />
                 
                 <View style={styles.card_footer}>
                     <View style={styles.card_footer_half}>

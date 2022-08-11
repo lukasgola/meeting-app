@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+
 import {useTheme} from '../theme/ThemeProvider';
+import { useNavigation } from '@react-navigation/native';
 
 //Components
 import CustomText from '../components/CustomText';
@@ -15,28 +17,35 @@ import * as Location from "expo-location"
 //Map
 import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
-import MapView, { Marker, PROVIDER_GOOGLE, Heatmap, Callout } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+//Firestore
+import { db } from '../firebase/firebase-config'
+import { collection, query, where, getDocs, collectionGroup } from "firebase/firestore";
 
-export default function Main({navigation}){
+
+
+export default function Main(){
 
     const width = Dimensions.get('window').width;
-    
+
 
     const {colors} = useTheme();
+    const navigation = useNavigation();
+
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
     const [users, setUsers] = useState([])
-    const [isUsers, setIsUsers] = useState()
+    const [isUsers, setIsUsers] = useState(false)
 
     const [parties, setParties] = useState([])
-    const [isParties, setIsParties] = useState([])
+    const [isParties, setIsParties] = useState(false)
 
     const [location, setLocation] = useState(null);
-    const [isLocation, setIsLocation] = useState(null);
+    const [isLocation, setIsLocation] = useState(false);
     const [errorMsg, setErrorMsg] = useState(null);
 
 
@@ -44,25 +53,62 @@ export default function Main({navigation}){
 
 
     const getLocation = async () => {
+        
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           setErrorMsg('Permission to access location was denied');
           return;
         }
-  
+    
         let location = await Location.getCurrentPositionAsync({});
         setLocation(location.coords);
         setIsLocation(true)
     };
 
+
+    const getParties = async () => {
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+
+        const parties = [];
+
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, '=>', doc.data());
+            parties.push({
+                ...doc.data(),
+                id: doc.id,
+              });
+        });
+        setParties(parties);
+        setIsParties(true);
+    }
+
+    const getUsers = async () => {
+        const querySnapshot = await getDocs(collection(db, "users"));
+
+        const users = [];
+
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, '=>', doc.data());
+            users.push({
+                ...doc.data(),
+                id: doc.id,
+              });
+        });
+        setUsers(users)
+        setIsUsers(true);
+    }
+
+
     useEffect(() => {
         getLocation();
+        getParties();
+        getUsers();
     }, [])
 
 
     const renderPopularItem = ({item}) => {
         return(
-            <PopularItem item={item} navigation={navigation} user={users[0]} location={location} />
+            <PopularItem item={item} navigation={navigation} location={location} />
         )
     }
 
@@ -89,7 +135,7 @@ export default function Main({navigation}){
         return(
             <FlatList
                 data={data.slice(0,3)}
-                renderItem={({item}) => <FlatListItem item={item} navigation={navigation} user={users[0]} location={location} />}
+                renderItem={({item}) => <FlatListItem item={item} navigation={navigation} location={location} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={
@@ -110,7 +156,7 @@ export default function Main({navigation}){
                                     marginTop: 10,
                                     marginBottom: 20
                                 }}
-                                onPress={() => navigation.navigate('Map', {location, isEvent})}
+                                onPress={() => navigation.navigate('Map', {parties, location, isEvent})}
                             >
                                 <MapView 
                                     style={{width: '100%', height: '100%', borderRadius: 10}} 

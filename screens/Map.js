@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {View, Dimensions, ActivityIndicator, TouchableOpacity} from 'react-native';
+
 import {useTheme} from '../theme/ThemeProvider';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 //Components
 import CustomText from '../components/CustomText';
@@ -21,16 +23,18 @@ import MapViewDirections from 'react-native-maps-directions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-
-export default function Map({navigation, route}){
-
-    const INITIAL_LOCATION = route.params.location;
-    const DEFAULT_DELTA = {latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
+export default function Map(){
 
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
+    const navigation = useNavigation();
+    const route = useRoute();
+    const mapRef = useRef();
 
+
+    const INITIAL_LOCATION = route.params.location;
+    const DEFAULT_DELTA = {latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
     const [item, setItem] = useState(route.params.isEvent ? route.params.item : null);
@@ -51,7 +55,6 @@ export default function Map({navigation, route}){
         longitude: null
     })
 
-    const mapRef = useRef();
 
     const moveTo = async (position) => {
         const camera = await mapRef.current.getCamera();
@@ -117,8 +120,7 @@ export default function Map({navigation, route}){
                         
                         console.log(`Distance: ${result.distance} km`)
                         console.log(`Duration: ${result.duration} min.`)
-                        
-/*
+
                         mapRef.current.fitToCoordinates(result.coordinates, {
                             edgePadding: {
                               right: 100,
@@ -127,13 +129,10 @@ export default function Map({navigation, route}){
                               top: 100,
                             },
                             animated: true
-                        });
-*/
-                    }}
+                    })}}
                 />
             )
         }
-        
     }
 
 
@@ -157,7 +156,7 @@ export default function Map({navigation, route}){
 
     const renderMarkers = () => {
         return(
-            parties.map((marker) => (
+            route.params.parties.map((marker) => (
                 <Marker
                     key={marker.id}
                     coordinate={{

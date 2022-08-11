@@ -1,5 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+
+//Authentication
 import { 
   getAuth,
   signInWithEmailAndPassword, 
@@ -7,6 +9,12 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
 } from "firebase/auth";
+
+
+//Firestore
+import { getFirestore } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore"; 
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,6 +32,11 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
 
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app);
+
+
+
 export async function signInWithEmail (email, password){
   return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -38,12 +51,12 @@ export async function signInWithEmail (email, password){
 }
 
 
-export async function createUserWithEmail (email, password){
+export async function createUserWithEmail (email, password, username, avatar){
   return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
             verifyEmail();
-            const user = userCredential.user;
+            adduser(email, username, avatar)
             // ...
         })
         .catch((error) => {
@@ -79,3 +92,32 @@ async function verifyEmail(){
   });
 }
 
+
+export async function adduser(email, username, avatar){
+  try {
+    const docRef = await addDoc(collection(db, "users"), {
+      username: username,
+      email: email,
+      avatar: avatar,
+      score: 2.5
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+
+export async function addEvent(){
+  try {
+    const docRef = await addDoc(collection(db, "events"), {
+      username: username,
+      email: email,
+      avattar: avatar,
+      score: 2.5
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}

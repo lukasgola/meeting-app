@@ -2,18 +2,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View } from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 
-const Tab = createBottomTabNavigator();
+import CustomText from '../components/CustomText';
+import CustomDrawerHeader from '../components/CustomDrawerHeader';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import CustomText from '../components/CustomText';
-
-import CustomDrawerHeader from '../components/CustomDrawerHeader';
 
 import Main from '../screens/Main';
 import Search from '../screens/Search';
 import Liked from '../screens/Liked';
 import Chats from '../screens/Chats';
+
+const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
 

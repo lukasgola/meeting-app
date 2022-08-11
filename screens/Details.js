@@ -18,6 +18,7 @@ import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import getDirections from 'react-native-google-maps-directions'
+import { useLinkProps } from '@react-navigation/native';
 
 
 export default function Details({route, navigation}){
@@ -311,11 +312,13 @@ if(isLocation && isCity){
                             >
                                 <View style={styles.main_info_single}>
                                     <Ionicons style={{marginRight: 5}} name='time-outline' size={20} color={colors.primary} />
-                                    <CustomText weight='bold' size={14} color={colors.primary} >{route.params.item.hour}:{route.params.item.minute}</CustomText>
+                                    <CustomText weight='bold' size={14} color={colors.primary} >{route.params.item.time_hour}:{route.params.item.time_minute}</CustomText>
                                 </View>
                                 <View style={styles.main_info_single}>
                                     <Ionicons style={{marginRight: 5}} name='calendar-outline' size={20} color={colors.primary} />
-                                    <CustomText weight='bold' size={14} color={colors.primary} >26/06/2022</CustomText>
+                                    <CustomText weight='bold' size={14} color={colors.primary} >
+                                        {route.params.item.day}/{route.params.item.month}/{route.params.item.year}
+                                    </CustomText>
                                 </View>
                             </View>
                             <View
@@ -414,9 +417,9 @@ if(isLocation && isCity){
                                     //backgroundColor: 'red'
                                 }}
                             >
-                                <UserIcon size={80} photo={'https://i.picsum.photos/id/165/200/300.jpg?hmac=4P65Mkd3rtbFIw6TRq5Wc_c9_bOP2SClOjjOFZgbEPg'} score={4.56} />
+                                <UserIcon size={80} photo={route.params.item.organizer_avatar} score={route.params.item.organizer_score} />
                                 <View style={{width: '100%', height: 5}}></View>
-                                <CustomText weight='bold' size={14} color={colors.text} >lukasgola</CustomText>
+                                <CustomText weight='bold' size={14} color={colors.text} >{route.params.item.organizer_username}</CustomText>
                             </View>
                             <View style={{width: '70%', height: '100%', paddingHorizontal: '2.5%'}}>
                                 <View
@@ -514,7 +517,7 @@ if(isLocation && isCity){
                                         marginLeft: 20,
                                     }}
                                 >
-                                    <UserIcon size={60} photo={require('../assets/images/11.jpg')} score={4.56} />
+                                    <UserIcon size={60} photo={route.params.item.organizer_avatar} score={4.56} />
                                 </View>
                             )
                             }

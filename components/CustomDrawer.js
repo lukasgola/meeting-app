@@ -5,12 +5,16 @@ import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 
 import {useTheme} from '../theme/ThemeProvider';
 
+//Components
+import CustomText from "./CustomText";
+
+//Firebase
 import { auth } from '../firebase/firebase-config';
 import { signOut } from "firebase/auth";
 
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CustomText from "./CustomText";
+
 
 const CustomDrawer = (props) => {
 

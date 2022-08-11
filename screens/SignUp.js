@@ -7,22 +7,23 @@ import {useForm} from 'react-hook-form';
 import CustomText from '../components/CustomText';
 import CustomInput from '../components/CustomInput';
 
-//Firebase
-import { createUserWithEmail } from '../firebase/firebase-config'
-
-export default function SignUp({navigation}){
+export default function SignUp(){
 
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
-    const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const navigation = useNavigation();
     const {control, handleSubmit, watch} = useForm();
-    const pwd = watch('password');;
+
+    const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     
+    const pwd = watch('password');
+
+
 
     const onRegister = async data => {
         const {email, password} = data;  
-        createUserWithEmail(email, password);
+        navigation.navigate('AddUser', {email, password})
     };
 
     const onTerms = () => {
@@ -36,7 +37,6 @@ export default function SignUp({navigation}){
     const onSignIn = () => {
         navigation.navigate('SignIn')
     }
-
 
 
     return (
@@ -126,9 +126,7 @@ export default function SignUp({navigation}){
                     <CustomText color={colors.grey_d}>Have an account?</CustomText>
                     <CustomText color={colors.primary}>  Sign in!</CustomText>
                 </TouchableOpacity>
-                
             </View>
-            
         </View>
     );
 }
