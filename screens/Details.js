@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {View, Image, StyleSheet, Dimensions, ScrollView, FlatList, TouchableOpacity, ImageBackground, ActivityIndicator} from 'react-native';
-import {useTheme} from '../theme/ThemeProvider';
 
+import {useTheme} from '../theme/ThemeProvider';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 //Components
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,16 +19,19 @@ import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import getDirections from 'react-native-google-maps-directions'
-import { useLinkProps } from '@react-navigation/native';
 
 
-export default function Details({route, navigation}){
+
+export default function Details(){
 
     Geocoder.init("AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE");
 
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
+
+    const navigation = useNavigation()
+    const route = useRoute()
 
     const h2 = 16;
 

@@ -26,8 +26,14 @@ import { db } from '../firebase/firebase-config'
 import { collection, query, where, getDocs, collectionGroup } from "firebase/firestore";
 
 
+//Redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchUser } from '../redux/actions/index'
 
-export default function Main(){
+
+
+function Main(){
 
     const width = Dimensions.get('window').width;
 
@@ -72,7 +78,6 @@ export default function Main(){
         const parties = [];
 
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, '=>', doc.data());
             parties.push({
                 ...doc.data(),
                 id: doc.id,
@@ -88,7 +93,6 @@ export default function Main(){
         const users = [];
 
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, '=>', doc.data());
             users.push({
                 ...doc.data(),
                 id: doc.id,
@@ -100,6 +104,7 @@ export default function Main(){
 
 
     useEffect(() => {
+        fetchUser();
         getLocation();
         getParties();
         getUsers();
@@ -156,7 +161,7 @@ export default function Main(){
                                     marginTop: 10,
                                     marginBottom: 20
                                 }}
-                                onPress={() => navigation.navigate('Map', {parties, location, isEvent})}
+                                onPress={() => navigation.navigate('Map', {location, isEvent})}
                             >
                                 <MapView 
                                     style={{width: '100%', height: '100%', borderRadius: 10}} 
@@ -242,26 +247,31 @@ export default function Main(){
         ) 
     }
 
-    
-if(isLocation && isUsers && isParties){
-    return (
-        <View style={{
-            flex: 1,
-            alignItems: 'center',
-            backgroundColor: colors.background,
-        }}>
-
-                {renderFlatlist(parties)}                    
-            
-        </View>
-    )
-}else {
-    return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <ActivityIndicator />
-        </View>
         
-    )
-}
+    if(isLocation && isUsers && isParties){
+        return (
+            <View style={{
+                flex: 1,
+                alignItems: 'center',
+                backgroundColor: colors.background,
+            }}>
+
+                    {renderFlatlist(parties)}                    
+                
+            </View>
+        )
+    }else {
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ActivityIndicator />
+            </View>
+            
+        )
+    }
     
 }
+
+
+const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser}, dispatch)
+
+export default connect(null, mapDispatchProps)(Main)

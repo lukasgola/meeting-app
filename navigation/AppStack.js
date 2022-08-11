@@ -22,6 +22,15 @@ import { auth } from '../firebase/firebase-config';
 import { onAuthStateChanged } from "firebase/auth";
 
 
+//Redux
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import rootReducer from '../redux/reducers'
+import thunk from 'redux-thunk'
+
+const store = createStore(rootReducer, applyMiddleware(thunk))
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -38,18 +47,19 @@ export default function AppStack() {
         })
     }, [])
 
-    return(
-        <Stack.Navigator
-            screenOptions={{
-                headerTintColor: colors.primary,
-                headerStyle:{
-                    backgroundColor: colors.background
-                },
-                headerShown: false
-            }}
-        >
-            {isUser ? (
-                <>
+    if(isUser){
+        return(
+            <Provider store= {store}>
+                <Stack.Navigator
+                    screenOptions={{
+                        headerTintColor: colors.primary,
+                        headerStyle:{
+                            backgroundColor: colors.background
+                        },
+                        headerShown: false
+                    }}
+                >
+        
                     <Stack.Screen 
                         name='DrawerStack' 
                         component={DrawerStack}/>
@@ -69,39 +79,55 @@ export default function AppStack() {
                             headerTitle: () => <CustomText weight='bold' size={16}>Map</CustomText>
                         }}
                     />
-                </>) : (
-                <>
-                    <Stack.Screen 
-                        name='SignIn' 
-                        component={SignIn} 
-                        options={{
-                            headerTitle: () => <CustomText weight='bold' size={16}>Sign In</CustomText>
-                        }}
-                    />
-                    <Stack.Screen 
-                        name='SignUp' 
-                        component={SignUp} 
-                        options={{
-                            headerTitle: () => <CustomText weight='bold' size={16}>Sign Up</CustomText>
-                        }}
-                    />
-                    <Stack.Screen 
-                        name='AddUser' 
-                        component={AddUser} 
-                        options={{
-                            headerTitle: () => <CustomText weight='bold' size={16}>Add User</CustomText>
-                        }}
-                    />
-                    <Stack.Screen 
-                        name='ForgotPassword' 
-                        component={ForgotPassword} 
-                        options={{
-                            headerTitle: () => <CustomText weight='bold' size={16}>Forgot Password</CustomText>
-                        }}
-                    />
-                </>
-            )}
-                
-        </Stack.Navigator>
-    )
+                    
+                </Stack.Navigator>
+            </Provider>
+        )
+
+    }else {
+        return(
+            <Stack.Navigator
+                screenOptions={{
+                    headerTintColor: colors.primary,
+                    headerStyle:{
+                        backgroundColor: colors.background
+                    },
+                    headerShown: false
+                }}
+            >
+                <Stack.Screen 
+                    name='SignIn' 
+                    component={SignIn} 
+                    options={{
+                        headerTitle: () => <CustomText weight='bold' size={16}>Sign In</CustomText>
+                    }}
+                />
+                <Stack.Screen 
+                    name='SignUp' 
+                    component={SignUp} 
+                    options={{
+                        headerTitle: () => <CustomText weight='bold' size={16}>Sign Up</CustomText>
+                    }}
+                />
+                <Stack.Screen 
+                    name='AddUser' 
+                    component={AddUser} 
+                    options={{
+                        headerTitle: () => <CustomText weight='bold' size={16}>Add User</CustomText>
+                    }}
+                />
+                <Stack.Screen 
+                    name='ForgotPassword' 
+                    component={ForgotPassword} 
+                    options={{
+                        headerTitle: () => <CustomText weight='bold' size={16}>Forgot Password</CustomText>
+                    }}
+                />
+
+            </Stack.Navigator>
+        )
+    }
+
+
+    
 }

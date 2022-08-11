@@ -20,6 +20,11 @@ import MapView, { Marker, PROVIDER_GOOGLE, Heatmap, Callout } from 'react-native
 import MapViewDirections from 'react-native-maps-directions';
 
 
+//Firebase
+import { db } from '../firebase/firebase-config'
+import { collection, query, where, getDocs, collectionGroup } from "firebase/firestore";
+
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
@@ -43,6 +48,8 @@ export default function Map(){
 
     const [users, setUsers] = useState([])
     const [parties, setParties] = useState([])
+
+    const [isParties, setIsParties] = useState(false)
 
     const [userLocation, setUserLocation] = useState(null);
     const [isLocation, setIsLocation] = useState(null);
@@ -89,13 +96,28 @@ export default function Map(){
         setIsLocation(true)
     };
 
+    const getParties = async () => {
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+
+        const parties = [];
+
+        querySnapshot.forEach((doc) => {
+            parties.push({
+                ...doc.data(),
+                id: doc.id,
+              });
+        });
+        setParties(parties);
+        setIsParties(true);
+    }
+
     useEffect(() => {
 
         if(route.params.isEvent){
             setSelectedPlaceId(route.params.item.id)
             setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
-
+        getParties();
         getLocation();
         setRegion({
             latitude: route.params.latitude,
@@ -156,7 +178,7 @@ export default function Map(){
 
     const renderMarkers = () => {
         return(
-            route.params.parties.map((marker) => (
+            parties.map((marker) => (
                 <Marker
                     key={marker.id}
                     coordinate={{
@@ -174,7 +196,7 @@ export default function Map(){
     }
 
 
-    if(isLocation){
+    if(isLocation && isParties){
 
     return (
         <View style={{flex: 1}}>

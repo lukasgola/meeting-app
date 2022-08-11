@@ -13,7 +13,7 @@ import {
 
 //Firestore
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, setDoc, doc } from "firebase/firestore"; 
 
 
 // Your web app's Firebase configuration
@@ -56,7 +56,7 @@ export async function createUserWithEmail (email, password, username, avatar){
         .then((userCredential) => {
             // Signed in 
             verifyEmail();
-            adduser(email, username, avatar)
+            adduser( email, username, avatar)
             // ...
         })
         .catch((error) => {
@@ -93,20 +93,18 @@ async function verifyEmail(){
 }
 
 
-export async function adduser(email, username, avatar){
+export async function adduser( email, username, avatar){
   try {
-    const docRef = await addDoc(collection(db, "users"), {
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
       username: username,
       email: email,
       avatar: avatar,
       score: 2.5
     });
-    console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
 }
-
 
 export async function addEvent(){
   try {

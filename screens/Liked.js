@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, TextInput} from 'react-native';
+
 import {useTheme} from '../theme/ThemeProvider';
+import { useNavigation } from '@react-navigation/native';
 
 import CustomText from '../components/CustomText';
 import CustomTextInput from '../components/CustomTextInput';
@@ -16,12 +18,14 @@ import parties from '../data/parties';
 import meetings from '../data/meetings';
 
 
-export default function Search({navigation}){
+
+export default function Search(){
 
 
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
+    const navigation = useNavigation()
 
 
     const CATEGORIES = [
