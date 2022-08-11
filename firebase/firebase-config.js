@@ -1,6 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { 
+  getAuth,
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  sendEmailVerification,
+} from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,7 +24,7 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
 
-export function signInWithEmail (email, password){
+export async function signInWithEmail (email, password){
   return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
@@ -31,13 +37,14 @@ export function signInWithEmail (email, password){
         })
 }
 
-export function createUserWithEmail (email, password){
+
+export async function createUserWithEmail (email, password){
   return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
+            verifyEmail();
             const user = userCredential.user;
             // ...
-            console.log(user.email)
         })
         .catch((error) => {
             console.log('error: ', error.message)
@@ -45,6 +52,30 @@ export function createUserWithEmail (email, password){
         });
     
 }
-    
 
+
+export async function forgotPassword(email){
+  return sendPasswordResetEmail(auth, email)
+        .then(() => {
+          // Password reset email sent!
+          // ..
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+}    
+
+
+async function verifyEmail(){
+
+  return sendEmailVerification(auth.currentUser)
+  .then(function() {
+    // Verification email sent.
+  })
+  .catch(function(error) {
+    // Error occurred. Inspect error.code.
+  });
+}
 

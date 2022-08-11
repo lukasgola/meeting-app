@@ -27,8 +27,6 @@ const CustomDrawer = (props) => {
         //setIsLoaded(true)
 
         signOut(auth).then(() => {
-
-            console.log(auth.currentUser)
             // Sign-out successful.
           }).catch((error) => {
             // An error happened.

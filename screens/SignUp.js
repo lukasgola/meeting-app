@@ -21,9 +21,8 @@ export default function SignUp({navigation}){
     
 
     const onRegister = async data => {
-        const {username, email, password} = data;  
-        createUserWithEmail(email, password)
-        navigation.navigate('SignIn')
+        const {email, password} = data;  
+        createUserWithEmail(email, password);
     };
 
     const onTerms = () => {
@@ -45,17 +44,6 @@ export default function SignUp({navigation}){
             <View style={{ width: 0.9*width }}>
                 <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center' }}>
                     <CustomText weight='bold' size={30}>Create an account</CustomText>
-                </View>
-                <View style={{ width: '100%', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                    <CustomInput
-                        name="username"
-                        placeholder="Username"
-                        control={control}
-                        rules={{required: 'Username is required'}}
-                        size={12} 
-                        color={colors.grey_l} 
-                        icon={'lock-closed-outline'}
-                    />
                 </View>
                 <View style={{ width: '100%', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                     <CustomInput

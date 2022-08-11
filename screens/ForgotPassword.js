@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import {View, Dimensions, TouchableOpacity, Alert} from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 import {useForm, Controller} from 'react-hook-form';
+import { useRoute } from '@react-navigation/native';
 
 //Components
 import CustomText from '../components/CustomText';
 import CustomInput from '../components/CustomInput';
 
-
+//Firebase
+import { forgotPassword } from '../firebase/firebase-config';
 
 
 
@@ -18,11 +20,20 @@ export default function ForgotPassword({navigation}){
 
     const {colors} = useTheme();
 
-    const {control, handleSubmit} = useForm();
+    const route = useRoute();
+
+    const { control, handleSubmit, watch } = useForm({
+        defaultValues: {email: route?.params?.email}
+    });
+
+    const email = watch('email');
+
+    const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     const onSend = async data => {
 
-        
+        forgotPassword(data.email)
+        navigation.navigate('SignIn')
     };
 
     const onSignIn = () => {
@@ -40,13 +51,16 @@ export default function ForgotPassword({navigation}){
                 <View style={{ width: '100%', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                     
                     <CustomInput
-                        name="username"
-                        placeholder="Username"
+                        name="email"
                         control={control}
-                        rules={{required: 'Username is required'}}
+                        placeholder="Email"
+                        rules={{
+                            required: 'Email is required',
+                            pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+                        }}
                         size={12} 
                         color={colors.grey_l} 
-                        icon={'lock-closed-outline'}
+                        icon={'mail-outline'}
                     />
                 </View>
                 <TouchableOpacity 
