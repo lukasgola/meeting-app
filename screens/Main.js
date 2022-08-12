@@ -25,7 +25,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Firestore
-import { db } from '../firebase/firebase-config'
+import { db, auth } from '../firebase/firebase-config'
 import { collection, query, where, getDocs, collectionGroup } from "firebase/firestore";
 
 
@@ -248,7 +248,7 @@ export default function Main(){
     }
 
         
-    if(isLocation && isUsers && isParties){
+    if(isLocation && isUsers && isParties && currentUser !== undefined){
         return (
             <View style={{
                 flex: 1,
@@ -256,7 +256,7 @@ export default function Main(){
                 backgroundColor: colors.background,
             }}>
 
-                    {renderFlatlist(parties)}                    
+                    {renderFlatlist(parties)}               
                 
             </View>
         )

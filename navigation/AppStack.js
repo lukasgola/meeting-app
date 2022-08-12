@@ -13,7 +13,6 @@ import Details from '../screens/Details';
 import Map from '../screens/Map';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
-import AddUser from '../screens/AddUser';
 import ForgotPassword from '../screens/ForgotPassword';
 
 
@@ -47,6 +46,7 @@ export default function AppStack() {
         return(
             <PracticeProvider>
                 <Stack.Navigator
+                    initialRouteName='DrawerStack'
                     screenOptions={{
                         headerTintColor: colors.primary,
                         headerStyle:{
@@ -103,13 +103,6 @@ export default function AppStack() {
                     component={SignUp} 
                     options={{
                         headerTitle: () => <CustomText weight='bold' size={16}>Sign Up</CustomText>
-                    }}
-                />
-                <Stack.Screen 
-                    name='AddUser' 
-                    component={AddUser} 
-                    options={{
-                        headerTitle: () => <CustomText weight='bold' size={16}>Add User</CustomText>
                     }}
                 />
                 <Stack.Screen 

@@ -19,6 +19,7 @@ const PracticeProvider = ({children}) => {
             const user = {
                 ...docSnap.data()
             }
+            //console.log(JSON.stringify(user))
             setCurrentUser(user)
         } else {
         // doc.data() will be undefined in this case

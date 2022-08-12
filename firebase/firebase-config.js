@@ -15,6 +15,9 @@ import {
 import { getFirestore } from "firebase/firestore";
 import { collection, setDoc, getDoc, doc } from "firebase/firestore"; 
 
+//Storage
+import { getStorage, ref, getDownloadURL, uploadBytes, putFile, put } from "firebase/storage";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -36,6 +39,11 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 
+export const storage = getStorage(app);
+
+
+
+
 
 export async function signInWithEmail (email, password){
   return signInWithEmailAndPassword(auth, email, password)
@@ -51,13 +59,12 @@ export async function signInWithEmail (email, password){
 }
 
 
-export async function createUserWithEmail (email, password, username, avatar){
+export async function createUserWithEmail (username, email, password, avatar){
   return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
             verifyEmail();
-            adduser( email, username, avatar)
-            // ...
+            uploadImage(userCredential.user.uid, username, email, avatar)
         })
         .catch((error) => {
             console.log('error: ', error.message)
@@ -93,9 +100,9 @@ async function verifyEmail(){
 }
 
 
-export async function adduser( email, username, avatar){
+export async function adduser(uid, email, username, avatar){
   try {
-    await setDoc(doc(db, "users", auth.currentUser.uid), {
+    await setDoc(doc(db, "users", uid), {
       username: username,
       email: email,
       avatar: avatar,
@@ -119,3 +126,28 @@ export async function addEvent(){
     console.error("Error adding document: ", e);
   }
 }
+
+
+export async function uploadImage(uid, email, username, avatar) {
+  let storageRef = ref(storage, `/profilePictures/${uid}`)
+  const response = await fetch(avatar.uri)
+  const blob = await response.blob();
+  
+  console.log(JSON.stringify(avatar))
+  uploadBytes(storageRef, blob).then((snapshot) => {
+    getURL(uid, email, username, avatar).then(
+      console.log('success')
+    )
+  });
+}
+
+
+
+export async function getURL(uid, email, username, avatar) {
+  let storageRef = ref(storage, `/profilePictures/${uid}`)
+  getDownloadURL(storageRef).then((url) => {
+    console.log(url)
+    adduser(uid, username, email, url)
+  })
+}
+
