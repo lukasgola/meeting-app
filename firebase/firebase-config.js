@@ -13,7 +13,7 @@ import {
 
 //Firestore
 import { getFirestore } from "firebase/firestore";
-import { collection, setDoc, doc } from "firebase/firestore"; 
+import { collection, setDoc, getDoc, doc } from "firebase/firestore"; 
 
 
 // Your web app's Firebase configuration

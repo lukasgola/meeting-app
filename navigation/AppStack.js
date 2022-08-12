@@ -22,13 +22,9 @@ import { auth } from '../firebase/firebase-config';
 import { onAuthStateChanged } from "firebase/auth";
 
 
-//Redux
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import rootReducer from '../redux/reducers'
-import thunk from 'redux-thunk'
+import { PracticeProvider, PracticeContext } from '../contextAPI/ContextAPI';
 
-const store = createStore(rootReducer, applyMiddleware(thunk))
+
 
 
 
@@ -49,7 +45,7 @@ export default function AppStack() {
 
     if(isUser){
         return(
-            <Provider store= {store}>
+            <PracticeProvider>
                 <Stack.Navigator
                     screenOptions={{
                         headerTintColor: colors.primary,
@@ -81,7 +77,7 @@ export default function AppStack() {
                     />
                     
                 </Stack.Navigator>
-            </Provider>
+            </PracticeProvider>
         )
 
     }else {

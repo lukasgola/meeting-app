@@ -1,8 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
+
+//ContextAPI
+import { PracticeContext } from '../contextAPI/ContextAPI';
 
 //Components
 import CustomText from '../components/CustomText';
@@ -26,14 +29,9 @@ import { db } from '../firebase/firebase-config'
 import { collection, query, where, getDocs, collectionGroup } from "firebase/firestore";
 
 
-//Redux
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { fetchUser } from '../redux/actions/index'
 
 
-
-function Main(){
+export default function Main(){
 
     const width = Dimensions.get('window').width;
 
@@ -41,8 +39,11 @@ function Main(){
     const {colors} = useTheme();
     const navigation = useNavigation();
 
+    const {currentUser, setCurrentUser} = useContext(PracticeContext);
+
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
+
 
     const [users, setUsers] = useState([])
     const [isUsers, setIsUsers] = useState(false)
@@ -103,8 +104,7 @@ function Main(){
     }
 
 
-    useEffect(() => {
-        fetchUser();
+    useEffect(() => {    
         getLocation();
         getParties();
         getUsers();
@@ -149,7 +149,7 @@ function Main(){
                         <View style={{ marginLeft: 0.05*width }}>
                             <View style={{ width: 0.9*width, flexDirection:'row' }}>
                                 <CustomText weight='bold' size={25}>Welcome</CustomText>
-                                <CustomText weight='bold' size={25} color={colors.primary}> lukasgola</CustomText>
+                                <CustomText weight='bold' size={25} color={colors.primary}> {currentUser.username}</CustomText>
                             </View>
                             <CustomText size={14} color={colors.text}>Check out the map</CustomText>
                             
@@ -270,8 +270,3 @@ function Main(){
     }
     
 }
-
-
-const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser}, dispatch)
-
-export default connect(null, mapDispatchProps)(Main)
