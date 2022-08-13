@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 
 import {useTheme} from '../theme/ThemeProvider';
 
+import { useCurrentUser } from '../currentUser/CurrentUserProvider'
+
 //Components
 import CustomText from "./CustomText";
+import UserIcon from "./UserIcon";
 
 //Firebase
 import { auth } from '../firebase/firebase-config';
@@ -14,11 +17,18 @@ import { signOut } from "firebase/auth";
 
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from "@react-navigation/native";
 
 
 const CustomDrawer = (props) => {
 
     const {colors, setScheme, isDark} = useTheme();
+
+    const navigation = useNavigation();
+
+    const currentUser  = useCurrentUser();
+
+
 
     const [isLoaded, setIsLoaded] = useState(false);
     
@@ -44,14 +54,16 @@ const CustomDrawer = (props) => {
             <ActivityIndicator />
         ):(
             <DrawerContentScrollView {...props}>
-                <View style={styles.profile}>
-                    <Image source={require('../assets/images/11.jpg')} style={styles.image}/>
+                <TouchableOpacity 
+                    onPress={() => navigation.navigate('Profile')}
+                    style={styles.profile}>
+                    <UserIcon size={50} photo={currentUser.avatar} score={currentUser.score} />
                     <View style={styles.name}>
-                        <CustomText color={colors.text} weight='bold' size={14} style={styles.name}>Łukasz Gola</CustomText>
-                        <CustomText color={colors.text} size={12} style={styles.name}>lukasz_gola</CustomText>
+                        <CustomText color={colors.text} weight='bold' size={14} style={styles.name}>{currentUser.username}</CustomText>
+                        <CustomText color={colors.text} size={12} style={styles.name}>{currentUser.email}</CustomText>
                     </View>
                     
-                </View>
+                </TouchableOpacity>
                 
                 <View>
                     <DrawerItemList {...props}/>

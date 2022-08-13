@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {View, Dimensions, TouchableOpacity, Image} from 'react-native';
+import {View, Dimensions, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
 import {useForm} from 'react-hook-form';
@@ -70,7 +70,7 @@ export default function SignUp(){
 
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  backgroundColor: colors.background }}>
+        <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  backgroundColor: colors.background }}>
             <View style={{ width: 0.9*width }}>
                 <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center' }}>
                     <CustomText weight='bold' size={30}>Create an account</CustomText>
@@ -186,6 +186,6 @@ export default function SignUp(){
                     <CustomText color={colors.primary}>  Sign in!</CustomText>
                 </TouchableOpacity>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 }

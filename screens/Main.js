@@ -1,11 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
 
-//ContextAPI
-import { PracticeContext } from '../contextAPI/ContextAPI';
+import { useCurrentUser } from '../currentUser/CurrentUserProvider'
 
 //Components
 import CustomText from '../components/CustomText';
@@ -39,8 +38,7 @@ export default function Main(){
     const {colors} = useTheme();
     const navigation = useNavigation();
 
-    const {currentUser, setCurrentUser} = useContext(PracticeContext);
-
+    const currentUser  = useCurrentUser();
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
@@ -104,7 +102,8 @@ export default function Main(){
     }
 
 
-    useEffect(() => {    
+    useEffect(() => {  
+        console.log(currentUser.email)
         getLocation();
         getParties();
         getUsers();
@@ -248,7 +247,7 @@ export default function Main(){
     }
 
         
-    if(isLocation && isUsers && isParties && currentUser !== undefined){
+    if(isLocation && isUsers && isParties){
         return (
             <View style={{
                 flex: 1,

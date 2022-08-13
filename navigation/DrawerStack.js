@@ -48,15 +48,6 @@ export default function Home({navigation}){
                     )
                 }}
                 />
-                <Drawer.Screen name='Profile' component={Profile} options={{
-                    drawerIcon: ({color}) => (
-                    <Ionicons name='person-outline' size={22} color={color} />
-                    ),
-                    headerShown: true,
-                    header: (props) => (
-                        <CustomDrawerHeader {...props} name='Profile' />
-                    ),
-                }} />
                 <Drawer.Screen name='Settings' component={Settings} options={{
                     drawerIcon: ({color}) => (
                     <Ionicons name='settings-outline' size={22} color={color} />

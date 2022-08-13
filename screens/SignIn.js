@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {View, Dimensions, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
+import {View, Dimensions, TouchableOpacity, Alert, KeyboardAvoidingView} from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
@@ -40,7 +40,7 @@ export default function SignIn(){
 
     
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  backgroundColor: colors.background }}>
+        <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  backgroundColor: colors.background }}>
             <View style={{ width: 0.9*width }}>
                 <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center' }}>
                     <CustomText weight='bold' size={30}>BRYNOL</CustomText>
@@ -103,7 +103,7 @@ export default function SignIn(){
                     <CustomText color={colors.grey_d}>Forgot password?</CustomText>
                 </TouchableOpacity>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     )
         
 }

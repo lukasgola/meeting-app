@@ -7,7 +7,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import {AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from './theme/ThemeProvider';
 
+import { CurrentUserProvider } from './currentUser/CurrentUserProvider';
+
+//Firebase
+import { auth } from "./firebase/firebase-config";
+import { onAuthStateChanged } from "firebase/auth";
+
+//Stacks
 import AppStack from './navigation/AppStack';
+import LoginStack from './navigation/LoginStack';
 
 
 import { LogBox } from 'react-native';
@@ -36,6 +44,17 @@ export default function App() {
 
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  const [isUser, setIsUser] = useState(false);
+
+  useEffect(() => {
+      onAuthStateChanged(auth, (user) => {
+      if(user) {
+          setIsUser(true)
+      }
+      else setIsUser(false)
+      })
+  }, [])
+
   
 
 
@@ -43,11 +62,13 @@ export default function App() {
     return (
       <AppearanceProvider>
         <ThemeProvider>
+          <CurrentUserProvider>
             <NavigationContainer> 
 
-              <AppStack/>
+            {isUser ? <AppStack/> : <LoginStack/> }
 
             </NavigationContainer> 
+          </CurrentUserProvider>
         </ThemeProvider>
       </AppearanceProvider>
     );
