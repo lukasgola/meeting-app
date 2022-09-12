@@ -31,7 +31,6 @@ if (message.indexOf('Setting a timer') <= -1) {
 };
 
 
-
 const getFonts = () => Font.loadAsync({
     'inspiration': require('./assets/fonts/Inspiration-Regular.ttf'),
     'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
