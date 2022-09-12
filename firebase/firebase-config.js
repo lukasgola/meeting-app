@@ -20,14 +20,25 @@ import { getStorage, ref, getDownloadURL, uploadBytes, putFile, put } from "fire
 
 
 // Your web app's Firebase configuration
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCd2e4UPkyUCvts_oKush6gMhqr6RC1yOI",
-  authDomain: "brynol-app.firebaseapp.com",
-  projectId: "brynol-app",
-  storageBucket: "brynol-app.appspot.com",
-  messagingSenderId: "472747692296",
-  appId: "1:472747692296:web:cfcad86ad9035920bf1cbd"
+  apiKey: "AIzaSyB5xiaccDNKobe7NhMC8Q-NHGBgKhE28kI",
+  authDomain: "meeting-app-7fae7.firebaseapp.com",
+  projectId: "meeting-app-7fae7",
+  storageBucket: "meeting-app-7fae7.appspot.com",
+  messagingSenderId: "655054129611",
+  appId: "1:655054129611:web:26913f64a2971d5e7c0e4e",
+  measurementId: "G-FWPSRK8M74"
 };
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCd2e4UPkyUCvts_oKush6gMhqr6RC1yOI",
+//   authDomain: "brynol-app.firebaseapp.com",
+//   projectId: "brynol-app",
+//   storageBucket: "brynol-app.appspot.com",
+//   messagingSenderId: "472747692296",
+//   appId: "1:472747692296:web:cfcad86ad9035920bf1cbd"
+// };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
