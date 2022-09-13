@@ -5,11 +5,8 @@ import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
 
 //Components
-import CustomText from './CustomText';
 import CardItem from '../components/CardItem';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import ItemFooter from './ItemFooter';
 
 
 const PopularItem = ({item, location}) => {
@@ -23,35 +20,14 @@ const PopularItem = ({item, location}) => {
         navigation.navigate('Details', {item})
     }
 
-    const [like, setLike] = useState(false)
-
-    const onClickLike = () => {
-        if(like) setLike(false)
-        else setLike(true)
-    }
-
     return(
         <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickParty(item)}>
-            <View style={[styles.card, {width: 0.8*width, backgroundColor: colors.grey_l}]}>
+            <View style={[styles.card, {width: 0.8*width, backgroundColor: colors.background}]}>
 
                 <CardItem item={item} location={location} />
                 
-                <View style={styles.card_footer}>
-                    <View style={styles.card_footer_half}>
-                        <View style={[styles.card_footer_half_content, {backgroundColor: colors.background}]}>
-                            <Ionicons style={{marginRight: 5}} name='people' size={20} color={colors.primary} />
-                            <CustomText weight='bold' color={colors.text} size={15}>{item.actGuests}/{item.maxGuests}</CustomText>
-                        </View>
-                    </View>
-                    <View style={styles.card_footer_half}>
-                        <TouchableOpacity 
-                            onPress={() => onClickLike() }
-                            style={[styles.card_footer_half_content, {zIndex: 1, backgroundColor: colors.background}]}>
-                            <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.secondary : colors.grey_d } />
-                            <CustomText weight='bold' color={like ? colors.secondary : colors.grey_d} size={15}>{item.likes}</CustomText>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                <ItemFooter item={item} />
+
             </View>
         </TouchableOpacity>
     )
@@ -68,12 +44,12 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 4,
+            height: 6,
         },
-        shadowOpacity: 0.10,
-        shadowRadius: 2.84,
+        shadowOpacity: 0.15,
+        shadowRadius: 5.84,
 
-        elevation: 6,
+        elevation: 8,
     },
     card_footer:{
         width: '100%',

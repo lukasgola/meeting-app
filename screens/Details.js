@@ -309,7 +309,7 @@ if(isLocation && isCity){
                                     height: 40,
                                     justifyContent: 'space-around',
                                     marginTop: 10,
-                                    backgroundColor: colors.primary_l,
+                                    backgroundColor: colors.grey_l,
                                     borderRadius: 10,
                                     flexDirection: 'row'
                                 }}
@@ -337,8 +337,8 @@ if(isLocation && isCity){
                                 }}
                             >
                                 <View style={styles.main_info_single}>
-                                    <Ionicons style={{marginRight: 5}} name='people' size={20} color={colors.secondary} />
-                                    <CustomText weight='bold' color={colors.text} size={15}>{route.params.item.actGuests}/{route.params.item.maxGuests}</CustomText>
+                                    <Ionicons style={{marginRight: 5}} name='people' size={20} color={colors.primary} />
+                                    <CustomText weight='bold' color={colors.text} size={14}>{route.params.item.actGuests}/{route.params.item.maxGuests}</CustomText>
                                 </View>
                             </View>
 
@@ -350,7 +350,7 @@ if(isLocation && isCity){
                                     height: 40,
                                     justifyContent: 'space-around',
                                     marginTop: 10,
-                                    backgroundColor: colors.primary_l,
+                                    backgroundColor: colors.grey_l,
                                     borderRadius: 10,
                                     flexDirection: 'row'
                                 }}
@@ -377,8 +377,8 @@ if(isLocation && isCity){
                                 onPress={() => onClickLike()}
                             >
                                 <View style={styles.main_info_single}>
-                                    <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.secondary : colors.grey_d } />
-                                    <CustomText weight='bold' color={like ? colors.secondary : colors.grey_d} size={15}>{route.params.item.likes}</CustomText>
+                                    <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.secondary : colors.secondary } />
+                                    <CustomText weight='bold' color={like ? colors.text : colors.grey_d} size={14}>{route.params.item.likes}</CustomText>
                                 </View>
                             </TouchableOpacity>
 

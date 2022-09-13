@@ -8,7 +8,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
 
-
 //Location
 import * as Location from "expo-location"
 
@@ -28,6 +27,7 @@ import { collection, query, where, getDocs, collectionGroup } from "firebase/fir
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
+
 export default function Map(){
 
     const width = Dimensions.get('window').width;
@@ -39,7 +39,7 @@ export default function Map(){
 
 
     const INITIAL_LOCATION = route.params.location;
-    const DEFAULT_DELTA = {latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
+    const DEFAULT_DELTA = {latitudeDelta: 0.5052, longitudeDelta: 0.0521 }
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
     const [item, setItem] = useState(route.params.isEvent ? route.params.item : null);
@@ -67,7 +67,7 @@ export default function Map(){
         const camera = await mapRef.current.getCamera();
         if(camera){
             camera.center = position;
-            mapRef.current.animateCamera(camera, {duration: 1000})
+            mapRef.current.animateCamera(camera, {duration: 500})
         }
     }
 
@@ -205,12 +205,12 @@ export default function Map(){
                 ref={mapRef}
                 style={{width: '100%', height: '100%'}} 
                 provider={PROVIDER_GOOGLE}
-                customMapStyle={mapSettings}
+                //customMapStyle={mapSettings}
                 initialRegion={{
                     latitude: INITIAL_LOCATION.latitude,
                     longitude: INITIAL_LOCATION.longitude,
-                    latitudeDelta: 0.3922,
-                    longitudeDelta: 0.2421,
+                    latitudeDelta: DEFAULT_DELTA.latitudeDelta,
+                    longitudeDelta: DEFAULT_DELTA.longitudeDelta,
                 }}
                 onRegionChange={reg => setRegion(reg)}
                 showsUserLocation={true}
@@ -226,8 +226,8 @@ export default function Map(){
                     initialRegion={{
                         latitude: INITIAL_LOCATION.latitude,
                         longitude: INITIAL_LOCATION.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                        latitudeDelta: DEFAULT_DELTA.latitudeDelta,
+                        longitudeDelta: DEFAULT_DELTA.longitudeDelta,
                     }}
                     points={parties}
                     radius={50}
@@ -243,42 +243,54 @@ export default function Map(){
 
             </MapView>
 
-            <GooglePlacesAutocomplete
-                fetchDetails={true}
-                placeholder='Search'
-                onPress={(data, details = null) => {
-                    // 'details' is provided when fetchDetails = true
-                    console.log(data, details);
-                    onPlaceSelected(details);
+            <View style={{position:'absolute', borderRadius: 10, top: 10, marginLeft: '5%', width: '90%', height: 50, backgroundColor: colors.background}}>
+                <GooglePlacesAutocomplete
+                    fetchDetails={true}
+                    placeholder='Search'
+                    onPress={(data, details = null) => {
+                        // 'details' is provided when fetchDetails = true
+                        console.log(data, details);
+                        onPlaceSelected(details);
 
-                }}
-                query={{
-                    key: 'AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE',
-                    language: 'en',
-                    components: 'country:pl'
-                }}
-                textInputProps={{
-                    placeholderTextColor: colors.grey_d,
-                }}
-                styles={{
-                    container:{
-                        width: width*0.9,
-                        height: 400,
-                        position: 'absolute',
-                        zIndex: 1,
-                        flex: 0,
-                        marginLeft: width*0.05
-                    },
-                    textInput:{
-                        fontFamily: 'Montserrat-Regular',
-                        fontSize: 12,
-                        height: 40,
-                        color: colors.text,
-                        marginTop: 10,
-                        backgroundColor: colors.background
-                    }
                     }}
-            /> 
+                    query={{
+                        key: 'AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE',
+                        language: 'en',
+                        components: 'country:pl'
+                    }}
+                    textInputProps={{
+                        placeholderTextColor: colors.grey_d,
+                    }}
+                    renderLeftButton={() => 
+                        <View style={{width: 50, height: 50, justifyContent: 'center', alignItems: 'center'}}>
+                            <Ionicons name='search' size={20} color={colors.grey_d} />
+                        </View>
+                    }
+                    styles={{
+                        container:{
+                            width: '100%',
+                            height: 400,
+                            position: 'absolute',
+                            zIndex: 1,
+                            flex: 0,
+                        },
+                        textInput:{
+                            fontFamily: 'Montserrat-Regular',
+                            fontSize: 14,
+                            height: 50,
+                            color: colors.text,
+                            marginLeft: -10
+                        }
+                        }}
+                    renderRow={(item) =>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                            <Ionicons name='location-outline' size={20} color={colors.grey_d} style={{marginRight: 15}} />
+                            <CustomText>{item.description}</CustomText>
+                        </View>
+                    }
+                />
+            </View>
+            
 
             <View style={{position: 'absolute', bottom: 20}}>
                 {renderParty()}

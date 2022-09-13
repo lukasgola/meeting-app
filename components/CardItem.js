@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 100,
         flexDirection: 'row',
+        marginBottom: 10
     },
     card_main_image_view:{
         width: '25%',

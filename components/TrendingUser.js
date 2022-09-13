@@ -23,7 +23,7 @@ const TrendingUser = ({item}) => {
 
     return(
         <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickUser(item)}>
-            <View style={[styles.card,{width: 120, height: 140, backgroundColor: colors.grey_l, alignItems: 'center'}]}>
+            <View style={[styles.card,{width: 120, height: 140, backgroundColor: colors.background, alignItems: 'center'}]}>
                 <View style={{width: 80, height: 60, alignItems: 'center', justifyContent: 'center'}}>
                     <UserIcon size={60} photo={item.avatar} score={item.score} />
                 </View>
@@ -57,12 +57,12 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 4,
+            height: 6,
         },
-        shadowOpacity: 0.10,
-        shadowRadius: 2.84,
+        shadowOpacity: 0.15,
+        shadowRadius: 5.84,
 
-        elevation: 6,
+        elevation: 8,
     },
     card_footer:{
         width: '100%',
