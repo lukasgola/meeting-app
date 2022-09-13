@@ -139,7 +139,7 @@ export default function SignUp(){
                 <View style={{ width: '100%', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                     <CustomInput
                         name="password-repeat"
-                        placeholder="Reapeat Password"
+                        placeholder="Repeat Password"
                         secureTextEntry
                         control={control}
                         rules={{
