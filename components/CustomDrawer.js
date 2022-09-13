@@ -55,7 +55,7 @@ const CustomDrawer = (props) => {
         ):(
             <DrawerContentScrollView {...props}>
                 <TouchableOpacity 
-                    onPress={() => navigation.navigate('Profile')}
+                    onPress={() => navigation.navigate('Profile', {user: currentUser})}
                     style={styles.profile}>
                     <UserIcon size={50} photo={currentUser.avatar} score={currentUser.score} />
                     <View style={styles.name}>

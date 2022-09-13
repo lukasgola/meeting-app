@@ -17,7 +17,7 @@ const TrendingUser = ({item}) => {
     const navigation = useNavigation();
 
     const onClickUser = (item) => {
-        navigation.navigate('PartyInfo', {item})
+        navigation.navigate('Profile', {user: item})
     }
 
 
@@ -30,7 +30,7 @@ const TrendingUser = ({item}) => {
                 <View style={{width: 80, height: 30, alignItems: 'center', justifyContent: 'center'}}>
                     <CustomText  weight='bold' color={colors.text}>{item.username}</CustomText>
                 </View>
-                <View
+                <TouchableOpacity
                     style={{
                         width: 100, 
                         height: 30, 
@@ -40,7 +40,7 @@ const TrendingUser = ({item}) => {
                         borderRadius: 10
                     }}>
                     <CustomText weight='bold' color='white'>Follow</CustomText>
-                </View>
+                </TouchableOpacity>
             </View>
         </TouchableOpacity>
     )

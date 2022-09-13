@@ -27,11 +27,12 @@ const UserIcon = (props) => {
             duration={0}
             progressValueColor={colors.text}
             maxValue={5}
-            progressFormatter={(value) => {
-                'worklet';
+            showProgressValue={false}
+            // progressFormatter={(value) => {
+            //     'worklet';
                 
-                return value // 2 decimal places
-            }}
+            //     return value // 2 decimal places
+            // }}
         />
         <Image style={{
             position: 'absolute',

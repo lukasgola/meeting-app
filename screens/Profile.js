@@ -8,7 +8,7 @@ import UserIcon from '../components/UserIcon';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useCurrentUser } from '../currentUser/CurrentUserProvider'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 export default function Profile(){
@@ -18,10 +18,11 @@ export default function Profile(){
     const {colors} = useTheme();
 
     const navigation = useNavigation();
+    const route = useRoute();
+
+    const user = route.params.user;
 
     const h2 = 16;
-
-    const currentUser  = useCurrentUser();
 
 
     return (
@@ -80,11 +81,11 @@ export default function Profile(){
                     elevation: 6,
                     
                 }}>
-                    <UserIcon size={100} photo={currentUser.avatar} score={currentUser.score} />
+                    <UserIcon size={100} photo={user.avatar} score={user.score} />
                 </View>
                 <View style={{alignItems: 'center', height: 80, justifyContent: 'space-around', paddingVertical: 5, marginTop: 10}}>
-                    <CustomText weight='bold' size={20} >{currentUser.username}</CustomText>
-                    <CustomText >{currentUser.email}</CustomText>
+                    <CustomText weight='bold' size={20} >{user.username}</CustomText>
+                    <CustomText >{user.email}</CustomText>
                 </View>
                 <View style={{width: width, alignItems: 'center', marginTop: 20}}>
                     <TouchableOpacity style={{width: 100, height: 40, borderRadius: 20, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center'}}>
@@ -93,7 +94,7 @@ export default function Profile(){
                 </View>
                 <View style={{width: width, height: 100, flexDirection: 'row', marginTop: 10, justifyContent: 'space-around'}}>
                     <View style={{width: width*0.3, height: '100%', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 20}}>
-                        <CustomText weight='bold' size={20}>{currentUser.score}</CustomText>
+                        <CustomText weight='bold' size={20}>{user.score}</CustomText>
                         <CustomText color={colors.grey_d}>Score</CustomText>
                     </View>
                     <View style={{width: width*0.3, height: '100%', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 20}}>
