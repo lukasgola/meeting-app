@@ -165,7 +165,7 @@ export default function Main(){
                                 <MapView 
                                     style={{width: '100%', height: '100%', borderRadius: 10}} 
                                     provider={PROVIDER_GOOGLE}
-                                    customMapStyle={mapSettings}
+                                    //customMapStyle={mapSettings}
                                     initialRegion={{
                                         latitude: 50.5107,
                                         longitude: 18.30056,

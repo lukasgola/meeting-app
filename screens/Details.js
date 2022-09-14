@@ -126,7 +126,7 @@ export default function Details(){
         Geocoder.from(route.params.item.latitude, route.params.item.longitude)
 		.then(json => {
 		var addressComponent = json.results[1].address_components[2];
-			console.log(addressComponent);
+			//console.log(addressComponent);
             setCity(addressComponent.long_name)
             setIsCity(true)
 		})
@@ -201,7 +201,7 @@ if(isLocation && isCity){
                     <MapView 
                         style={{width: '100%', height: 300}} 
                         provider={PROVIDER_GOOGLE}
-                        customMapStyle={mapSettings}
+                        //customMapStyle={mapSettings}
                         initialRegion={{
                             latitude: route.params.item.latitude - 0.01,
                             longitude: route.params.item.longitude,
@@ -377,7 +377,7 @@ if(isLocation && isCity){
                                 onPress={() => onClickLike()}
                             >
                                 <View style={styles.main_info_single}>
-                                    <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.secondary : colors.secondary } />
+                                    <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.secondary : colors.grey_d } />
                                     <CustomText weight='bold' color={like ? colors.text : colors.grey_d} size={14}>{route.params.item.likes}</CustomText>
                                 </View>
                             </TouchableOpacity>

@@ -38,7 +38,6 @@ export default function Map(){
     const mapRef = useRef();
 
 
-    const INITIAL_LOCATION = route.params.location;
     const DEFAULT_DELTA = {latitudeDelta: 0.5052, longitudeDelta: 0.0521 }
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
@@ -55,7 +54,12 @@ export default function Map(){
     const [isLocation, setIsLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
-    const [region, setRegion] = useState(null);
+    const [region, setRegion] = useState({
+        latitude: route.params.location.latitude,
+        longitude: route.params.location.longitude,
+        latitudeDelta: DEFAULT_DELTA.latitudeDelta,
+        longitudeDelta: DEFAULT_DELTA.longitudeDelta,
+    });
 
     const [destination, setDestination] = useState({
         latitude: null,
@@ -119,12 +123,6 @@ export default function Map(){
         }
         getParties();
         getLocation();
-        setRegion({
-            latitude: route.params.latitude,
-            longitude: route.params.longitude,
-            latitudeDelta: DEFAULT_DELTA.latitudeDelta,
-            longitudeDelta: DEFAULT_DELTA.longitudeDelta,
-        })
 
     }, [])
 
@@ -206,12 +204,7 @@ export default function Map(){
                 style={{width: '100%', height: '100%'}} 
                 provider={PROVIDER_GOOGLE}
                 //customMapStyle={mapSettings}
-                initialRegion={{
-                    latitude: INITIAL_LOCATION.latitude,
-                    longitude: INITIAL_LOCATION.longitude,
-                    latitudeDelta: DEFAULT_DELTA.latitudeDelta,
-                    longitudeDelta: DEFAULT_DELTA.longitudeDelta,
-                }}
+                initialRegion={region}
                 onRegionChange={reg => setRegion(reg)}
                 showsUserLocation={true}
                 followsUserLocation={true}
@@ -223,12 +216,7 @@ export default function Map(){
                 {renderMapViewDirections()}
 
                 <Heatmap
-                    initialRegion={{
-                        latitude: INITIAL_LOCATION.latitude,
-                        longitude: INITIAL_LOCATION.longitude,
-                        latitudeDelta: DEFAULT_DELTA.latitudeDelta,
-                        longitudeDelta: DEFAULT_DELTA.longitudeDelta,
-                    }}
+                    initialRegion={region}
                     points={parties}
                     radius={50}
                     gradient={{
