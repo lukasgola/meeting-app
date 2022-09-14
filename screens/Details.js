@@ -108,11 +108,7 @@ export default function Details(){
           params: [
             {
               key: "travelmode",
-              value: "driving"        // may be "walking", "bicycling" or "transit" as well
-            },
-            {
-              key: "dir_action",
-              value: "navigate"       // this instantly initializes navigation using the given travel mode
+              value: "transit"        // may be "walking", "bicycling" or "transit" as well
             }
           ]
         }
