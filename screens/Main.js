@@ -34,6 +34,10 @@ export default function Main(){
 
     const width = Dimensions.get('window').width;
 
+    const h1 = 25
+    const h2 = 20
+    const h3 = 16
+    const h4 = 14
 
     const {colors} = useTheme();
     const navigation = useNavigation();
@@ -147,10 +151,10 @@ export default function Main(){
 
                         <View style={{ marginLeft: 0.05*width }}>
                             <View style={{ width: 0.9*width, flexDirection:'row' }}>
-                                <CustomText weight='bold' size={25}>Welcome</CustomText>
-                                <CustomText weight='bold' size={25} color={colors.primary}> {currentUser.username}</CustomText>
+                                <CustomText weight='bold' size={h1}>Welcome</CustomText>
+                                <CustomText weight='bold' size={h1} color={colors.primary}> {currentUser.username}</CustomText>
                             </View>
-                            <CustomText size={14} color={colors.text}>Check out the map</CustomText>
+                            <CustomText size={h4} color={colors.text}>Check out the map</CustomText>
                             
                             <TouchableOpacity
                                 style={{
@@ -198,15 +202,15 @@ export default function Main(){
                         <View style={{ marginLeft: 0.05*width }}>
                             <View
                                 style={{ width: 0.9*width, flexDirection:'row', justifyContent: 'space-between' }}>
-                                <CustomText weight='bold' size={20}>Popular Near You</CustomText>
+                                <CustomText weight='bold' size={h2}>Popular Near You</CustomText>
                                 <TouchableOpacity
                                 >
-                                    <CustomText size={14} color={colors.primary}>Show All</CustomText>
+                                    <CustomText size={h4} color={colors.primary}>Show All</CustomText>
                                 </TouchableOpacity>
                                 
                             </View>
                             
-                            <CustomText size={14} color={colors.grey_d}>Best parties</CustomText>
+                            <CustomText size={h4} color={colors.grey_d}>Best parties</CustomText>
                         </View>
                         
                         <View style={{ marginTop: 10 }}>
@@ -216,14 +220,14 @@ export default function Main(){
                         <View style={{marginLeft: 0.05*width}}>
                             <View
                                 style={{ width: 0.9*width,flexDirection:'row',justifyContent: 'space-between' }}>
-                                <CustomText weight='bold' size={20}>Trending Users</CustomText>
+                                <CustomText weight='bold' size={h2}>Trending Users</CustomText>
                                 <TouchableOpacity
                                 >
-                                    <CustomText size={14} color={colors.primary}>Show All</CustomText>
+                                    <CustomText size={h4} color={colors.primary}>Show All</CustomText>
                                 </TouchableOpacity>
                                 
                             </View>
-                            <CustomText size={14} color={colors.grey_d}>Last week</CustomText>
+                            <CustomText size={h4} color={colors.grey_d}>Last week</CustomText>
                         </View>
                         
                         <View style={{marginTop: 10,}}>
@@ -234,10 +238,10 @@ export default function Main(){
                             <View style={{ width: 0.9*width, flexDirection:'row', justifyContent: 'space-between' }}>
                                 <CustomText weight='bold' size={20}>Parties</CustomText>
                                 <TouchableOpacity>
-                                    <CustomText size={14} color={colors.primary}>Show All</CustomText>
+                                    <CustomText size={h4} color={colors.primary}>Show All</CustomText>
                                 </TouchableOpacity>
                             </View>
-                            <CustomText size={14} color={colors.grey_d}>110 results found</CustomText>
+                            <CustomText size={h4} color={colors.grey_d}>110 results found</CustomText>
                         </View>
                         
                     </View>
