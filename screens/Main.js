@@ -25,7 +25,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Firestore
 import { db, auth } from '../firebase/firebase-config'
-import { collection, query, where, getDocs, collectionGroup } from "firebase/firestore";
+import { collection, query, where, getDoc, getDocs, collectionGroup, Parent } from "firebase/firestore";
 
 
 
@@ -105,12 +105,26 @@ export default function Main(){
         setIsUsers(true);
     }
 
+    const getOrganizer = async () => {
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+        let arr = [];
+        querySnapshot.forEach( async (doc) => {
+
+        const docRef = doc.ref;   
+        const parentCollectionRef = docRef.parent;   // CollectionReference
+        const immediateParentDocumentRef = parentCollectionRef.parent; // DocumentReference
+
+        alert(JSON.stringify(doc.ref.parent)) 
+        });
+        
+    }
 
     useEffect(() => {  
         console.log(currentUser.email)
         getLocation();
         getParties();
         getUsers();
+        getOrganizer();
     }, [])
 
 
