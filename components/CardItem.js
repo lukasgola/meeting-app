@@ -30,7 +30,7 @@ const CardItem = ({item, location}) => {
     return(
         <View style={styles.card_main}>
             <View style={styles.card_main_image_view}>
-                <UserIcon size={80} photo={item.organizer_avatar} score={item.organizer_score} />
+                <UserIcon size={80} photo={item.organizer.avatar} score={item.organizer.score} />
             </View>
             <View style={[styles.card_main_info, {width: 0.6*width}]}>
                 <CustomText weight='bold' size={16} >{item.title}</CustomText>

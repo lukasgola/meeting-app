@@ -25,7 +25,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Firestore
 import { db, auth } from '../firebase/firebase-config'
-import { collection, query, where, getDoc, getDocs, collectionGroup, Parent } from "firebase/firestore";
+import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
 
 
 
@@ -76,19 +76,34 @@ export default function Main(){
 
 
     const getParties = async () => {
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
-        const parties = [];
+        const partyRef = collectionGroup(db, "parties")
+        //const q = query(partyRef);
+        const querySnapshot = await getDocs(partyRef);
 
-        querySnapshot.forEach((doc) => {
-            parties.push({
+        const tempParties = [];
+
+        querySnapshot.forEach( async (doc)  => {
+
+            const docRef = doc.ref.parent.parent;   
+            const userSnap = await getDoc(docRef);
+            const organizer = userSnap.data();
+
+            tempParties.push({
                 ...doc.data(),
                 id: doc.id,
+                organizer: {
+                    avatar: organizer.avatar,
+                    email: organizer.email,
+                    score: organizer.score,
+                    username: organizer.username
+                }
               });
         });
-        setParties(parties);
+        setParties(tempParties);
         setIsParties(true);
     }
+
 
     const getUsers = async () => {
         const querySnapshot = await getDocs(collection(db, "users"));
@@ -100,31 +115,18 @@ export default function Main(){
                 ...doc.data(),
                 id: doc.id,
               });
+              
         });
         setUsers(users)
         setIsUsers(true);
     }
 
-    const getOrganizer = async () => {
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
-        let arr = [];
-        querySnapshot.forEach( async (doc) => {
-
-        const docRef = doc.ref;   
-        const parentCollectionRef = docRef.parent;   // CollectionReference
-        const immediateParentDocumentRef = parentCollectionRef.parent; // DocumentReference
-
-        alert(JSON.stringify(doc.ref.parent)) 
-        });
-        
-    }
 
     useEffect(() => {  
         console.log(currentUser.email)
         getLocation();
         getParties();
         getUsers();
-        getOrganizer();
     }, [])
 
 

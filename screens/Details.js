@@ -243,9 +243,9 @@ if(isLocation && isCity){
 
                         <View style={[styles.organizer, {backgroundColor: colors.grey_l}]}>
                             <View style={styles.organizer_avatar}>
-                                <UserIcon size={80} photo={route.params.item.organizer_avatar} score={route.params.item.organizer_score} />
+                                <UserIcon size={80} photo={route.params.item.organizer.avatar} score={route.params.item.organizer.score} />
                                 <View style={{width: '100%', height: 5}}></View>
-                                <CustomText weight='bold' size={h4} color={colors.text} >{route.params.item.organizer_username}</CustomText>
+                                <CustomText weight='bold' size={h4} color={colors.text} >{route.params.item.organizer.username}</CustomText>
                             </View>
                             <View style={styles.organizer_links}>
                                 <View style={[styles.organizer_link, {backgroundColor: colors.background}]}>

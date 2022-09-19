@@ -11,6 +11,12 @@ import TrendingUser from '../components/TrendingUser';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+
+//Firestore
+import { db, auth } from '../firebase/firebase-config'
+import { collection, query, where, getDoc, getDocs, collectionGroup, limit } from "firebase/firestore";
+
+
 export default function Search({navigation}){
 
 
@@ -22,9 +28,36 @@ export default function Search({navigation}){
 
     const [users, setUsers] = useState([])
     const [parties, setParties] = useState([])
+    const [isParties, setIsParties] = useState(false)
+
+    const getParties = async () => {
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+
+        const tempParties = [];
+
+        querySnapshot.forEach( async (doc)  => {
+
+            const docRef = doc.ref.parent.parent;   
+            const userSnap = await getDoc(docRef);
+            const organizer = userSnap.data();
+
+            tempParties.push({
+                ...doc.data(),
+                id: doc.id,
+                organizer: {
+                    avatar: organizer.avatar,
+                    email: organizer.email,
+                    score: organizer.score,
+                    username: organizer.username
+                }
+              });
+        });
+        setParties(tempParties);
+        setIsParties(true);
+    }
 
     useEffect(() => {
-        
+        getParties();
     }, [])
 
 
