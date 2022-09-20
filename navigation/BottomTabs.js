@@ -1,22 +1,31 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View } from 'react-native';
+import { View, TouchableOpacity, StatusBar } from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 
 import CustomText from '../components/CustomText';
-import CustomDrawerHeader from '../components/CustomDrawerHeader';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Main from '../screens/Main';
+import Home from '../screens/Home';
 import Search from '../screens/Search';
 import Liked from '../screens/Liked';
 import Chats from '../screens/Chats';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
 
     const {colors} = useTheme();
+
+    const navigation = useNavigation();
+
+
+    const toggleDrawer = () => {
+        //Props to open/close the drawer
+        navigation.toggleDrawer();
+    };
+    
 
     const Item = (props) => {
         return(
@@ -40,47 +49,46 @@ const BottomTabs = () => {
                 tabBarActiveTintColor: colors.primary,
                 tabBarStyle:{
                     backgroundColor: colors.background,
-                }
+                },
+                headerLeft: () =>   <TouchableOpacity style={{marginLeft: 15}} onPress={toggleDrawer}>
+                                        <Ionicons name='menu-outline' size={25} color={colors.primary}/>
+                                    </TouchableOpacity>,
+                                
+                headerRight: () =>  <TouchableOpacity style={{marginRight: 15}} onPress={() => navigation.navigate('AddEvent')}>
+                                        <Ionicons name='add-circle-outline' size={25} color={colors.primary}/>
+                                    </TouchableOpacity>,
+                headerTitleStyle: {
+                    fontFamily: 'Montserrat-Bold',
+                    fontSize: 16,
+                    color: colors.text
+                },
             }}
             
         >
-            <Tab.Screen name='Main' component={Main} options={{
+            <Tab.Screen name='Home' component={Home} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='home-outline' filled='home' title='Home' />
                 ),
-                header: (props) => (
-                    <CustomDrawerHeader {...props} name='Home' />
-                ),
+                title: 'Home'
             }}
-
             />
             <Tab.Screen name='Search' component={Search} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='search-outline' filled='search' title='Search' />
-                ),
-                header: (props) => (
-                    <CustomDrawerHeader {...props} name='Search' />
-                ),
+                )
             }}
 
             />
             <Tab.Screen name='Liked' component={Liked} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='heart-outline' filled='heart' title='Liked' />
-                ),
-                header: (props) => (
-                    <CustomDrawerHeader {...props} name='Liked' />
-                ),
+                )
             }}
-
             />
             <Tab.Screen name='Chats' component={Chats} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='chatbubbles-outline' filled='chatbubbles' title='Chats' />
-                ),
-                header: (props) => (
-                    <CustomDrawerHeader {...props} name='Chats' />
-                ),
+                )
             }}
             />
         </Tab.Navigator>

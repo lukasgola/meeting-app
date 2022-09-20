@@ -34,15 +34,17 @@ const DrawerHeader = (props) => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     paddingHorizontal: '4%',
-                    paddingVertical: 8
+                    paddingVertical: 10,
+                    alignItems: 'center',
+                    backgroundColor: 'grey'
                 }}
             >
                 <TouchableOpacity onPress={toggleDrawer}>
                     <Ionicons name='menu-outline' size={25} color={colors.primary}/>
                 </TouchableOpacity>
                 <CustomText weight='bold' size={16}>{props.name}</CustomText>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Map')}>
-                    <Ionicons name='cube-outline' size={25} color={colors.primary}/>
+                <TouchableOpacity onPress={() => props.navigation.navigate('AddEvent')}>
+                    <Ionicons name='add-circle-outline' size={25} color={colors.primary}/>
                 </TouchableOpacity>
             </View>
         </View>

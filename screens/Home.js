@@ -77,9 +77,7 @@ export default function Main(){
 
     const getParties = async () => {
 
-        const partyRef = collectionGroup(db, "parties")
-        //const q = query(partyRef);
-        const querySnapshot = await getDocs(partyRef);
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
         const tempParties = [];
 
@@ -98,7 +96,7 @@ export default function Main(){
                     score: organizer.score,
                     username: organizer.username
                 }
-              });
+            });
         });
         setParties(tempParties);
         setIsParties(true);

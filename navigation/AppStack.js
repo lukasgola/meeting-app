@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useTheme} from '../theme/ThemeProvider';
 
@@ -12,6 +12,7 @@ import Details from '../screens/Details';
 import Map from '../screens/Map';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
+import AddEvent from '../screens/AddEvent';
 
 
 const Stack = createNativeStackNavigator();
@@ -26,10 +27,17 @@ export default function AppStack() {
             screenOptions={{
                 headerTintColor: colors.primary,
                 headerStyle:{
-                    backgroundColor: colors.background
+                    backgroundColor: colors.background,
+                    alignItems: 'center'
                 },
-                headerShown: false
+                headerTitleStyle: {
+                    fontFamily: 'Montserrat-Bold',
+                    fontSize: 16,
+                    color: colors.text
+                },
+                headerShown: false,
             }}
+            
         >
 
             <Stack.Screen 
@@ -39,8 +47,7 @@ export default function AppStack() {
                 name='Details' 
                 component={Details} 
                 options={{
-                    headerShown: true,
-                    headerTitle: () => <CustomText weight='bold' size={16}>Details</CustomText>
+                    headerShown: true
                 }}
             />
             <Stack.Screen 
@@ -48,7 +55,6 @@ export default function AppStack() {
                 component={Map} 
                 options={{
                     headerShown: true,
-                    headerTitle: () => <CustomText weight='bold' size={16}>Map</CustomText>
                 }}
             />
             <Stack.Screen 
@@ -56,7 +62,6 @@ export default function AppStack() {
                 component={Profile} 
                 options={{
                     headerShown: true,
-                    headerTitle: () => <CustomText weight='bold' size={16}>Profile</CustomText>
                 }}
             />
             <Stack.Screen 
@@ -64,7 +69,15 @@ export default function AppStack() {
                 component={EditProfile} 
                 options={{
                     headerShown: true,
-                    headerTitle: () => <CustomText weight='bold' size={16}>Edit Profile</CustomText>
+                    title: 'Edit Profile'
+                }}
+            />
+            <Stack.Screen 
+                name='AddEvent' 
+                component={AddEvent} 
+                options={{
+                    headerShown: true,
+                    title: 'Add Event',
                 }}
             />
             

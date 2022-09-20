@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
+import { StatusBar } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
@@ -63,8 +64,12 @@ export default function App() {
         <ThemeProvider>
           <CurrentUserProvider>
             <NavigationContainer> 
+              <StatusBar
+                  backgroundColor="#fff"
+                  barStyle="dark-content" // Here is where you change the font-color
+              />
 
-            {isUser ? <AppStack/> : <LoginStack/> }
+              {isUser ? <AppStack/> : <LoginStack/> }
 
             </NavigationContainer> 
           </CurrentUserProvider>
