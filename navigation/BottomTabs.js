@@ -10,22 +10,15 @@ import Home from '../screens/Home';
 import Search from '../screens/Search';
 import Liked from '../screens/Liked';
 import Chats from '../screens/Chats';
-import { useNavigation } from '@react-navigation/native';
+
+import HomeStack from './HomeStack';
+
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
 
     const {colors} = useTheme();
-
-    const navigation = useNavigation();
-
-
-    const toggleDrawer = () => {
-        //Props to open/close the drawer
-        navigation.toggleDrawer();
-    };
-    
 
     const Item = (props) => {
         return(
@@ -43,33 +36,20 @@ const BottomTabs = () => {
     return(
         <Tab.Navigator
             screenOptions={{
-                headerShown: true,
+                headerShown: false,
                 tabBarShowLabel: false,
                 tabBarInactiveTintColor: colors.grey,
                 tabBarActiveTintColor: colors.primary,
                 tabBarStyle:{
                     backgroundColor: colors.background,
-                },
-                headerLeft: () =>   <TouchableOpacity style={{marginLeft: 15}} onPress={toggleDrawer}>
-                                        <Ionicons name='menu-outline' size={25} color={colors.primary}/>
-                                    </TouchableOpacity>,
-                                
-                headerRight: () =>  <TouchableOpacity style={{marginRight: 15}} onPress={() => navigation.navigate('AddEvent')}>
-                                        <Ionicons name='add-circle-outline' size={25} color={colors.primary}/>
-                                    </TouchableOpacity>,
-                headerTitleStyle: {
-                    fontFamily: 'Montserrat-Bold',
-                    fontSize: 16,
-                    color: colors.text
-                },
+                }
             }}
             
         >
-            <Tab.Screen name='Home' component={Home} options={{
+            <Tab.Screen name='HomeStack' component={HomeStack} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='home-outline' filled='home' title='Home' />
-                ),
-                title: 'Home'
+                )
             }}
             />
             <Tab.Screen name='Search' component={Search} options={{

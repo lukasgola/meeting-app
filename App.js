@@ -15,7 +15,7 @@ import { auth } from "./firebase/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 
 //Stacks
-import AppStack from './navigation/AppStack';
+import DrawerStack from './navigation/DrawerStack';
 import LoginStack from './navigation/LoginStack';
 
 
@@ -69,7 +69,7 @@ export default function App() {
                   barStyle="dark-content" // Here is where you change the font-color
               />
 
-              {isUser ? <AppStack/> : <LoginStack/> }
+              {isUser ? <DrawerStack/> : <LoginStack/> }
 
             </NavigationContainer> 
           </CurrentUserProvider>

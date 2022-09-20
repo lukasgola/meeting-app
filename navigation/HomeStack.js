@@ -1,13 +1,15 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useTheme} from '../theme/ThemeProvider';
+import { useNavigation } from '@react-navigation/native';
 
 //Components
-import CustomText from '../components/CustomText';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import DrawerStack from './DrawerStack';
+import Home from '../screens/Home';
 import Details from '../screens/Details';
 import Map from '../screens/Map';
 import Profile from '../screens/Profile';
@@ -22,27 +24,48 @@ export default function AppStack() {
     const {colors} = useTheme();
 
 
+    const navigation = useNavigation();
+
+
+    const toggleDrawer = () => {
+        //Props to open/close the drawer
+        navigation.toggleDrawer();
+    };
+
+
     return(
         <Stack.Navigator
+            initialRouteName='Home'
             screenOptions={{
+                headerShown: true,
                 headerTintColor: colors.primary,
                 headerStyle:{
                     backgroundColor: colors.background,
-                    alignItems: 'center'
                 },
                 headerTitleStyle: {
                     fontFamily: 'Montserrat-Bold',
                     fontSize: 16,
-                    color: colors.text
+                    color: colors.text,
                 },
-                headerShown: false,
+                headerTitleAlign: 'center',
             }}
             
         >
 
             <Stack.Screen 
-                name='DrawerStack' 
-                component={DrawerStack}/>
+                name='Home' 
+                component={Home}
+                options={{
+                    title: 'Home',
+                    headerLeft: () =>   <TouchableOpacity onPress={toggleDrawer}>
+                                            <Ionicons name='menu-outline' size={25} color={colors.primary}/>
+                                        </TouchableOpacity>,
+                                
+                    headerRight: () =>  <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
+                                            <Ionicons name='add-circle-outline' size={25} color={colors.primary}/>
+                                        </TouchableOpacity>,
+                }}
+            />
             <Stack.Screen 
                 name='Details' 
                 component={Details} 

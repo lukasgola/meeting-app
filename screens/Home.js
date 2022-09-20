@@ -12,7 +12,6 @@ import FlatListItem from '../components/FlatListItem';
 import PopularItem from '../components/PopularItem';
 import TrendingUser from '../components/TrendingUser';
 
-
 //Location
 import * as Location from "expo-location"
 
@@ -79,15 +78,13 @@ export default function Main(){
 
         const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
-        const tempParties = [];
-
         querySnapshot.forEach( async (doc)  => {
 
             const docRef = doc.ref.parent.parent;   
             const userSnap = await getDoc(docRef);
             const organizer = userSnap.data();
 
-            tempParties.push({
+            const party = {
                 ...doc.data(),
                 id: doc.id,
                 organizer: {
@@ -96,9 +93,11 @@ export default function Main(){
                     score: organizer.score,
                     username: organizer.username
                 }
-            });
+            }
+
+            setParties(old => [...old, party])
+                
         });
-        setParties(tempParties);
         setIsParties(true);
     }
 
@@ -121,7 +120,7 @@ export default function Main(){
 
 
     useEffect(() => {  
-        console.log(currentUser.email)
+        setParties([])
         getLocation();
         getParties();
         getUsers();
@@ -178,7 +177,7 @@ export default function Main(){
                                     marginTop: 10,
                                     marginBottom: 20
                                 }}
-                                onPress={() => navigation.navigate('Map', {location, isEvent})}
+                                onPress={() => navigation.navigate('AddEvent', {location, isEvent})}
                             >
                                 <MapView 
                                     style={{width: '100%', height: '100%', borderRadius: 10}} 
