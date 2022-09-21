@@ -21,7 +21,7 @@ import MapViewDirections from 'react-native-maps-directions';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
-import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
+import { getDoc, getDocs, collectionGroup } from "firebase/firestore";
 
 
 import Ionicons from 'react-native-vector-icons/Ionicons';

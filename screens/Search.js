@@ -12,6 +12,9 @@ import TrendingUser from '../components/TrendingUser';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import { SearchBar } from 'react-native-elements';
+
+
 //Location
 import * as Location from "expo-location"
 
@@ -172,20 +175,37 @@ if(isLocation && isParties){
             flex: 1,
             backgroundColor: colors.background,
         }}>
-            
+            <SearchBar
+                platform='ios'
+                value={search}
+                onChangeText={setSearch}
+                placeholder="Search"
+                placeholderTextColor={colors.grey}
+                containerStyle={{
+                    backgroundColor: colors.background,
+                    height: 45,
+                    marginHorizontal: '2.5%',
+                }}
+                inputContainerStyle={{
+                    backgroundColor: colors.grey_l,
+                    height: 30,
+                }}
+                searchIcon={{
+                    color: colors.grey
+                }}
+                cancelButtonProps={{
+                    color: colors.primary
+                }}
+                clearIcon={{
+                    color: colors.grey
+                }}
+            />
+
             <View
                 style={{
                     height: 60,
-                    
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 2,
-                    },
-                    shadowOpacity: 0.10,
-                    shadowRadius: 2.84,
-
-                    elevation: 6,
+                    borderBottomWidth: 1,
+                    borderBottomColor: 'rgba(0,0,0,0.1)',
                 }}    
             >
                 <FlatList
