@@ -14,7 +14,6 @@ import Details from '../screens/Details';
 import Map from '../screens/Map';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
-import AddEvent from '../screens/AddEvent';
 import Search from '../screens/Search';
 
 
@@ -24,9 +23,7 @@ export default function SearchStack() {
 
     const {colors} = useTheme();
 
-
     const navigation = useNavigation();
-
 
     const toggleDrawer = () => {
         //Props to open/close the drawer
@@ -63,8 +60,8 @@ export default function SearchStack() {
                                             <Ionicons name='menu-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
                                 
-                    headerRight: () =>  <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
-                                            <Ionicons name='add-circle-outline' size={25} color={colors.primary}/>
+                    headerRight: () =>  <TouchableOpacity>
+                                            <Ionicons name='options-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
                     
                     headerSearchBarOptions: {
@@ -99,14 +96,6 @@ export default function SearchStack() {
                 options={{
                     headerShown: true,
                     title: 'Edit Profile'
-                }}
-            />
-            <Stack.Screen 
-                name='AddEvent' 
-                component={AddEvent} 
-                options={{
-                    headerShown: true,
-                    title: 'Add Event',
                 }}
             />
             

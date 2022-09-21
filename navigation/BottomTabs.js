@@ -12,7 +12,7 @@ import Liked from '../screens/Liked';
 import Chats from '../screens/Chats';
 
 import HomeStack from './HomeStack';
-import SearchStack from '../navigation/SearchStack';
+import SearchStack from './SearchStack';
 
 
 const Tab = createBottomTabNavigator();

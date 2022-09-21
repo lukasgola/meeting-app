@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, TextInput} from 'react-native';
+import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, ActivityIndicator} from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 
 import CustomText from '../components/CustomText';
@@ -11,6 +11,8 @@ import TrendingUser from '../components/TrendingUser';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+//Location
+import * as Location from "expo-location"
 
 //Firestore
 import { db, auth } from '../firebase/firebase-config'
@@ -22,6 +24,11 @@ export default function Search({navigation}){
 
     const width = Dimensions.get('window').width;
 
+    const h1 = 25
+    const h2 = 20
+    const h3 = 16
+    const h4 = 14
+
     const {colors} = useTheme();
 
     const [search, setSearch] = useState('');
@@ -30,10 +37,25 @@ export default function Search({navigation}){
     const [parties, setParties] = useState([])
     const [isParties, setIsParties] = useState(false)
 
-    const getParties = async () => {
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+    const [location, setLocation] = useState(null);
+    const [isLocation, setIsLocation] = useState(false);
 
-        const tempParties = [];
+    const getLocation = async () => {
+        
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+    
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location.coords);
+        setIsLocation(true)
+    };
+
+    const getParties = async () => {
+
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
         querySnapshot.forEach( async (doc)  => {
 
@@ -41,7 +63,7 @@ export default function Search({navigation}){
             const userSnap = await getDoc(docRef);
             const organizer = userSnap.data();
 
-            tempParties.push({
+            const party = {
                 ...doc.data(),
                 id: doc.id,
                 organizer: {
@@ -50,13 +72,17 @@ export default function Search({navigation}){
                     score: organizer.score,
                     username: organizer.username
                 }
-              });
+            }
+
+            setParties(old => [...old, party])
+                
         });
-        setParties(tempParties);
         setIsParties(true);
     }
 
     useEffect(() => {
+        setParties([]);
+        getLocation();
         getParties();
     }, [])
 
@@ -122,197 +148,49 @@ export default function Search({navigation}){
         );
     };
 
-
-    const renderPopularItem = ({item}) => {
-        return(
-            <PopularItem item={item} navigation={navigation} user={users[0]} />
-        )
-    }
-
-
-    const renderHorizontal = (data, renderItem) => {
-        return(
-            <FlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-            />
-        ) 
-    }
-
     const renderFlatlist = (data) => {
         return(
             <FlatList
                 data={data.slice(0,3)}
-                renderItem={({item}) => <FlatListItem item={item} navigation={navigation} user={users[0]} />}
+                renderItem={({item}) => <FlatListItem item={item} navigation={navigation} location={location} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
-                contentInsetAdjustmentBehavior="automatic"
-                style={{
-                    
-                }}
-                ListHeaderComponent={
-                    <View style={{ width: '100%', marginVertical: 20 }}>
-                        <View style={{ marginLeft: 0.05*width }}>
-                            <View
-                                style={{ width: 0.9*width, flexDirection:'row', justifyContent: 'space-between' }}>
-                                <CustomText weight='bold' size={20}>Popular Near You</CustomText>
-                                <TouchableOpacity
-                                >
-                                    <CustomText size={14} color={colors.primary}>Show All</CustomText>
-                                </TouchableOpacity>
-                                
-                            </View>
-                            
-                            <CustomText size={14} color={colors.grey_d}>Best parties</CustomText>
-                        </View>
-                        
-                        <View style={{ marginTop: 10 }}>
-                            {renderHorizontal(data, renderPopularItem)}
-                        </View>
-
-                        <View style={{marginLeft: 0.05*width}}>
-                            <View style={{ width: 0.9*width }}>
-                                <CustomText weight='bold' size={20}>Parties</CustomText>
-                            </View>
-                            <CustomText size={14} color={colors.grey_d}>110 results found</CustomText>
-                        </View>
-                        
-                    </View>
-                }
             />
         ) 
     }
-
-    const renderList = () => {
-        if(selectedId == 1){
-            return(
-                renderFlatlist(parties)
-            )
-        }
-        else if(selectedId == 2){
-            return(
-                renderFlatlist(parties)
-            )
-        }
-    }
     
-
+if(isLocation && isParties){
     return (
-            <View style={{
-                flex: 1,
-                backgroundColor: colors.background,
-            }}>
-
-            <View>
+        <View style={{
+            flex: 1,
+            backgroundColor: colors.background,
+        }}>
+            <FlatList
+                data={CATEGORIES}
+                renderItem={renderCategoryItem}
+                keyExtractor={(item) => item.id}
+                extraData={selectedId}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+            />
                 
-            </View>
-                
-                <View
-                    style={{
-                        height: 60,
-                        
-                        shadowColor: "#000",
-                        shadowOffset: {
-                            width: 0,
-                            height: 4,
-                        },
-                        shadowOpacity: 0.10,
-                        shadowRadius: 2.84,
-
-                        elevation: 6,
-                    }}    
-                >
-                    <FlatList
-                        data={CATEGORIES}
-                        renderItem={renderCategoryItem}
-                        keyExtractor={(item) => item.id}
-                        extraData={selectedId}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                    />
-                </View>
-                
-
-                <View
-                    style={{
-                        flex: 1,
-                    }}
-                >
-
-                    {renderList()}
-
-                </View>
-                
-            </View>
+            {renderFlatlist(parties)}
+            
+        </View>
     );
+}
+else{
+    return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator />
+        </View>
+    )
+}
 }
 
 
 
 const styles = StyleSheet.create({
-    card:{
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 20,
-        marginRight: 20,
-
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.10,
-        shadowRadius: 2.84,
-
-        elevation: 6,
-    },
-    card_main:{
-        width: '100%',
-        height: 100,
-        flexDirection: 'row',
-    },
-    card_main_image_view:{
-        width: 100,
-        height: 100,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    card_main_image: {
-        position: 'absolute',
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-    },
-    card_main_info:{
-        height: 100,
-        marginLeft: 10,
-    },
-    card_main_info_row:{
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        marginTop: 5
-    },
-    card_footer:{
-        width: '100%',
-        height: 50,
-        flexDirection: 'row',
-    },
-    card_footer_half:{
-        width: '50%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    card_footer_half_content:{
-        width: '80%',
-        height: '80%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 10,
-        flexDirection: 'row'
-    }
+    
     
 })

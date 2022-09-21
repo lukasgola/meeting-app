@@ -62,7 +62,7 @@ export default function HomeStack() {
                                         </TouchableOpacity>,
                                 
                     headerRight: () =>  <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
-                                            <Ionicons name='add-circle-outline' size={25} color={colors.primary}/>
+                                            <Ionicons name='create-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
                 }}
             />

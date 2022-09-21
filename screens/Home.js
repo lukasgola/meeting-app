@@ -272,7 +272,7 @@ export default function Main(){
                 backgroundColor: colors.background,
             }}>
 
-                    {renderFlatlist(parties)}               
+                {renderFlatlist(parties)}               
                 
             </View>
         )
