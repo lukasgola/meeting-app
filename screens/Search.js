@@ -156,9 +156,11 @@ export default function Search({navigation}){
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={
-                    <View style={{ width: '100%', marginVertical: 10 }}>
                         
+                    <View style={{marginBottom: 20}}>
+
                     </View>
+
                 }
             />
         ) 
@@ -170,6 +172,7 @@ if(isLocation && isParties){
             flex: 1,
             backgroundColor: colors.background,
         }}>
+            
             <View
                 style={{
                     height: 60,
@@ -194,7 +197,6 @@ if(isLocation && isParties){
                     showsHorizontalScrollIndicator={false}
                 />
             </View>
-            
                 
             {renderFlatlist(parties)}
             

@@ -46,7 +46,9 @@ export default function SearchStack() {
                     color: colors.text,
                 },
                 headerTitleAlign: 'center',
-                headerTransparent: false
+                headerTransparent: false,
+                animation: 'slide_from_bottom',
+                presentation: 'modal'
             }}
             
         >
@@ -63,10 +65,6 @@ export default function SearchStack() {
                     headerRight: () =>  <TouchableOpacity>
                                             <Ionicons name='options-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
-                    
-                    headerSearchBarOptions: {
-
-                    }
                 }}
             />
             <Stack.Screen 

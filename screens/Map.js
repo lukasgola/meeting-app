@@ -127,7 +127,7 @@ export default function Map(){
     }
 
     useEffect(() => {
-
+        setParties([])
         if(route.params.isEvent){
             setSelectedPlaceId(route.params.item.id)
             setItem(route.params.item)
@@ -211,7 +211,7 @@ export default function Map(){
     return (
         <View style={{flex: 1}}>
 
-            <MapView 
+<MapView 
                 ref={mapRef}
                 style={{width: '100%', height: '100%'}} 
                 provider={PROVIDER_GOOGLE}

@@ -183,7 +183,7 @@ export default function Main(){
                                 initialRegion={{
                                     latitude: 50.5107,
                                     longitude: 18.30056,
-                                    latitudeDelta: 0.0922, 
+                                    latitudeDelta: 0.0822, 
                                     longitudeDelta: 0.0821
                                 }}
                                 zoomEnabled={false}
