@@ -222,8 +222,8 @@ export default function Map(){
                 initialRegion={{
                     latitude: route.params.location.latitude,
                     longitude: route.params.location.longitude,
-                    latitudeDelta: 1.009,
-                    longitudeDelta: 1.009
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
                 }}
                 onRegionChange={reg => setRegion(reg)}
                 showsUserLocation={true}
@@ -235,19 +235,7 @@ export default function Map(){
 
                 {renderMapViewDirections()}
 
-                <Heatmap
-                    initialRegion={region}
-                    points={parties}
-                    radius={50}
-                    gradient={{
-                        colors: ['black'],
-                        startPoints: [0.9],
-                        colorMapSize: 256
-                    }}
-                    opacity={0.3}
-                >
-
-                </Heatmap>
+                
 
             </MapView>
 

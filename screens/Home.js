@@ -27,8 +27,6 @@ import { db, auth } from '../firebase/firebase-config'
 import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
 
 
-
-
 export default function Main(){
 
     const width = Dimensions.get('window').width;
@@ -69,6 +67,7 @@ export default function Main(){
         }
     
         let location = await Location.getCurrentPositionAsync({});
+        console.log(location)
         setLocation(location.coords);
         setIsLocation(true)
     };
@@ -94,9 +93,7 @@ export default function Main(){
                     username: organizer.username
                 }
             }
-
-            setParties(old => [...old, party])
-                
+            setParties(old => [...old, party])     
         });
         setIsParties(true);
     }
@@ -120,7 +117,7 @@ export default function Main(){
 
 
     useEffect(() => {  
-        setParties([])
+        setParties([]);
         getLocation();
         getParties();
         getUsers();
@@ -177,34 +174,18 @@ export default function Main(){
                                     marginTop: 10,
                                     marginBottom: 20,
                                 }}
-                                provider={PROVIDER_GOOGLE}
-                                //customMapStyle={mapSettings}
-                                onPress={() => navigation.navigate('Map', {location, isEvent})}
                                 initialRegion={{
                                     latitude: 50.5107,
                                     longitude: 18.30056,
                                     latitudeDelta: 0.0922,
                                     longitudeDelta: 0.0421,
                                 }}
+                                provider={PROVIDER_GOOGLE}
+                                onPress={() => navigation.navigate('Map', {location, isEvent})}
                                 zoomEnabled={false}
                                 rotateEnabled={false}
                                 scrollEnabled={false}
-
-                            >
-                            {parties.map((marker) => (
-                                <Marker
-                                    key={marker.id}
-                                    coordinate={{
-                                        latitude: marker.latitude,
-                                        longitude: marker.longitude,
-                                    }}  
-                                >
-                                    <Ionicons name='location' size={40} color={colors.primary} />
-
-                                </Marker>
-                            ))}
-
-                            </MapView>
+                            />
 
                             
                         </View>
