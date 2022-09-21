@@ -144,32 +144,31 @@ if(isLocation && isCity){
             </View>
 
             <ScrollView style={{width: width, backgroundColor: colors.background}}>
-                <TouchableOpacity onPress={() => navigation.navigate('Map', {location, isEvent, item})}>
-                    <MapView 
-                        style={{width: '100%', height: 300}} 
-                        provider={PROVIDER_GOOGLE}
-                        //customMapStyle={mapSettings}
-                        initialRegion={{
-                            latitude: route.params.item.latitude - 0.01,
-                            longitude: route.params.item.longitude,
-                            latitudeDelta: 0.0922, 
-                            longitudeDelta: 0.0421
-                        }}
-                        zoomEnabled={false}
-                        rotateEnabled={false}
-                        scrollEnabled={false}
+                <MapView 
+                    style={{width: '100%', height: 300}} 
+                    provider={PROVIDER_GOOGLE}
+                    onPress={() => navigation.navigate('Map', {location, isEvent, item})}
+                    //customMapStyle={mapSettings}
+                    initialRegion={{
+                        latitude: route.params.item.latitude - 0.01,
+                        longitude: route.params.item.longitude,
+                        latitudeDelta: 0.0922, 
+                        longitudeDelta: 0.0421
+                    }}
+                    zoomEnabled={false}
+                    rotateEnabled={false}
+                    scrollEnabled={false}
+                >
+                    <Marker
+                        key={route.params.item.id}
+                        coordinate={{
+                            latitude: route.params.item.latitude,
+                            longitude: route.params.item.longitude
+                        }}  
                     >
-                        <Marker
-                            key={route.params.item.id}
-                            coordinate={{
-                                latitude: route.params.item.latitude,
-                                longitude: route.params.item.longitude
-                            }}  
-                        >
-                            <Ionicons name='location' size={40} color={colors.primary} />
-                        </Marker>
-                    </MapView>
-                </TouchableOpacity>
+                        <Ionicons name='location' size={40} color={colors.primary} />
+                    </Marker>
+                </MapView>
                 
                 <TouchableOpacity 
                     onPress={() => handleGetDirections(route.params.item.latitude, route.params.item.longitude)}

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, TouchableHighlight } from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
@@ -156,7 +156,7 @@ export default function Main(){
         return(
             <FlatList
                 data={data.slice(0,3)}
-                renderItem={({item}) => <FlatListItem item={item} navigation={navigation} location={location} />}
+                renderItem={({item}) => <FlatListItem item={item} location={location} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={
@@ -168,47 +168,45 @@ export default function Main(){
                                 <CustomText weight='bold' size={h1} color={colors.primary}> {currentUser.username}</CustomText>
                             </View>
                             <CustomText size={h4} color={colors.text}>Check out the map</CustomText>
-                            
-                            <TouchableOpacity
+                                
+                            <MapView 
                                 style={{
                                     width: 0.9*width,
                                     height: 120,
                                     borderRadius: 10,
                                     marginTop: 10,
-                                    marginBottom: 20
+                                    marginBottom: 20,
                                 }}
-                                onPress={() => navigation.navigate('AddEvent', {location, isEvent})}
+                                provider={PROVIDER_GOOGLE}
+                                //customMapStyle={mapSettings}
+                                onPress={() => navigation.navigate('Map', {location, isEvent})}
+                                initialRegion={{
+                                    latitude: 50.5107,
+                                    longitude: 18.30056,
+                                    latitudeDelta: 0.0922, 
+                                    longitudeDelta: 0.0821
+                                }}
+                                zoomEnabled={false}
+                                rotateEnabled={false}
+                                scrollEnabled={false}
+
                             >
-                                <MapView 
-                                    style={{width: '100%', height: '100%', borderRadius: 10}} 
-                                    provider={PROVIDER_GOOGLE}
-                                    //customMapStyle={mapSettings}
-                                    initialRegion={{
-                                        latitude: 50.5107,
-                                        longitude: 18.30056,
-                                        latitudeDelta: 0.0922, 
-                                        longitudeDelta: 0.0821
-                                    }}
-                                    zoomEnabled={false}
-                                    rotateEnabled={false}
-                                    scrollEnabled={false}
-
+                            {parties.map((marker) => (
+                                <Marker
+                                    key={marker.id}
+                                    coordinate={{
+                                        latitude: marker.latitude,
+                                        longitude: marker.longitude,
+                                    }}  
                                 >
-                                {parties.map((marker) => (
-                                    <Marker
-                                        key={marker.id}
-                                        coordinate={{
-                                            latitude: marker.latitude,
-                                            longitude: marker.longitude,
-                                        }}  
-                                    >
-                                        <Ionicons name='location' size={40} color={colors.primary} />
+                                    <Ionicons name='location' size={40} color={colors.primary} />
 
-                                    </Marker>
-                                ))}
+                                </Marker>
+                            ))}
 
-                                </MapView>
-                            </TouchableOpacity>
+                            </MapView>
+
+                            
                         </View>
                         
 

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, ActivityIndicator} from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 
+
 import CustomText from '../components/CustomText';
 import CustomTextInput from '../components/CustomTextInput';
 
@@ -127,7 +128,6 @@ export default function Search({navigation}){
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: backgroundColor
-
             }}
         >
             <Ionicons style={{marginBottom: 5}} name={item.icon} size={25} color={textColor} />
@@ -152,9 +152,14 @@ export default function Search({navigation}){
         return(
             <FlatList
                 data={data.slice(0,3)}
-                renderItem={({item}) => <FlatListItem item={item} navigation={navigation} location={location} />}
+                renderItem={({item}) => <FlatListItem item={item} location={location} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
+                ListHeaderComponent={
+                    <View style={{ width: '100%', marginVertical: 10 }}>
+                        
+                    </View>
+                }
             />
         ) 
     }
@@ -165,14 +170,31 @@ if(isLocation && isParties){
             flex: 1,
             backgroundColor: colors.background,
         }}>
-            <FlatList
-                data={CATEGORIES}
-                renderItem={renderCategoryItem}
-                keyExtractor={(item) => item.id}
-                extraData={selectedId}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-            />
+            <View
+                style={{
+                    height: 60,
+                    
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.10,
+                    shadowRadius: 2.84,
+
+                    elevation: 6,
+                }}    
+            >
+                <FlatList
+                    data={CATEGORIES}
+                    renderItem={renderCategoryItem}
+                    keyExtractor={(item) => item.id}
+                    extraData={selectedId}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
+            
                 
             {renderFlatlist(parties)}
             

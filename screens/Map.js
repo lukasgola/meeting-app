@@ -21,7 +21,7 @@ import MapViewDirections from 'react-native-maps-directions';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
-import { collection, query, where, getDocs, collectionGroup } from "firebase/firestore";
+import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
 
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -41,13 +41,12 @@ export default function Map(){
     const DEFAULT_DELTA = {latitudeDelta: 0.5052, longitudeDelta: 0.0521 }
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
-    const [item, setItem] = useState(route.params.isEvent ? route.params.item : null);
+    const [item, setItem] = useState(null);
 
-    const [selectedPlaceId, setSelectedPlaceId] = useState();
+    const [selectedPlaceId, setSelectedPlaceId] = useState(null);
 
-    const [users, setUsers] = useState([])
+
     const [parties, setParties] = useState([])
-
     const [isParties, setIsParties] = useState(false)
 
     const [userLocation, setUserLocation] = useState(null);
@@ -101,17 +100,29 @@ export default function Map(){
     };
 
     const getParties = async () => {
+
         const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
-        const parties = [];
+        querySnapshot.forEach( async (doc)  => {
 
-        querySnapshot.forEach((doc) => {
-            parties.push({
+            const docRef = doc.ref.parent.parent;   
+            const userSnap = await getDoc(docRef);
+            const organizer = userSnap.data();
+
+            const party = {
                 ...doc.data(),
                 id: doc.id,
-              });
+                organizer: {
+                    avatar: organizer.avatar,
+                    email: organizer.email,
+                    score: organizer.score,
+                    username: organizer.username
+                }
+            }
+
+            setParties(old => [...old, party])
+                
         });
-        setParties(parties);
         setIsParties(true);
     }
 
@@ -119,6 +130,7 @@ export default function Map(){
 
         if(route.params.isEvent){
             setSelectedPlaceId(route.params.item.id)
+            setItem(route.params.item)
             setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
         getParties();
@@ -144,7 +156,7 @@ export default function Map(){
                         mapRef.current.fitToCoordinates(result.coordinates, {
                             edgePadding: {
                               right: 100,
-                              bottom: 150,
+                              bottom: 250,
                               left: 100,
                               top: 100,
                             },
@@ -165,7 +177,7 @@ export default function Map(){
                         style={{position: 'absolute', width: 40, height: 40, zIndex: 1, right: 0, justifyContent: 'center', alignItems: 'center'}}>
                         <Ionicons name='close-outline' size={30} color={colors.text} />
                     </TouchableOpacity>
-                    <FlatListItem item={item} navigation={navigation} user={users[0]} location={userLocation} />
+                    <FlatListItem item={item} location={userLocation} />
                 </View>
                 
             )
