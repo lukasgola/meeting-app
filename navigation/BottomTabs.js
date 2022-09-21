@@ -12,6 +12,7 @@ import Liked from '../screens/Liked';
 import Chats from '../screens/Chats';
 
 import HomeStack from './HomeStack';
+import SearchStack from '../navigation/SearchStack';
 
 
 const Tab = createBottomTabNavigator();
@@ -52,7 +53,7 @@ const BottomTabs = () => {
                 )
             }}
             />
-            <Tab.Screen name='Search' component={Search} options={{
+            <Tab.Screen name='SearchStack' component={SearchStack} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='search-outline' filled='search' title='Search' />
                 )

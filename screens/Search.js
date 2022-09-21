@@ -149,6 +149,7 @@ export default function Search({navigation}){
                 renderItem={({item}) => <FlatListItem item={item} navigation={navigation} user={users[0]} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
+                contentInsetAdjustmentBehavior="automatic"
                 style={{
                     
                 }}
@@ -205,28 +206,9 @@ export default function Search({navigation}){
                 backgroundColor: colors.background,
             }}>
 
-                <View
-                    style={{
-                        width: '100%',
-                        height: 50,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        paddingVertical: 5,
-                        paddingHorizontal: '2.5%'
-                    }}
-                >
-                    <CustomTextInput 
-                        value={search}
-                        setValue={setSearch}
-                        placeholder='Wyszukaj'
-                        size={12} 
-                        color={colors.grey_l} 
-                        icon={'search-outline'}
-                    />
-
-                    
-
-                </View>
+            <View>
+                
+            </View>
                 
                 <View
                     style={{

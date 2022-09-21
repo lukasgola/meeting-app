@@ -15,11 +15,12 @@ import Map from '../screens/Map';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import AddEvent from '../screens/AddEvent';
+import Search from '../screens/Search';
 
 
 const Stack = createNativeStackNavigator();
 
-export default function HomeStack() {
+export default function SearchStack() {
 
     const {colors} = useTheme();
 
@@ -35,7 +36,7 @@ export default function HomeStack() {
 
     return(
         <Stack.Navigator
-            initialRouteName='Home'
+            initialRouteName='Search'
             screenOptions={{
                 headerShown: true,
                 headerTintColor: colors.primary,
@@ -48,15 +49,16 @@ export default function HomeStack() {
                     color: colors.text,
                 },
                 headerTitleAlign: 'center',
+                headerTransparent: false
             }}
             
         >
 
             <Stack.Screen 
-                name='Home' 
-                component={Home}
+                name='Search' 
+                component={Search}
                 options={{
-                    title: 'Home',
+                    title: 'Search',
                     headerLeft: () =>   <TouchableOpacity onPress={toggleDrawer}>
                                             <Ionicons name='menu-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
@@ -64,24 +66,38 @@ export default function HomeStack() {
                     headerRight: () =>  <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
                                             <Ionicons name='add-circle-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
+                    
+                    headerSearchBarOptions: {
+
+                    }
                 }}
             />
             <Stack.Screen 
                 name='Details' 
                 component={Details} 
+                options={{
+                    headerShown: true
+                }}
             />
             <Stack.Screen 
                 name='Map' 
                 component={Map} 
+                options={{
+                    headerShown: true,
+                }}
             />
             <Stack.Screen 
                 name='Profile' 
                 component={Profile} 
+                options={{
+                    headerShown: true,
+                }}
             />
             <Stack.Screen 
                 name='EditProfile' 
                 component={EditProfile} 
                 options={{
+                    headerShown: true,
                     title: 'Edit Profile'
                 }}
             />
@@ -89,6 +105,7 @@ export default function HomeStack() {
                 name='AddEvent' 
                 component={AddEvent} 
                 options={{
+                    headerShown: true,
                     title: 'Add Event',
                 }}
             />
