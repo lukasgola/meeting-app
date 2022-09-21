@@ -38,7 +38,10 @@ export default function Map(){
     const mapRef = useRef();
 
 
-    const DEFAULT_DELTA = {latitudeDelta: 0.5052, longitudeDelta: 0.0521 }
+    const DEFAULT_DELTA = {
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    }
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
     const [item, setItem] = useState(null);
@@ -211,12 +214,17 @@ export default function Map(){
     return (
         <View style={{flex: 1}}>
 
-<MapView 
+            <MapView 
                 ref={mapRef}
                 style={{width: '100%', height: '100%'}} 
                 provider={PROVIDER_GOOGLE}
                 //customMapStyle={mapSettings}
-                initialRegion={region}
+                initialRegion={{
+                    latitude: route.params.location.latitude,
+                    longitude: route.params.location.longitude,
+                    latitudeDelta: 1.009,
+                    longitudeDelta: 1.009
+                }}
                 onRegionChange={reg => setRegion(reg)}
                 showsUserLocation={true}
                 followsUserLocation={true}
