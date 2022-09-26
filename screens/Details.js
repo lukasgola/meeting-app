@@ -132,7 +132,7 @@ export default function Details(){
 
 if(isLocation && isCity){
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {height: '40%'}]}>
             <View style={[styles.footer,{shadowColor: colors.primary}]}>
                 <View style={[styles.footer_button_left,{backgroundColor: colors.primary}]}>
                     <Ionicons name='chatbubbles-outline' size={30} color={'white'} />

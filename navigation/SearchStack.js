@@ -36,6 +36,7 @@ export default function SearchStack() {
             initialRouteName='Search'
             screenOptions={{
                 headerShown: true,
+                headerShadowVisible: false,
                 headerTintColor: colors.primary,
                 headerStyle:{
                     backgroundColor: colors.background,
@@ -47,8 +48,7 @@ export default function SearchStack() {
                 },
                 headerTitleAlign: 'center',
                 headerTransparent: false,
-                animation: 'slide_from_bottom',
-                presentation: 'modal'
+                
             }}
             
         >
@@ -66,13 +66,14 @@ export default function SearchStack() {
                                             <Ionicons name='options-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
                     headerSearchBarOptions:{}
+                  
                 }}
             />
             <Stack.Screen 
                 name='Details' 
-                component={Details} 
+                component={Details}
                 options={{
-                    headerShown: true
+                    headerShown: true,
                 }}
             />
             <Stack.Screen 

@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useTheme} from '../theme/ThemeProvider';
@@ -23,7 +24,6 @@ export default function HomeStack() {
 
     const {colors} = useTheme();
 
-
     const navigation = useNavigation();
 
 
@@ -38,6 +38,7 @@ export default function HomeStack() {
             initialRouteName='Home'
             screenOptions={{
                 headerShown: true,
+                headerShadowVisible: false,
                 headerTintColor: colors.primary,
                 headerStyle:{
                     backgroundColor: colors.background,
@@ -73,9 +74,6 @@ export default function HomeStack() {
             <Stack.Screen 
                 name='Map' 
                 component={Map}
-                options={{
-                    headerSearchBarOptions:{}
-                }}
             />
             <Stack.Screen 
                 name='Profile' 
