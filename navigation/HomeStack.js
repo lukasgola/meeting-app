@@ -72,7 +72,10 @@ export default function HomeStack() {
             />
             <Stack.Screen 
                 name='Map' 
-                component={Map} 
+                component={Map}
+                options={{
+                    headerSearchBarOptions:{}
+                }}
             />
             <Stack.Screen 
                 name='Profile' 
