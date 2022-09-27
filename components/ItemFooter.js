@@ -29,7 +29,7 @@ const ItemFooter = ({item}) => {
         <View style={[styles.card_footer, {borderTopWidth: 1, borderColor: colors.grey_l}]}>
             <View style={styles.card_footer_half}>
                 <View style={[styles.card_footer_half_content]}>
-                    <Ionicons style={{marginRight: 5}} name='people-outline' size={20} color={colors.primary} />
+                    <Ionicons style={{marginRight: 5}} name={item.actGuests == item.maxGuests ? 'people' : 'people-outline'} size={20} color={colors.primary} />
                     <CustomText weight='bold' color={colors.text} size={15}>{item.actGuests}/{item.maxGuests}</CustomText>
                 </View>
             </View>
@@ -37,7 +37,7 @@ const ItemFooter = ({item}) => {
                 <TouchableOpacity 
                     onPress={() => onClickLike() }
                     style={[styles.card_footer_half_content, {zIndex: 1}]}>
-                    <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.secondary : colors.grey_d } />
+                    <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.primary : colors.grey_d } />
                     <CustomText weight='bold' color={like ? colors.text : colors.grey_d} size={15}>{item.likes}</CustomText>
                 </TouchableOpacity>
             </View>

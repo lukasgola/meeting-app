@@ -19,6 +19,7 @@ import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import getDirections from 'react-native-google-maps-directions'
+import { colors } from 'react-native-elements';
 
 
 
@@ -133,13 +134,21 @@ export default function Details(){
 if(isLocation && isCity){
     return (
         <View style={[styles.container, {height: '40%'}]}>
-            <View style={[styles.footer,{shadowColor: colors.primary}]}>
-                <View style={[styles.footer_button_left,{backgroundColor: colors.primary}]}>
+            <View style={[styles.footer,{
+                backgroundColor: colors.background, 
+                shadowColor: colors.primary,
+                borderTopColor: colors.grey,
+            }]}>
+                <TouchableOpacity 
+                    onPress={() => alert('Send message')}
+                    style={[styles.footer_button_left,{backgroundColor: colors.primary}]}>
                     <Ionicons name='chatbubbles-outline' size={30} color={'white'} />
-                </View>
-                <View style={[styles.footer_button_right,{backgroundColor: colors.primary}]}>
-                    <CustomText weight='bold' color={'white'}>TAKE PART!</CustomText>
-                </View>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    onPress={() => alert('Request was send')}
+                    style={[styles.footer_button_right,{backgroundColor: colors.primary}]}>
+                    <CustomText weight='bold' color={'white'} size={14}>TAKE PART!</CustomText>
+                </TouchableOpacity>
                 
             </View>
 
@@ -201,9 +210,9 @@ if(isLocation && isCity){
                                     </CustomText>
                                 </View>
                             </View>
-                            <View style={[styles.info_row_right, {width: '37.5%', backgroundColor: route.params.item.actGuests == route.params.item.maxGuests ?   colors.secondary_l : colors.background}]}>
+                            <View style={[styles.info_row_right, {width: '37.5%'}]}>
                                 <View style={styles.info_row_single}>
-                                    <Ionicons style={{marginRight: 5}} name='people' size={20} color={colors.primary} />
+                                    <Ionicons style={{marginRight: 5}} name={route.params.item.actGuests == route.params.item.maxGuests ? 'people' : 'people-outline'} size={20} color={colors.primary} />
                                     <CustomText weight='bold' color={colors.text} size={h4}>{route.params.item.actGuests}/{route.params.item.maxGuests}</CustomText>
                                 </View>
                             </View>
@@ -225,7 +234,7 @@ if(isLocation && isCity){
                                 onPress={() => onClickLike()}
                             >
                                 <View style={styles.info_row_single}>
-                                    <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.secondary : colors.grey_d } />
+                                    <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.primary : colors.grey_d } />
                                     <CustomText weight='bold' color={like ? colors.text : colors.grey_d} size={h4}>{route.params.item.likes}</CustomText>
                                 </View>
                             </TouchableOpacity>
@@ -240,24 +249,30 @@ if(isLocation && isCity){
                             <CustomText weight='bold' size={h3}>Organizer</CustomText>
                         </View>
 
-                        <View style={[styles.organizer, {backgroundColor: colors.grey_l}]}>
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate('Profile', {user: route.params.item.organizer})}
+                            style={[styles.organizer, {backgroundColor: colors.grey_l}]}>
                             <View style={styles.organizer_avatar}>
-                                <UserIcon size={80} photo={route.params.item.organizer.avatar} score={route.params.item.organizer.score} />
+                                <UserIcon size={60} photo={route.params.item.organizer.avatar} score={route.params.item.organizer.score} />
                                 <View style={{width: '100%', height: 5}}></View>
                                 <CustomText weight='bold' size={h4} color={colors.text} >{route.params.item.organizer.username}</CustomText>
                             </View>
                             <View style={styles.organizer_links}>
-                                <View style={[styles.organizer_link, {backgroundColor: colors.background}]}>
-                                    <Ionicons style={{marginRight: 5}} name='exit-outline' size={20} color={colors.text} />
-                                    <CustomText weight='bold' size={h4} color={colors.text} >See profile...</CustomText>
+                                <View style={[styles.organizer_link]}>
+                                    <CustomText weight='bold' size={h2}>3</CustomText>
+                                    <CustomText color={colors.grey_d} size={h4}>Events</CustomText>
                                 </View>
-                                <View style={[styles.organizer_link, {backgroundColor: colors.background}]}>
-                                    <Ionicons style={{marginRight: 5}} name='chatbubbles-outline' size={20} color={colors.primary} />
-                                    <CustomText weight='bold' size={h4} color={colors.primary} >Send messege...</CustomText>
+                                <View style={[styles.organizer_link]}>
+                                    <CustomText weight='bold' size={h2}>123</CustomText>
+                                    <CustomText color={colors.grey_d} size={h4}>Followers</CustomText>
+                                </View>
+                                <View style={[styles.organizer_link]}>
+                                    <CustomText weight='bold' size={h2}>123</CustomText>
+                                    <CustomText color={colors.grey_d} size={h4}>Following</CustomText>
                                 </View>
                             </View>
                             
-                        </View>
+                        </TouchableOpacity>
                         <View style={{width: '100%', marginTop: 20}}>
                             <CustomText weight='bold' size={h3}>Description</CustomText>
                         </View>
@@ -321,39 +336,33 @@ const styles = StyleSheet.create({
     footer:{
         position: 'absolute',
         width: '100%',
-        height: 50,
-        bottom: 40,
+        height: 80,
+        bottom: 0,
         zIndex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
+        paddingTop: 10,
+        borderTopWidth: 1,
 
-        shadowOffset: {
-            width: 0,
-            height: 10,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 5.84,
-
-        elevation: 6,
+        
     },
     footer_button_left: {
-        height: '100%',
-        width: '20%',
+        height: 45,
+        width: '35%',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
     },
     footer_button_right: {
-        height: '100%',
-        width: '75%',
+        height: 45,
+        width: '60%',
         borderRadius: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     navigate_button: {
-        width: 100,
+        width: '30%',
         height: 50,
         borderRadius: 10,
         justifyContent: 'center',
@@ -430,7 +439,7 @@ const styles = StyleSheet.create({
         height: 120,
         marginTop: 10,
         flexDirection: 'row',
-        borderRadius: 10
+        borderRadius: 10,
     },
     organizer_avatar: {
         width: '30%',
@@ -442,14 +451,15 @@ const styles = StyleSheet.create({
         width: '70%', 
         height: '100%', 
         padding: '2.5%', 
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     organizer_link: {
-        height: '45%',
-        width: '100%',
+        height: '60%',
+        width: '30%',
         borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         alignItems: 'center'
     }
 })
