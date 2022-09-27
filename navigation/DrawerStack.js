@@ -10,7 +10,7 @@ import CustomDrawer from '../components/CustomDrawer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import BottomTabs from './BottomTabs';
+import MainStack from './MainStack';
 import Settings from '../screens/Settings';
 
 
@@ -30,7 +30,7 @@ export default function DrawerStack(){
 
     return (
             <Drawer.Navigator 
-            initialRouteName='BottomTabs' 
+            initialRouteName='MainStack' 
             drawerContent={props => <CustomDrawer {...props} />}
             screenOptions={{
                 headerShown: false,
@@ -57,7 +57,7 @@ export default function DrawerStack(){
                                     </TouchableOpacity>,
             }}
             >
-                <Drawer.Screen name='BottomTabs' component={BottomTabs} options={{
+                <Drawer.Screen name='MainStack' component={MainStack} options={{
                     drawerIcon: ({color}) => (
                     <Ionicons name='home-outline' size={22} color={color} />
                     ),

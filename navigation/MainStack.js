@@ -11,11 +11,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Home from '../screens/Home';
+import Details from '../screens/Details';
+import Map from '../screens/Map';
+import Profile from '../screens/Profile';
+import EditProfile from '../screens/EditProfile';
+import AddEvent from '../screens/AddEvent';
+
+import BottomTabs from './BottomTabs';
 
 
 const Stack = createNativeStackNavigator();
 
-export default function HomeStack() {
+export default function MainStack() {
 
     const {colors} = useTheme();
 
@@ -30,7 +37,7 @@ export default function HomeStack() {
 
     return(
         <Stack.Navigator
-            initialRouteName='Home'
+            initialRouteName='BottomTabs'
             screenOptions={{
                 headerShown: true,
                 headerShadowVisible: false,
@@ -45,14 +52,14 @@ export default function HomeStack() {
                 },
                 headerTitleAlign: 'center',
             }}
-            
         >
 
             <Stack.Screen 
-                name='Home' 
-                component={Home}
+                name='BottomTabs' 
+                component={BottomTabs}
                 options={{
-                    title: 'Home',
+                    headerShown: false,
+                    //title: 'Home',
                     headerLeft: () =>   <TouchableOpacity onPress={toggleDrawer}>
                                             <Ionicons name='menu-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
@@ -60,6 +67,32 @@ export default function HomeStack() {
                     headerRight: () =>  <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
                                             <Ionicons name='create-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
+                }}
+            />
+            <Stack.Screen 
+                name='Details' 
+                component={Details}
+            />
+            <Stack.Screen 
+                name='Map' 
+                component={Map}
+            />
+            <Stack.Screen 
+                name='Profile' 
+                component={Profile} 
+            />
+            <Stack.Screen 
+                name='EditProfile' 
+                component={EditProfile} 
+                options={{
+                    title: 'Edit Profile'
+                }}
+            />
+            <Stack.Screen 
+                name='AddEvent' 
+                component={AddEvent} 
+                options={{
+                    title: 'Add Event',
                 }}
             />
             

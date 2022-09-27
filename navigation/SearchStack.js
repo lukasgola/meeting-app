@@ -9,11 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import Home from '../screens/Home';
-import Details from '../screens/Details';
-import Map from '../screens/Map';
-import Profile from '../screens/Profile';
-import EditProfile from '../screens/EditProfile';
 import Search from '../screens/Search';
 
 
@@ -65,40 +60,12 @@ export default function SearchStack() {
                     headerRight: () =>  <TouchableOpacity>
                                             <Ionicons name='options-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
-                    headerSearchBarOptions:{}
+                    headerSearchBarOptions:{
+                        autoFocus: true
+                    }
                   
                 }}
             />
-            <Stack.Screen 
-                name='Details' 
-                component={Details}
-                options={{
-                    headerShown: true,
-                }}
-            />
-            <Stack.Screen 
-                name='Map' 
-                component={Map} 
-                options={{
-                    headerShown: true,
-                }}
-            />
-            <Stack.Screen 
-                name='Profile' 
-                component={Profile} 
-                options={{
-                    headerShown: true,
-                }}
-            />
-            <Stack.Screen 
-                name='EditProfile' 
-                component={EditProfile} 
-                options={{
-                    headerShown: true,
-                    title: 'Edit Profile'
-                }}
-            />
-            
         </Stack.Navigator>
     )
 }
