@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from '../screens/Home';
 import Details from '../screens/Details';
 import Map from '../screens/Map';
+import MapChoose from '../screens/MapChoose'
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import AddEvent from '../screens/AddEvent';
@@ -76,6 +77,14 @@ export default function MainStack() {
             <Stack.Screen 
                 name='Map' 
                 component={Map}
+            />
+            <Stack.Screen 
+                name='MapChoose' 
+                component={MapChoose}
+                options={{
+                    title: 'Choose event location',
+                    presentation: 'modal'
+                }}
             />
             <Stack.Screen 
                 name='Profile' 

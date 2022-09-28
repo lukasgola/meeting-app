@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {View, Modal, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Dimensions} from 'react-native';
+import {View, Modal, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
+
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Geocoder from 'react-native-geocoding';
 import * as Location from "expo-location"
@@ -18,6 +20,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function AddEvent(){
 
     Geocoder.init("AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE");
+
+    const navigation = useNavigation();
+    const route = useRoute();
 
     const height = Dimensions.get('window').height;
 
@@ -66,7 +71,8 @@ export default function AddEvent(){
 
     const handleConfirm = (date) => {
         setDate(date)
-        setDateString(date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear())
+        let month = date.getMonth()+1;
+        setDateString(date.getDate() + ' / ' + month + ' / ' + date.getFullYear())
         hideDatePicker();
     };
 
@@ -83,6 +89,8 @@ export default function AddEvent(){
     const [userLocation, setUserLocation] = useState(null);
     const [isLocation, setIsLocation] = useState(null);
 
+    const [eventLocation, setEventLocation] = useState(null)
+
     const [address, setAddress] = useState(null);
     const [isAddress, setIsAddress] = useState(null);
 
@@ -95,6 +103,7 @@ export default function AddEvent(){
   
         let location = await Location.getCurrentPositionAsync({});
         setUserLocation(location.coords);
+        setEventLocation(location.coords)
         setIsLocation(true)
 
         Geocoder.from(location.coords.latitude, location.coords.longitude)
@@ -111,15 +120,36 @@ export default function AddEvent(){
         getLocation();
     }, [])
 
-    return (
-            <KeyboardAvoidingView style={[styles.container, {backgroundColor: colors.background}]}>
+    useEffect(() => {
+        if(route.params?.eventLocation){
+            setEventLocation(route.params?.eventLocation)
+            Geocoder.from(route.params?.eventLocation.latitude, route.params?.eventLocation.longitude)
+            .then(json => {
 
+                setAddress(json.results[0].formatted_address)
+                setIsAddress(true)
+            })
+            .catch(error => console.warn(error));
+            }
+    }, [route.params?.eventLocation])
+
+
+    const [type, setType] = useState('Private');
+    const [place, setPlace] = useState('Indoor');
+
+
+    return (
+        <KeyboardAvoidingView style={[styles.container, {backgroundColor: colors.background}]}>
+            <ScrollView 
+                showsVerticalScrollIndicator={false}
+                style={{width: '90%'}}
+            >
                 <View style={{width: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 20, marginBottom: 10}}>
                     <CustomText weight='bold' size={h1}>New</CustomText>
                     <CustomText weight='bold' color={colors.primary} size={h1}> Event</CustomText>
                 </View>
 
-                <View style={{width: '80%', alignItems: 'center', marginTop: 10, marginBottom: 30}}>
+                <View style={{width: '100%', alignItems: 'center', marginTop: 10, marginBottom: 30}}>
                     <CustomText align={'center'} color={colors.grey_d} size={h4}>Complete information about the event.</CustomText>
                 </View>
 
@@ -260,38 +290,135 @@ export default function AddEvent(){
                 
                 </View>
 
-                <View style={{width: '90%', alignItems: 'center', marginTop: 20, marginBottom: 10}}>
-                    <CustomText align={'center'} color={colors.grey_d} size={h4}>Use your current location or select manually. The exact location will be made available after for other after your approval.</CustomText>
-                </View>
-                
-
-                <View style={{ width: '100%', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                    
-                    <CustomInput
-                        defaultValue={address}
-                        name="location"
-                        control={control}
-                        placeholder={address}
-                        rules={{
-                            required: 'Location is required',
-                        }}
-                        size={12} 
-                        color={colors.grey_l} 
-                        icon={'location-outline'}
-                    />
+                <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
+                    <CustomText align={'center'} color={colors.grey_d} size={h4}>Use your current location or select manually. The exact location will be available for other users after your approval.</CustomText>
                 </View>
 
-                <View style={{width: '100%', marginTop: 20, marginBottom: 10}}>
-                    <CustomText weight='bold' size={h3}>Indoor/Outdoor</CustomText>
+                <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>   
+                    <TouchableOpacity 
+                        onPress={() => navigation.navigate('MapChoose', {eventLocation})}
+                        style={{
+                            width: '100%', 
+                            paddingVertical: 16,
+                            flexDirection: 'row',
+                            backgroundColor: colors.grey_l,
+                            borderRadius: 10,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            //justifyContent: 'center',
+                            borderColor: '#e8e8e8',
+                            borderWidth: 1
+                        }}>
+                        <View
+                            style={{
+                                width: 40,
+                                paddingLeft: 10,
+                                //alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                            >
+                                <Ionicons name={'location-outline'} size={16} color={colors.grey_d}/>
+                        </View>
+                        <View style={{height: '100%', width: '85%'}}>
+                            <CustomText size={12} color={timeString !== 'Select time' ? colors.text : colors.text}>{address}</CustomText>
+                        </View>
+                        
+                    </TouchableOpacity>
                 </View>
 
-                <View style={{width: '100%', marginTop: 20, marginBottom: 10}}>
-                    <CustomText weight='bold' size={h3}>Guests</CustomText>
+                <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
+                    <CustomText align={'center'} color={colors.grey_d} size={h4}>Event type</CustomText>
                 </View>
 
-                <View style={{width: '100%', marginTop: 20, marginBottom: 10}}>
-                    <CustomText weight='bold' size={h3}>Description</CustomText>
+                <View style={{
+                    width: '100%',
+                    height: 50,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginTop: 20
+                }}> 
+                    <TouchableOpacity 
+                        onPress={() => setType('Private')}
+                        style={{
+                            width: '47.5%', 
+                            height: '100%', 
+                            flexDirection: 'row',
+                            backgroundColor: colors.grey_l,
+                            borderRadius: 10,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderColor: type == 'Private' ? colors.primary : '#e8e8e8',
+                            borderWidth: 1
+                        }}>
+                        <CustomText weight={'bold'} size={12} color={type == 'Private' ? colors.text : colors.grey_d}>Private</CustomText>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        onPress={() => setType('Professional')}
+                        style={{
+                            width: '47.5%', 
+                            height: '100%', 
+                            flexDirection: 'row',
+                            backgroundColor: colors.grey_l,
+                            borderRadius: 10,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderColor: type == 'Professional' ? colors.primary : '#e8e8e8',
+                            borderWidth: 1
+                        }}>
+                        <CustomText weight={'bold'} size={12} color={type == 'Professional' ? colors.text : colors.grey_d}>Professional</CustomText>
+                    </TouchableOpacity>
                 </View>
+
+                <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
+                    <CustomText align={'center'} color={colors.grey_d} size={h4}>Event place</CustomText>
+                </View>
+
+                <View style={{
+                    width: '100%',
+                    height: 50,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginTop: 20
+                }}> 
+                    <TouchableOpacity 
+                        onPress={() => setPlace('Indoor')}
+                        style={{
+                            width: '47.5%', 
+                            height: '100%', 
+                            flexDirection: 'row',
+                            backgroundColor: colors.grey_l,
+                            borderRadius: 10,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderColor: place == 'Indoor' ? colors.primary : '#e8e8e8',
+                            borderWidth: 1
+                        }}>
+                        <CustomText weight={'bold'} size={12} color={place == 'Indoor' ? colors.text : colors.grey_d}>Indoor</CustomText>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        onPress={() => setPlace('Outdoor')}
+                        style={{
+                            width: '47.5%', 
+                            height: '100%', 
+                            flexDirection: 'row',
+                            backgroundColor: colors.grey_l,
+                            borderRadius: 10,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderColor: place == 'Outdoor' ? colors.primary : '#e8e8e8',
+                            borderWidth: 1
+                        }}>
+                        <CustomText weight={'bold'} size={12} color={place == 'Outdoor' ? colors.text : colors.grey_d}>Outdoor</CustomText>
+                    </TouchableOpacity>
+                </View>
+
+
 
                 <TouchableOpacity 
                     onPress={handleSubmit(onSignIn)}
@@ -306,8 +433,11 @@ export default function AddEvent(){
                     }}>
                     <CustomText weight='bold' size={18} color={'white'}>Create event</CustomText>
                 </TouchableOpacity>
-                
-            </KeyboardAvoidingView>
+
+            </ScrollView>
+            
+            
+        </KeyboardAvoidingView>
     );
 }
 
@@ -315,7 +445,6 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         alignItems: 'center',
-        paddingHorizontal: '5%'
     },
     input: {
         width: '100%',
