@@ -92,7 +92,7 @@ export default function MainStack() {
                 name='AddEvent' 
                 component={AddEvent} 
                 options={{
-                    title: 'Add Event',
+                    title: '',
                 }}
             />
             

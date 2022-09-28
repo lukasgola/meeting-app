@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {View, Image, StyleSheet, Dimensions, ScrollView, FlatList, TouchableOpacity, ImageBackground, ActivityIndicator} from 'react-native';
+import {View, Platform, StyleSheet, Dimensions, ScrollView, FlatList, TouchableOpacity, ImageBackground, ActivityIndicator} from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -138,6 +138,7 @@ if(isLocation && isCity){
                 backgroundColor: colors.background, 
                 shadowColor: colors.primary,
                 borderTopColor: colors.grey,
+                height: Platform.OS === 'ios' ? 80 : 65
             }]}>
                 <TouchableOpacity 
                     onPress={() => alert('Send message')}
@@ -226,7 +227,7 @@ if(isLocation && isCity){
                                 </View>
                                 <View style={styles.info_row_single}>
                                     <Ionicons style={{marginRight: 5}} name='checkbox-outline' size={20} color={colors.primary} />
-                                    <CustomText weight='bold' size={h4} color={colors.primary} >Professional</CustomText>
+                                    <CustomText weight='bold' size={h4} color={colors.primary} >{route.params.item.type}</CustomText>
                                 </View>
                             </View>
                             <TouchableOpacity
@@ -336,7 +337,6 @@ const styles = StyleSheet.create({
     footer:{
         position: 'absolute',
         width: '100%',
-        height: 80,
         bottom: 0,
         zIndex: 1,
         flexDirection: 'row',

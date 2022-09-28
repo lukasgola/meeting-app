@@ -50,8 +50,11 @@ export default function Main(){
     const [parties, setParties] = useState([])
     const [isParties, setIsParties] = useState(false)
 
-    const [location, setLocation] = useState(null);
-    const [isLocation, setIsLocation] = useState(false);
+    const [location, setLocation] = useState({
+        latitude: 50,
+        longitude: 40
+    });
+    const [isLocation, setIsLocation] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
 
 
@@ -65,9 +68,9 @@ export default function Main(){
           setErrorMsg('Permission to access location was denied');
           return;
         }
-    
+        
         let location = await Location.getCurrentPositionAsync({});
-        console.log(location)
+        console.log('elo')
         setLocation(location.coords);
         setIsLocation(true)
     };
@@ -95,6 +98,9 @@ export default function Main(){
             }
             setParties(old => [...old, party])     
         });
+
+        
+
         setIsParties(true);
     }
 
@@ -108,6 +114,7 @@ export default function Main(){
             users.push({
                 ...doc.data(),
                 id: doc.id,
+                
               });
               
         });
@@ -118,7 +125,7 @@ export default function Main(){
 
     useEffect(() => {  
         setParties([]);
-        getLocation();
+        //getLocation();
         getParties();
         getUsers();
     }, [])

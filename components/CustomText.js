@@ -16,7 +16,7 @@ const CustomText = (props) => {
         fontFamily: fontFamily, 
         fontSize: props.size, 
         color: props.color ? props.color : colors.text,
-        
+        textAlign: props.align ? props.align : 'left'
       }}>
       {props.children}
     </Text>
