@@ -11,6 +11,7 @@ import {useTheme} from '../theme/ThemeProvider'
 import CustomText from './CustomText';
 
 const CustomInput = ({
+  defaultValue,
   control,
   name,
   rules = {},
@@ -40,15 +41,16 @@ const CustomInput = ({
               borderRadius: 10,
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'center',
+              //justifyContent: 'center',
               borderColor: error ? 'red' : '#e8e8e8',
               borderWidth: 1
             }}
           >
             <View
               style={{
-                width: '10%',
-                alignItems: 'center',
+                width: 40,
+                paddingLeft: 10,
+                //alignItems: 'center',
                 justifyContent: 'center'
               }}
             >
@@ -57,6 +59,7 @@ const CustomInput = ({
               
 
               <TextInput
+
                 style={{
                   width: '90%',
                   height: '100%',
@@ -65,6 +68,7 @@ const CustomInput = ({
                   color: colors.text,
                 }}
                 value={value}
+                defaultValue={defaultValue}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 placeholder={placeholder}
