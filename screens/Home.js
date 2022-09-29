@@ -50,7 +50,10 @@ export default function Main(){
     const [parties, setParties] = useState([])
     const [isParties, setIsParties] = useState(false)
 
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState({
+        latitude: 50,
+        longitude: 18
+    });
     const [isLocation, setIsLocation] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -122,7 +125,7 @@ export default function Main(){
 
     useEffect(() => {  
         setParties([]);
-        getLocation();
+        //getLocation();
         getParties();
         getUsers();
     }, [])

@@ -326,8 +326,8 @@ export default function AddEvent(){
                     </TouchableOpacity>
                 </View>
 
-                <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
-                    <CustomText align={'center'} color={colors.grey_d} size={h4}>Event type</CustomText>
+                <View style={{width: '100%', marginTop: 20}}>
+                    <CustomText color={colors.grey_d} size={h4}>Event type</CustomText>
                 </View>
 
                 <View style={{
@@ -372,8 +372,8 @@ export default function AddEvent(){
                     </TouchableOpacity>
                 </View>
 
-                <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
-                    <CustomText align={'center'} color={colors.grey_d} size={h4}>Event place</CustomText>
+                <View style={{width: '100%', marginTop: 20}}>
+                    <CustomText color={colors.grey_d} size={h4}>Event place</CustomText>
                 </View>
 
                 <View style={{
@@ -418,6 +418,34 @@ export default function AddEvent(){
                     </TouchableOpacity>
                 </View>
 
+                
+                <View style={{ width: '100%', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                    <CustomInput
+                        name="maxGuests"
+                        control={control}
+                        placeholder="Max guests"
+                        rules={{
+                            required: 'Title is required',
+                        }}
+                        size={12} 
+                        color={colors.grey_l} 
+                        icon={'people-outline'}
+                        keyboardType={'numeric'}
+                    />
+                </View>
+
+                <View style={{ width: '100%', height: 150, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                    <CustomInput
+                        name="description"
+                        control={control}
+                        placeholder="Description"
+                        size={12} 
+                        color={colors.grey_l} 
+                        icon={'people-outline'}
+                        multiline={true}
+                    />
+                </View>
+                
 
 
                 <TouchableOpacity 
@@ -428,6 +456,7 @@ export default function AddEvent(){
                         justifyContent: 'center', 
                         alignItems: 'center', 
                         marginTop: 20,
+                        marginBottom: 40,
                         borderRadius: 10,
                         backgroundColor: colors.primary
                     }}>

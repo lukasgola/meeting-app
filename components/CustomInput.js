@@ -19,7 +19,9 @@ const CustomInput = ({
   secureTextEntry,
   size,
   color,
-  icon
+  icon,
+  keyboardType,
+  multiline
 }) => {
 
   const {colors} = useTheme();
@@ -66,6 +68,7 @@ const CustomInput = ({
                   fontFamily: fontFamily,
                   fontSize: size,
                   color: colors.text,
+                  paddingRight: 20
                 }}
                 value={value}
                 defaultValue={defaultValue}
@@ -74,6 +77,8 @@ const CustomInput = ({
                 placeholder={placeholder}
                 placeholderTextColor={colors.grey_d}
                 secureTextEntry={secureTextEntry}
+                keyboardType={keyboardType}
+                multiline={multiline}
               />
           </View>
           {error && (
