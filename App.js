@@ -21,6 +21,7 @@ import LoginStack from './navigation/LoginStack';
 
 
 
+
 import { LogBox } from 'react-native';
 import _ from 'lodash';
 
@@ -52,6 +53,7 @@ export default function App() {
       onAuthStateChanged(auth, (user) => {
       if(user) {
           setIsUser(true)
+          alert('roxana')
       }
       else setIsUser(false)
       })
