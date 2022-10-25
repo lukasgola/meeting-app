@@ -53,7 +53,7 @@ export default function App() {
       onAuthStateChanged(auth, (user) => {
       if(user) {
           setIsUser(true)
-          alert('roxana')
+          alert('nikoś')
       }
       else setIsUser(false)
       })
