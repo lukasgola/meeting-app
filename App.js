@@ -1,11 +1,10 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
-import { StatusBar } from 'react-native';
-import * as Font from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { StatusBar, View, Text } from 'react-native';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 
-import {AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from './theme/ThemeProvider';
 
 import { CurrentUserProvider } from './currentUser/CurrentUserProvider';
@@ -35,17 +34,14 @@ if (message.indexOf('Setting a timer') <= -1) {
 };
 
 
-const getFonts = () => Font.loadAsync({
+export default function App() {
+
+  const [fontsLoaded] = useFonts({
     'inspiration': require('./assets/fonts/Inspiration-Regular.ttf'),
     'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
     'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
     'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf')
   });
-
-
-export default function App() {
-
-  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const [isUser, setIsUser] = useState(false);
 
@@ -58,34 +54,34 @@ export default function App() {
       })
   }, [])
 
-  
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
 
-
-  if(fontsLoaded){
-    return (
-      <AppearanceProvider>
-        <ThemeProvider>
-          <CurrentUserProvider>
-            <NavigationContainer> 
-              <StatusBar
-                  backgroundColor="#fff"
-                  barStyle="dark-content" // Here is where you change the font-color
-              />
-
-              {isUser ? <DrawerStack/> : <LoginStack/> }
-
-            </NavigationContainer> 
-          </CurrentUserProvider>
-        </ThemeProvider>
-      </AppearanceProvider>
-    );
+  if (!fontsLoaded) {
+    return undefined;
   } else {
-    return (
-      <AppLoading
-        startAsync={getFonts}
-        onFinish={()=> setFontsLoaded(true)}
-        onError={() => console.log('error')}
-      />
-    )
+    SplashScreen.hideAsync();
   }
+
+  
+  return (
+    
+      <ThemeProvider>
+        <CurrentUserProvider>
+          <NavigationContainer> 
+            <StatusBar
+                backgroundColor="#fff"
+                barStyle="dark-content" // Here is where you change the font-color
+            />
+
+            {isUser ? <DrawerStack/> : <LoginStack/> }
+
+          </NavigationContainer> 
+        </CurrentUserProvider>
+      </ThemeProvider>
+  );
 }
