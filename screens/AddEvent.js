@@ -11,6 +11,8 @@ import CustomText from '../components/CustomText';
 
 import CustomInput from '../components/CustomInput';
 
+import CustomMultilineInput from '../components/CustomMultilineInput';
+
 import {useForm, Controller} from 'react-hook-form';
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -336,7 +338,7 @@ export default function AddEvent(){
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginTop: 20
+                    marginTop: 10
                 }}> 
                     <TouchableOpacity 
                         onPress={() => setType('Private')}
@@ -382,7 +384,7 @@ export default function AddEvent(){
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginTop: 20
+                    marginTop: 10
                 }}> 
                     <TouchableOpacity 
                         onPress={() => setPlace('Indoor')}
@@ -434,14 +436,17 @@ export default function AddEvent(){
                     />
                 </View>
 
-                <View style={{ width: '100%', height: 150, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                    <CustomInput
+                <View style={{width: '100%', marginTop: 20}}>
+                    <CustomText color={colors.grey_d} size={h4}>Description</CustomText>
+                </View>
+
+                <View style={{ width: '100%', height: 150, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                    <CustomMultilineInput
                         name="description"
                         control={control}
-                        placeholder="Description"
+                        placeholder="Write a few words about the event ..."
                         size={12} 
                         color={colors.grey_l} 
-                        icon={'people-outline'}
                         multiline={true}
                     />
                 </View>

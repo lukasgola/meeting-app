@@ -10,7 +10,7 @@ import {useTheme} from '../theme/ThemeProvider'
 
 import CustomText from './CustomText';
 
-const CustomInput = ({
+const CustomMultilineInput = ({
   defaultValue,
   control,
   name,
@@ -41,25 +41,12 @@ const CustomInput = ({
               height: '100%',
               backgroundColor: color,
               borderRadius: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-              //justifyContent: 'center',
               borderColor: error ? 'red' : '#e8e8e8',
-              borderWidth: 1
+              borderWidth: 1,
+
             }}
           >
-            <View
-              style={{
-                width: 40,
-                paddingLeft: 10,
-                //alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Ionicons name={icon} size={size+4} color={colors.grey_d}/>
-            </View>
               
-
               <TextInput
 
                 style={{
@@ -68,7 +55,7 @@ const CustomInput = ({
                   fontFamily: fontFamily,
                   fontSize: size,
                   color: colors.text,
-                  paddingRight: 20
+                  padding: 10
                 }}
                 value={value}
                 defaultValue={defaultValue}
@@ -79,6 +66,7 @@ const CustomInput = ({
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType}
                 multiline={multiline}
+                textAlignVertical={'top'}
               />
           </View>
           {error && (
@@ -93,4 +81,4 @@ const CustomInput = ({
   );
 };
 
-export default CustomInput;
+export default CustomMultilineInput;
