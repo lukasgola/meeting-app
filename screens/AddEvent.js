@@ -19,9 +19,16 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import { addEvent, auth } from '../firebase/firebase-config';
+import { useCurrentUser } from '../currentUser/CurrentUserProvider';
+
+
+
 export default function AddEvent(){
 
     Geocoder.init("AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE");
+
+    const currentUser  = useCurrentUser();
 
     const navigation = useNavigation();
     const route = useRoute();
@@ -81,11 +88,28 @@ export default function AddEvent(){
 
     const { control, handleSubmit, formState: {errors} } = useForm();
 
-    const onSignIn = async data => {
-        const { title, date, time} = data;
-        console.log(title);
-        console.log(date);
-        console.log(time);
+    const onCreateEvent = async data => {
+        const { title, maxGuests, description} = data;
+        const event = {
+            title: title,
+            day: date.getDate(),
+            month: date.getMonth()+1,
+            year: date.getFullYear(),
+            hour: time.getHours(),
+            minutes: time.getMinutes(),
+            type: type,
+            place: place,
+            maxGuests: maxGuests,
+            description: description,
+            latitude: eventLocation.latitude,
+            longitude: eventLocation.longitude,
+            organizer_uid: auth.currentUser.uid,
+            organizer_username: currentUser.username,
+            organizer_avatar: currentUser.avatar,
+            organizer_score: currentUser.score
+
+        }
+        addEvent(event);
     };
 
     const [userLocation, setUserLocation] = useState(null);
@@ -138,6 +162,8 @@ export default function AddEvent(){
 
     const [type, setType] = useState('Private');
     const [place, setPlace] = useState('Indoor');
+
+
 
 
     return (
@@ -454,7 +480,7 @@ export default function AddEvent(){
 
 
                 <TouchableOpacity 
-                    onPress={handleSubmit(onSignIn)}
+                    onPress={handleSubmit(onCreateEvent)}
                     style={{ 
                         width: '100%', 
                         height: 50, 

@@ -111,15 +111,28 @@ export async function adduser(uid, email, username, avatar){
   }
 }
 
-export async function addEvent(){
+
+
+export async function addEvent(event){
   try {
-    const docRef = await addDoc(collection(db, "events"), {
-      username: username,
-      email: email,
-      avattar: avatar,
-      score: 2.5
+    await setDoc(doc(db, "users", event.organizer_uid), {
+      title: event.title,
+      day: event.day,
+      month: event.month,
+      year: event.year,
+      hour: event.hour,
+      minutes: event.minutes,
+      type: event.type,
+      place: event.place,
+      maxGuests: event.maxGuests,
+      description: event.description,
+      latitude: event.latitude,
+      longitude: event.longitude,
+      organizer_uid: event.organizer_uid,
+      organizer_username: event.organizer_username,
+      organizer_avatar: event.organizer_avatar,
+      organizer_score: event.organizer_score
     });
-    console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
