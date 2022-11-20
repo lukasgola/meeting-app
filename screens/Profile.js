@@ -12,7 +12,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import * as ImagePicker from 'expo-image-picker';
 
-import { uploadImage } from '../firebase/firebase-config'
+import { uploadImage, auth } from '../firebase/firebase-config'
 
 export default function Profile(){
 
@@ -28,7 +28,7 @@ export default function Profile(){
     const navigation = useNavigation();
     const route = useRoute();
 
-    const user = route.params.user;
+    const user = useCurrentUser();
 
     const data = [
         {
@@ -58,10 +58,11 @@ export default function Profile(){
         if (!result.canceled) {
           setAvatar(result.assets[0].uri);
         }
+        console.log(auth.currentUser.uid);
       };
 
       const upload = () => {
-        uploadImage(route.params.user.uid, avatar);
+        uploadImage(auth.currentUser.uid, avatar);
       }
 
     return (
