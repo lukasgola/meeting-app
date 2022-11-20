@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import { withBuildScriptExtMinimumVersion } from "@expo/config-plugins/build/android/Version";
 import { initializeApp } from "firebase/app";
 
 //Authentication
@@ -13,7 +14,7 @@ import {
 
 //Firestore
 import { getFirestore } from "firebase/firestore";
-import { collection, setDoc, getDoc, doc } from "firebase/firestore"; 
+import { collection, setDoc, getDoc, addDoc, doc } from "firebase/firestore"; 
 
 //Storage
 import { getStorage, ref, getDownloadURL, uploadBytes, putFile, put } from "firebase/storage";
@@ -62,7 +63,9 @@ export async function createUserWithEmail (username, email, password, avatar){
         .then((userCredential) => {
             // Signed in 
             verifyEmail();
-            uploadImage(userCredential.user.uid, username, email, avatar)
+            const image = uploadImage(userCredential.user.uid, avatar);
+            adduser(userCredential.user.uid, email, username, image)
+            //uploadImage(userCredential.user.uid, username, email, avatar)
         })
         .catch((error) => {
             console.log('error: ', error.message)
@@ -115,7 +118,8 @@ export async function adduser(uid, email, username, avatar){
 
 export async function addEvent(event){
   try {
-    await setDoc(doc(db, "users", event.organizer_uid), {
+    
+    const newEventRef = await addDoc(collection(db, "parties"), {
       title: event.title,
       day: event.day,
       month: event.month,
@@ -136,28 +140,37 @@ export async function addEvent(event){
   } catch (e) {
     console.error("Error adding document: ", e);
   }
+  console.log(event.organizer_uid)
 }
 
 
-export async function uploadImage(uid, email, username, avatar) {
-  let storageRef = ref(storage, `/profilePictures/${uid}`)
-  const response = await fetch(avatar.uri)
-  const blob = await response.blob();
+export async function uploadImage(uid, avatar) {
+
+  setUploading(true);
+
+  const response = await fetch(avatar);
+  const blob = response.blob();
+
+  var ref = storage.ref().child(`profilePictures/${uid}`).put(blob);
+
+  try{
+    await ref;
+  }
+  catch(e){
+    console.log(e);
+  }
+
+  setUploading(false);
+  alert("Photo uploaded");
   
-  console.log(JSON.stringify(avatar))
-  uploadBytes(storageRef, blob).then((snapshot) => {
-    getURL(uid, email, username, avatar).then(
-      console.log('success')
-    )
-  });
 }
 
 
-export async function getURL(uid, email, username, avatar) {
+export async function getURL(uid, avatar) {
   let storageRef = ref(storage, `/profilePictures/${uid}`)
   getDownloadURL(storageRef).then((url) => {
     console.log(url)
-    adduser(uid, username, email, url)
+    return url;
   })
 }
 

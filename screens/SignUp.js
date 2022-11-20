@@ -34,20 +34,21 @@ export default function SignUp(){
 
     const [avatar, setAvatar] = useState(null)
 
-    let openImagePickerAsync = async () => {
-        let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
     
-        if (permissionResult.granted === false) {
-          alert("Permission to access camera roll is required!");
-          return;
+        console.log(result);
+    
+        if (!result.canceled) {
+          setAvatar(result.assets[0].uri);
         }
-    
-        let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        if (pickerResult.cancelled === true) {
-            return;
-          }
-          setAvatar(pickerResult)
-    }
+      };
 
 
 
@@ -77,7 +78,7 @@ export default function SignUp(){
                 </View>
                 <View style={{ width: '100%', height: 180, justifyContent: 'space-around', alignItems: 'center', marginTop: 20 }}>
                     <TouchableOpacity 
-                        onPress={() => openImagePickerAsync()}
+                        onPress={() => pickImage()}
                         style={{width: 100, height: 100, borderRadius: 50, backgroundColor: colors.grey_l, justifyContent: 'center', alignItems: 'center'}}>
                         {avatar == null ? 
                             <Ionicons name='person-circle-outline' size={60} color={colors.grey_d} /> : 
@@ -86,7 +87,7 @@ export default function SignUp(){
                                 width: 100,
                                 height: 100,
                                 borderRadius: 50,
-                            }} source={{ uri: avatar.uri }} />
+                            }} source={{ uri: avatar }} />
                         }
                         
                     </TouchableOpacity>

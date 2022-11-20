@@ -1,4 +1,4 @@
-import React, {} from 'react';
+import React, { useState } from 'react';
 import {View, Dimensions, ScrollView, TouchableOpacity, ImageBackground, FlatList, StyleSheet} from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 
@@ -10,6 +10,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useCurrentUser } from '../currentUser/CurrentUserProvider'
 import { useNavigation, useRoute } from '@react-navigation/native';
 
+import * as ImagePicker from 'expo-image-picker';
+
+import { uploadImage } from '../firebase/firebase-config'
 
 export default function Profile(){
 
@@ -39,6 +42,27 @@ export default function Profile(){
         }
     ]
 
+    const [avatar, setAvatar] = useState();
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.canceled) {
+          setAvatar(result.assets[0].uri);
+        }
+      };
+
+      const upload = () => {
+        uploadImage(route.params.user.uid, avatar);
+      }
 
     return (
         <ScrollView style={{ flex: 1, backgroundColor: colors.grey_l }}>
@@ -64,11 +88,16 @@ export default function Profile(){
                     <CustomText >{user.email}</CustomText>
                 </View>
                 <View style={{width: width, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
-                    <TouchableOpacity style={[styles.side_button,{backgroundColor: colors.background}]}>
+                    <TouchableOpacity 
+                        style={[styles.side_button,{backgroundColor: colors.background}]}
+                        onPress={() => pickImage()}
+                    >
                             <Ionicons name='chatbubbles-outline' size={25} color={colors.primary} />
                     </TouchableOpacity>
                     <TouchableOpacity 
-                        style={[styles.follow_button,{backgroundColor: colors.primary, shadowColor: colors.primary}]}>
+                        style={[styles.follow_button,{backgroundColor: colors.primary, shadowColor: colors.primary}]}
+                        onPress={() => upload()}
+                    >
                         <CustomText weight='bold' color={colors.background}>FOLLOW</CustomText>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.side_button,{backgroundColor: colors.background}]}>
