@@ -61,10 +61,9 @@ export default function Profile(){
         console.log(auth.currentUser.uid);
       };
 
-      const upload = () => {
+      const upload = async () => {
         uploadImage(auth.currentUser.uid, avatar);
-      }
-
+    }
     return (
         <ScrollView style={{ flex: 1, backgroundColor: colors.grey_l }}>
             <ImageBackground 

@@ -17,6 +17,7 @@ import MapChoose from '../screens/MapChoose'
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import AddEvent from '../screens/AddEvent';
+import Avatar from '../screens/Avatar';
 
 import BottomTabs from './BottomTabs';
 
@@ -69,6 +70,10 @@ export default function MainStack() {
                                             <Ionicons name='create-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>,
                 }}
+            />
+            <Stack.Screen 
+                name='Avatar' 
+                component={Avatar}
             />
             <Stack.Screen 
                 name='Details' 

@@ -32,29 +32,10 @@ export default function SignUp(){
     
     const pwd = watch('password');
 
-    const [avatar, setAvatar] = useState(null)
-
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-    
-        console.log(result);
-    
-        if (!result.canceled) {
-          setAvatar(result.assets[0].uri);
-        }
-      };
-
-
 
     const onRegister = async data => {
         const {username, email, password} = data;  
-        createUserWithEmail(username, email, password, avatar);
+        createUserWithEmail(username, email, password);
     };
 
     const onTerms = () => {
@@ -76,23 +57,7 @@ export default function SignUp(){
                 <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center' }}>
                     <CustomText weight='bold' size={30}>Create an account</CustomText>
                 </View>
-                <View style={{ width: '100%', height: 180, justifyContent: 'space-around', alignItems: 'center', marginTop: 20 }}>
-                    <TouchableOpacity 
-                        onPress={() => pickImage()}
-                        style={{width: 100, height: 100, borderRadius: 50, backgroundColor: colors.grey_l, justifyContent: 'center', alignItems: 'center'}}>
-                        {avatar == null ? 
-                            <Ionicons name='person-circle-outline' size={60} color={colors.grey_d} /> : 
-                            <Image style={{
-                                position: 'absolute',
-                                width: 100,
-                                height: 100,
-                                borderRadius: 50,
-                            }} source={{ uri: avatar }} />
-                        }
-                        
-                    </TouchableOpacity>
-                    <CustomText color={colors.grey_d} weight='light' size={14}>Click to choose your profile picutre</CustomText>
-                </View>
+                
                 <View style={{ width: '100%', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                     
                     <CustomInput

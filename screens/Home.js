@@ -122,6 +122,16 @@ export default function Main(){
         setIsUsers(true);
     }
 
+    const checkUserAvatar = () => {
+        console.log(currentUser.avatar);
+        if(currentUser.avatar == null||currentUser.avatar == undefined){
+            navigation.navigate('Avatar')
+        }
+    }
+
+    useEffect(()=>{
+        checkUserAvatar();
+    },[currentUser])
 
     useEffect(() => {  
         setParties([]);

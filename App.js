@@ -5,7 +5,6 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 
-import {AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from './theme/ThemeProvider';
 
 import { CurrentUserProvider } from './currentUser/CurrentUserProvider';

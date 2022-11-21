@@ -58,14 +58,12 @@ export async function signInWithEmail (email, password){
 }
 
 
-export async function createUserWithEmail (username, email, password, avatar){
+export async function createUserWithEmail (username, email, password){
   return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
             verifyEmail();
-            const image = uploadImage(userCredential.user.uid, avatar);
-            adduser(userCredential.user.uid, email, username, image)
-            //uploadImage(userCredential.user.uid, username, email, avatar)
+            adduser(userCredential.user.uid, email, username)
         })
         .catch((error) => {
             console.log('error: ', error.message)
@@ -101,12 +99,12 @@ async function verifyEmail(){
 }
 
 
-export async function adduser(uid, email, username, avatar){
+export async function adduser(uid, email, username){
   try {
     await setDoc(doc(db, "users", uid), {
       username: username,
       email: email,
-      avatar: avatar,
+      avatar: null,
       score: 2.5
     });
   } catch (e) {

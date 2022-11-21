@@ -9,6 +9,7 @@ import CustomText from '../components/CustomText';
 //Screens
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
+import Avatar from '../screens/Avatar';
 import ForgotPassword from '../screens/ForgotPassword';
 
 
