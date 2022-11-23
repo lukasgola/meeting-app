@@ -14,7 +14,7 @@ import Home from '../screens/Home';
 import Details from '../screens/Details';
 import Map from '../screens/Map';
 import MapChoose from '../screens/MapChoose'
-import Profile from '../screens/Profile';
+import MyProfile from '../screens/MyProfile';
 import EditProfile from '../screens/EditProfile';
 import AddEvent from '../screens/AddEvent';
 import Avatar from '../screens/Avatar';
@@ -92,8 +92,8 @@ export default function MainStack() {
                 }}
             />
             <Stack.Screen 
-                name='Profile' 
-                component={Profile} 
+                name='Your Profile' 
+                component={MyProfile} 
             />
             <Stack.Screen 
                 name='EditProfile' 

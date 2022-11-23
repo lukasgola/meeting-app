@@ -14,7 +14,7 @@ import UserIcon from '../components/UserIcon';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-export default function Profile(){
+export default function MyProfile(){
 
     const width = Dimensions.get('window').width;
 
