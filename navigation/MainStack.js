@@ -92,8 +92,11 @@ export default function MainStack() {
                 }}
             />
             <Stack.Screen 
-                name='Your Profile' 
+                name='MyProfile' 
                 component={MyProfile} 
+                options={{
+                    title: 'Your Profile',
+                }}
             />
             <Stack.Screen 
                 name='EditProfile' 

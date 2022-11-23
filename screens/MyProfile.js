@@ -56,7 +56,7 @@ export default function MyProfile(){
             <View style={[styles.content,{backgroundColor: colors.background}]}>
                 <View style={{width: '100%', alignItems: 'center'}}>
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate('Avatar')}
+                        onPress={() => navigation.navigate('EditProfile')}
                         style={[styles.avatar, {backgroundColor: colors.background}]}>
                         <UserIcon size={100} photo={currentUser.avatar} score={currentUser.score} />
                     </TouchableOpacity>
