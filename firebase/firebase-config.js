@@ -14,10 +14,10 @@ import {
 
 //Firestore
 import { getFirestore } from "firebase/firestore";
-import { collection, setDoc, getDoc, addDoc, doc } from "firebase/firestore"; 
+import { collection, setDoc, getDoc, addDoc, doc, updateDoc } from "firebase/firestore"; 
 
 //Storage
-import { getStorage, ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, uploadBytesResumable, } from "firebase/storage";
 
 
 // Your web app's Firebase configuration
@@ -63,7 +63,7 @@ export async function createUserWithEmail (username, email, password){
         .then((userCredential) => {
             // Signed in 
             verifyEmail();
-            adduser(userCredential.user.uid, email, username)
+            adduser(userCredential.user.uid, email, username, null)
         })
         .catch((error) => {
             console.log('error: ', error.message)
@@ -99,13 +99,24 @@ async function verifyEmail(){
 }
 
 
-export async function adduser(uid, email, username){
+export async function adduser(uid, email, username, avatar){
   try {
     await setDoc(doc(db, "users", uid), {
       username: username,
       email: email,
-      avatar: null,
+      avatar: avatar,
       score: 2.5
+    });
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+export async function updateAvatar(uid, avatar){
+  try {
+    // Set the "capital" field of the city 'DC'
+    await updateDoc(doc(db, "users", uid), {
+      avatar: avatar
     });
   } catch (e) {
     console.error("Error adding document: ", e);

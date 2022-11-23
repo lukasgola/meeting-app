@@ -17,7 +17,7 @@ const TrendingUser = ({item}) => {
     const navigation = useNavigation();
 
     const onClickUser = (item) => {
-        navigation.navigate('Profile', {user: item})
+        navigation.navigate('Profile', {currentUser: item})
     }
 
 

@@ -5,10 +5,13 @@ import { auth, db } from '../firebase/firebase-config';
 import { getDoc, doc } from "firebase/firestore";
 
 export const CurrentUserContext = React.createContext({
-    email: 'none',
-    username: 'none',
-    avatar: 'https://i.picsum.photos/id/520/200/300.jpg?hmac=wYOWhYQGp5efB1HNroao-yTysVtEt5osptkdHJIsc0g',
-    score: 2.5
+    currentUser: {
+        email: 'none',
+        username: 'none',
+        avatar: 'https://i.picsum.photos/id/520/200/300.jpg?hmac=wYOWhYQGp5efB1HNroao-yTysVtEt5osptkdHJIsc0g',
+        score: 2.5
+    },
+    setCurrentUser: () => {}
 });
 
 export const CurrentUserProvider = (props) => {
@@ -40,8 +43,13 @@ export const CurrentUserProvider = (props) => {
         }
     }, [auth.currentUser]);
 
+    const user = {
+        currentUser,
+        setCurrentUser: setCurrentUser
+    }
+
   return (
-        <CurrentUserContext.Provider value={currentUser}>
+        <CurrentUserContext.Provider value={user}>
             {props.children}
         </CurrentUserContext.Provider>
     );

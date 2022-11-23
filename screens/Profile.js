@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, Dimensions, ScrollView, TouchableOpacity, ImageBackground, FlatList, StyleSheet} from 'react-native';
+
+//Hooks
 import {useTheme} from '../theme/ThemeProvider';
-
-import CustomText from '../components/CustomText';
-import UserIcon from '../components/UserIcon';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import { useCurrentUser } from '../currentUser/CurrentUserProvider'
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import * as ImagePicker from 'expo-image-picker';
+//Components
+import CustomText from '../components/CustomText';
+import UserIcon from '../components/UserIcon';
 
-import { uploadImage, auth } from '../firebase/firebase-config'
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 export default function Profile(){
 
@@ -28,7 +28,7 @@ export default function Profile(){
     const navigation = useNavigation();
     const route = useRoute();
 
-    const user = useCurrentUser();
+    const {currentUser, setCurrentUser} = useCurrentUser();
 
     const data = [
         {
@@ -42,32 +42,11 @@ export default function Profile(){
         }
     ]
 
-    const [avatar, setAvatar] = useState();
 
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-    
-        console.log(result);
-    
-        if (!result.canceled) {
-          setAvatar(result.assets[0].uri);
-        }
-        console.log(auth.currentUser.uid);
-      };
-
-      const upload = async () => {
-        uploadImage(auth.currentUser.uid, avatar);
-    }
     return (
         <ScrollView style={{ flex: 1, backgroundColor: colors.grey_l }}>
             <ImageBackground 
-                source={{uri: user.avatar}} 
+                source={{uri: currentUser.avatar}} 
                 resizeMode="cover" 
                 blurRadius={2}
                 opac
@@ -77,26 +56,24 @@ export default function Profile(){
             <View style={[styles.content,{backgroundColor: colors.background}]}>
                 <View style={{width: '100%', alignItems: 'center'}}>
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate('EditProfile')}
+                        onPress={() => navigation.navigate('Avatar')}
                         style={[styles.avatar, {backgroundColor: colors.background}]}>
-                        <UserIcon size={100} photo={user.avatar} score={user.score} />
+                        <UserIcon size={100} photo={currentUser.avatar} score={currentUser.score} />
                     </TouchableOpacity>
                 </View>
                 
                 <View style={styles.buttons_container}>
-                    <CustomText weight='bold' size={h2} >{user.username}</CustomText>
-                    <CustomText >{user.email}</CustomText>
+                    <CustomText weight='bold' size={h2} >{currentUser.username}</CustomText>
+                    <CustomText >{currentUser.email}</CustomText>
                 </View>
                 <View style={{width: width, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
                     <TouchableOpacity 
                         style={[styles.side_button,{backgroundColor: colors.background}]}
-                        onPress={() => pickImage()}
                     >
                             <Ionicons name='chatbubbles-outline' size={25} color={colors.primary} />
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={[styles.follow_button,{backgroundColor: colors.primary, shadowColor: colors.primary}]}
-                        onPress={() => upload()}
                     >
                         <CustomText weight='bold' color={colors.background}>FOLLOW</CustomText>
                     </TouchableOpacity>
@@ -107,7 +84,7 @@ export default function Profile(){
                 <View 
                     style={[styles.data_container, {borderColor: colors.grey_l,}]}>
                     <View style={styles.single_data}>
-                        <CustomText weight='bold' size={20}>{user.score}</CustomText>
+                        <CustomText weight='bold' size={20}>{currentUser.score}</CustomText>
                         <CustomText color={colors.grey_d}>Score</CustomText>
                     </View>
                     <View style={styles.single_data}>
@@ -167,7 +144,7 @@ export default function Profile(){
                         data={data}
                         renderItem={({item}) => (
                             <View style={{marginLeft: 20 }}>
-                                <UserIcon size={60} photo={user.avatar} score={user.score} />
+                                <UserIcon size={60} photo={currentUser.avatar} score={currentUser.score} />
                             </View>
                         )
                         }

@@ -17,7 +17,7 @@ export default function EditProfile(){
 
     return (
             <View style={containerStyle}>
-                <CustomText size={30}>Edit Profile</CustomText>
+                <CustomText size={30}>EditProfile</CustomText>
             </View>
     );
 }

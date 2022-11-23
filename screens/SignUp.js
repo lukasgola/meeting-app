@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {View, Dimensions, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
 
+//Hooks
 import {useTheme} from '../theme/ThemeProvider';
 import {useForm} from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
@@ -9,16 +10,10 @@ import { useNavigation } from '@react-navigation/native';
 import CustomText from '../components/CustomText';
 import CustomInput from '../components/CustomInput';
 
-//Image Picker
-import * as ImagePicker from 'expo-image-picker';
 
 //Firebase
 import { createUserWithEmail } from '../firebase/firebase-config'
 
-
-//Storage
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function SignUp(){
 

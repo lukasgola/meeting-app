@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, TouchableHighlight } from 'react-native';
 
-import {useTheme} from '../theme/ThemeProvider';
+//Hooks
+import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
-
 import { useCurrentUser } from '../currentUser/CurrentUserProvider'
 
 //Components
@@ -39,7 +39,8 @@ export default function Main(){
     const {colors} = useTheme();
     const navigation = useNavigation();
 
-    const currentUser  = useCurrentUser();
+    const { currentUser, setCurrentUser } = useCurrentUser();
+    
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
@@ -99,8 +100,6 @@ export default function Main(){
             setParties(old => [...old, party])     
         });
 
-        
-
         setIsParties(true);
     }
 
@@ -121,17 +120,6 @@ export default function Main(){
         setUsers(users)
         setIsUsers(true);
     }
-
-    const checkUserAvatar = () => {
-        console.log(currentUser.avatar);
-        if(currentUser.avatar == null||currentUser.avatar == undefined){
-            navigation.navigate('Avatar')
-        }
-    }
-
-    useEffect(()=>{
-        checkUserAvatar();
-    },[currentUser])
 
     useEffect(() => {  
         setParties([]);

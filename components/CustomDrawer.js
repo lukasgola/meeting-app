@@ -26,7 +26,7 @@ const CustomDrawer = (props) => {
 
     const navigation = useNavigation();
 
-    const currentUser  = useCurrentUser();
+    const { currentUser, setCurrentUser } = useCurrentUser();
 
 
 

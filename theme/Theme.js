@@ -14,10 +14,10 @@ export const lightColors = {
   
   // Dark theme colors
   export const darkColors = {
-    primary: '#8235bf',
-    primary_l: '#222',
-    secondary: '#ef66d8',
-    secondary_l :'#444',
+    primary: '#00d295',
+    primary_l: '#d7f6ed',
+    secondary: '#f9b411',
+    secondary_l :'#fbedcc',
     grey_l: '#222',
     grey: '#cbcbd7',
     grey_d: '#74747f',
