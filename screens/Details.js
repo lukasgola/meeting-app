@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {View, Platform, StyleSheet, Dimensions, ScrollView, FlatList, TouchableOpacity, ImageBackground, ActivityIndicator} from 'react-native';
 
+
+//Hooks
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation, useRoute } from '@react-navigation/native';
 

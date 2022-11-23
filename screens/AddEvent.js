@@ -1,27 +1,28 @@
 import React, {useState, useEffect} from 'react';
 import {View, Modal, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
+
+//Hooks
 import {useTheme} from '../theme/ThemeProvider';
-
 import { useNavigation, useRoute } from '@react-navigation/native';
+import {useForm, Controller} from 'react-hook-form';
 
+//Location
 import Geocoder from 'react-native-geocoding';
 import * as Location from "expo-location"
 
+//Components
 import CustomText from '../components/CustomText';
-
 import CustomInput from '../components/CustomInput';
-
 import CustomMultilineInput from '../components/CustomMultilineInput';
 
-import {useForm, Controller} from 'react-hook-form';
-
+//Date
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
+//Firebase
 import { addEvent, auth } from '../firebase/firebase-config';
 import { useCurrentUser } from '../currentUser/CurrentUserProvider';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function AddEvent(){

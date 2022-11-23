@@ -2,23 +2,21 @@ import React, {useState, useEffect} from 'react';
 import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, ActivityIndicator} from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 
-
+//Components
 import CustomText from '../components/CustomText';
 import CustomTextInput from '../components/CustomTextInput';
-
 import FlatListItem from '../components/FlatListItem';
 import PopularItem from '../components/PopularItem';
 import TrendingUser from '../components/TrendingUser';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-
 //Location
 import * as Location from "expo-location"
 
-//Firestore
+//Firebase
 import { db, auth } from '../firebase/firebase-config'
 import { collection, query, where, getDoc, getDocs, collectionGroup, limit } from "firebase/firestore";
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function Search({navigation}){

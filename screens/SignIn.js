@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {View, Dimensions, TouchableOpacity, Alert, KeyboardAvoidingView} from 'react-native';
 
+//Hooks
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';

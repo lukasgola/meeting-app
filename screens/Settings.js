@@ -1,7 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+
+//Hooks
 import {useTheme} from '../theme/ThemeProvider';
 
+//Components
 import CustomText from '../components/CustomText';
 
 export default function Settings(){

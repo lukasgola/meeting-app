@@ -13,11 +13,11 @@ import CustomInput from '../components/CustomInput';
 //Image Picker
 import * as ImagePicker from 'expo-image-picker';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 //Firebase
 import { uploadImage, auth, storage, updateAvatar } from '../firebase/firebase-config'
 import { ref, getDownloadURL } from "firebase/storage";
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function Avatar() {
