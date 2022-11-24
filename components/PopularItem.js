@@ -21,7 +21,7 @@ const PopularItem = ({item, location}) => {
     }
 
     return(
-        <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickParty(item)}>
+        <TouchableOpacity style={{marginRight: 0.05*width}} onPress={() => onClickParty(item)}>
             <View style={[styles.card, {width: 0.8*width, backgroundColor: colors.background}]}>
 
                 <CardItem item={item} location={location} />

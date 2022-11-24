@@ -162,6 +162,7 @@ export default function Main(){
                 renderItem={({item}) => <FlatListItem item={item} location={location} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
+                style={{width: width*0.9}}
                 ListHeaderComponent={
                     <View style={{ width: '100%', marginVertical: 20}}>
 
@@ -179,7 +180,6 @@ export default function Main(){
                                     borderRadius: 10,
                                     marginTop: 10,
                                     marginBottom: 20,
-                                    marginLeft: 0.025*width
                                 }}
                                 initialRegion={{
                                     latitude: 50.5107,
