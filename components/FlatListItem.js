@@ -24,7 +24,7 @@ const FlatListItem = ({item, location}) => {
     }
 
   return (
-    <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickParty(item)}>
+    <TouchableOpacity onPress={() => onClickParty(item)}>
         <View style={[styles.card, {width: 0.9*width, backgroundColor: colors.background}]}>
 
             <CardItem item={item} location={location} />         
