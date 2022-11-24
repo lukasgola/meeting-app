@@ -29,7 +29,8 @@ export default function AddEvent(){
 
     Geocoder.init("AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE");
 
-    const currentUser  = useCurrentUser();
+
+    const { currentUser } = useCurrentUser();
 
     const navigation = useNavigation();
     const route = useRoute();

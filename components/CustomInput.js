@@ -79,6 +79,7 @@ const CustomInput = ({
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType}
                 multiline={multiline}
+                autoCapitalize={"none"}
               />
           </View>
           {error && (

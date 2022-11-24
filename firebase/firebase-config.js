@@ -128,7 +128,7 @@ export async function updateAvatar(uid, avatar){
 export async function addEvent(event){
   try {
     
-    const newEventRef = await addDoc(collection(db, "parties"), {
+    await addDoc(collection(db, `users/${auth.currentUser.uid}/parties`), {
       title: event.title,
       day: event.day,
       month: event.month,
@@ -149,7 +149,6 @@ export async function addEvent(event){
   } catch (e) {
     console.error("Error adding document: ", e);
   }
-  console.log(event.organizer_uid)
 }
 
 
