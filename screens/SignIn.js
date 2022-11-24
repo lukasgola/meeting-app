@@ -41,7 +41,9 @@ export default function SignIn(){
 
     
     return (
-        <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  backgroundColor: colors.background }}>
+        <KeyboardAvoidingView 
+            behavior='padding'
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  backgroundColor: colors.background }}>
             <View style={{ width: 0.9*width }}>
                 <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                     <CustomText weight='bold' size={30} color={colors.primary}>MEETING</CustomText>

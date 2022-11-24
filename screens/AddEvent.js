@@ -168,7 +168,9 @@ export default function AddEvent(){
 
 
     return (
-        <KeyboardAvoidingView style={[styles.container, {backgroundColor: colors.background}]}>
+        <KeyboardAvoidingView 
+            behavior='position'
+            style={[styles.container, {backgroundColor: colors.background}]}>
             <ScrollView 
                 showsVerticalScrollIndicator={false}
                 style={{width: '90%'}}
