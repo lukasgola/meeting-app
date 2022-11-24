@@ -133,14 +133,16 @@ export async function addEvent(event){
       day: event.day,
       month: event.month,
       year: event.year,
-      hour: event.hour,
-      minutes: event.minutes,
+      time_hour: event.time_hour,
+      time_minute: event.time_minute,
       type: event.type,
       place: event.place,
+      actGuests: 0,
       maxGuests: event.maxGuests,
       description: event.description,
       latitude: event.latitude,
       longitude: event.longitude,
+      likes: 0
     });
   } catch (e) {
     console.error("Error adding document: ", e);

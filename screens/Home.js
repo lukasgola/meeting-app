@@ -121,12 +121,13 @@ export default function Main(){
         setIsUsers(true);
     }
 
+
     useEffect(() => {  
         setParties([]);
         //getLocation();
         getParties();
         getUsers();
-    }, [])
+    },[])
 
 
     const renderPopularItem = ({item}) => {

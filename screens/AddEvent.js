@@ -97,8 +97,8 @@ export default function AddEvent(){
             day: date.getDate(),
             month: date.getMonth()+1,
             year: date.getFullYear(),
-            hour: time.getHours(),
-            minutes: time.getMinutes(),
+            time_hour: time.getHours(),
+            time_minute: time.getMinutes(),
             type: type,
             place: place,
             maxGuests: maxGuests,
@@ -107,6 +107,7 @@ export default function AddEvent(){
             longitude: eventLocation.longitude
         }
         addEvent(event);
+        navigation.goBack();
     };
 
     const [userLocation, setUserLocation] = useState(null);

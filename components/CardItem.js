@@ -41,7 +41,7 @@ const CardItem = ({item, location}) => {
                 <View style={styles.card_main_info_row}>
                     <View style={{flexDirection: 'row', width: '40%',}}>
                         <Ionicons style={{marginRight: 5}} name='time-outline' size={16} color={colors.text} />
-                        <CustomText weight='bold' size={14} color={colors.text} >{item.hour}:{item.minutes}</CustomText>
+                        <CustomText weight='bold' size={14} color={colors.text} >{item.time_hour}:{item.time_minute}</CustomText>
                     </View>
 
                     <View style={{flexDirection: 'row', width: '40%',}}>
