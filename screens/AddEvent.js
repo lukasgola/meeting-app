@@ -24,6 +24,7 @@ import { addEvent, auth } from '../firebase/firebase-config';
 import { useCurrentUser } from '../currentUser/CurrentUserProvider';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useParties } from '../currentUser/PartiesProvider';
 
 
 export default function AddEvent(){
@@ -35,6 +36,8 @@ export default function AddEvent(){
 
     const navigation = useNavigation();
     const route = useRoute();
+
+    const {parties, setParties} = useParties();
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
@@ -103,11 +106,37 @@ export default function AddEvent(){
             time_minute: time.getMinutes(),
             type: type,
             place: place,
+            actGuests: 0,
             maxGuests: maxGuests,
             description: description,
             latitude: eventLocation.latitude,
-            longitude: eventLocation.longitude
+            longitude: eventLocation.longitude,
+            likes: 0,
         }
+        const party = {
+            id: auth.currentUser.uid,
+            title: title,
+            day: date.getDate(),
+            month: date.getMonth()+1,
+            year: date.getFullYear(),
+            time_hour: time.getHours(),
+            time_minute: time.getMinutes(),
+            type: type,
+            place: place,
+            actGuests: 0,
+            maxGuests: maxGuests,
+            description: description,
+            latitude: eventLocation.latitude,
+            longitude: eventLocation.longitude,
+            likes: 0,
+            organizer: {
+                avatar: currentUser.avatar,
+                email: currentUser.email,
+                score: currentUser.score,
+                username: currentUser.username
+            }
+        }
+        setParties([...parties, party]);
         addEvent(event);
         navigation.goBack();
     };

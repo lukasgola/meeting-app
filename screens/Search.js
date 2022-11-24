@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, ActivityIndicator} from 'react-native';
+
+//Hooks
 import {useTheme} from '../theme/ThemeProvider';
 
 //Components
@@ -17,6 +19,7 @@ import { db, auth } from '../firebase/firebase-config'
 import { collection, query, where, getDoc, getDocs, collectionGroup, limit } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useParties } from '../currentUser/PartiesProvider';
 
 
 export default function Search({navigation}){
@@ -31,10 +34,12 @@ export default function Search({navigation}){
 
     const {colors} = useTheme();
 
+    const { parties, setParties } = useParties();
+
     const [search, setSearch] = useState('');
 
     const [users, setUsers] = useState([])
-    const [parties, setParties] = useState([])
+    //const [parties, setParties] = useState([])
     const [isParties, setIsParties] = useState(false)
 
     const [location, setLocation] = useState(null);
@@ -53,37 +58,9 @@ export default function Search({navigation}){
         setIsLocation(true)
     };
 
-    const getParties = async () => {
-
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
-
-        querySnapshot.forEach( async (doc)  => {
-
-            const docRef = doc.ref.parent.parent;   
-            const userSnap = await getDoc(docRef);
-            const organizer = userSnap.data();
-
-            const party = {
-                ...doc.data(),
-                id: doc.id,
-                organizer: {
-                    avatar: organizer.avatar,
-                    email: organizer.email,
-                    score: organizer.score,
-                    username: organizer.username
-                }
-            }
-
-            setParties(old => [...old, party])
-                
-        });
-        setIsParties(true);
-    }
 
     useEffect(() => {
-        setParties([]);
         getLocation();
-        getParties();
     }, [])
 
 
@@ -150,7 +127,7 @@ export default function Search({navigation}){
     const renderFlatlist = (data) => {
         return(
             <FlatList
-                data={data.slice(0,3)}
+                data={data}
                 renderItem={({item}) => <FlatListItem item={item} location={location} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
@@ -165,7 +142,7 @@ export default function Search({navigation}){
         ) 
     }
     
-if(isLocation && isParties){
+if(isLocation){
     return (
         <View style={{
             flex: 1,
@@ -203,9 +180,3 @@ else{
 }
 }
 
-
-
-const styles = StyleSheet.create({
-    
-    
-})

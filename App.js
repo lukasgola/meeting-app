@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {ThemeProvider} from './theme/ThemeProvider';
 
 import { CurrentUserProvider } from './currentUser/CurrentUserProvider';
+import { PartiesProvider } from './currentUser/PartiesProvider';
 
 //Firebase
 import { auth } from "./firebase/firebase-config";
@@ -71,15 +72,17 @@ export default function App() {
     return (
         <ThemeProvider>
           <CurrentUserProvider>
-            <NavigationContainer> 
-              <StatusBar
-                  backgroundColor="#fff"
-                  barStyle="dark-content" // Here is where you change the font-color
-              />
+            <PartiesProvider>
+              <NavigationContainer> 
+                <StatusBar
+                    backgroundColor="#fff"
+                    barStyle="dark-content" // Here is where you change the font-color
+                />
 
-              {isUser ? <DrawerStack/> : <LoginStack/> }
+                {isUser ? <DrawerStack/> : <LoginStack/> }
 
-            </NavigationContainer> 
+              </NavigationContainer> 
+            </PartiesProvider>
           </CurrentUserProvider>
         </ThemeProvider>
     );

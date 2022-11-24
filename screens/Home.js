@@ -25,6 +25,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 //Firestore
 import { db, auth } from '../firebase/firebase-config'
 import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
+import { useParties } from '../currentUser/PartiesProvider';
 
 
 export default function Main(){
@@ -40,6 +41,7 @@ export default function Main(){
     const navigation = useNavigation();
 
     const { currentUser, setCurrentUser } = useCurrentUser();
+    const { parties, setParties } = useParties();
     
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
@@ -48,7 +50,6 @@ export default function Main(){
     const [users, setUsers] = useState([])
     const [isUsers, setIsUsers] = useState(false)
 
-    const [parties, setParties] = useState([])
     const [isParties, setIsParties] = useState(false)
 
     const [location, setLocation] = useState({
@@ -77,33 +78,6 @@ export default function Main(){
     };
 
 
-    const getParties = async () => {
-
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
-
-        querySnapshot.forEach( async (doc)  => {
-
-            const docRef = doc.ref.parent.parent;   
-            const userSnap = await getDoc(docRef);
-            const organizer = userSnap.data();
-
-            const party = {
-                ...doc.data(),
-                id: doc.id,
-                organizer: {
-                    avatar: organizer.avatar,
-                    email: organizer.email,
-                    score: organizer.score,
-                    username: organizer.username
-                }
-            }
-            setParties(old => [...old, party])     
-        });
-
-        setIsParties(true);
-    }
-
-
     const getUsers = async () => {
         const querySnapshot = await getDocs(collection(db, "users"));
 
@@ -123,9 +97,7 @@ export default function Main(){
 
 
     useEffect(() => {  
-        setParties([]);
         //getLocation();
-        getParties();
         getUsers();
     },[])
 
@@ -248,7 +220,7 @@ export default function Main(){
     }
 
         
-    if(isLocation && isUsers && isParties){
+    if(isLocation && isUsers && parties !== []){
         return (
             <View style={{
                 flex: 1,

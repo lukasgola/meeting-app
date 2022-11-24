@@ -137,12 +137,12 @@ export async function addEvent(event){
       time_minute: event.time_minute,
       type: event.type,
       place: event.place,
-      actGuests: 0,
+      actGuests: event.actGuests,
       maxGuests: event.maxGuests,
       description: event.description,
       latitude: event.latitude,
       longitude: event.longitude,
-      likes: 0
+      likes: event.likes
     });
   } catch (e) {
     console.error("Error adding document: ", e);
