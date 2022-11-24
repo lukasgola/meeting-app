@@ -162,11 +162,11 @@ export default function Main(){
                 renderItem={({item}) => <FlatListItem item={item} location={location} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
-                style={{width: width*0.9}}
+                style={{width: width}}
                 ListHeaderComponent={
-                    <View style={{ width: '100%', marginVertical: 20}}>
+                    <View style={{ width: width, marginVertical: 20}}>
 
-                        <View>
+                        <View style={{width: width*0.9, marginLeft: width*0.05 }}>
                             <View style={{ width: 0.9*width, flexDirection:'row' }}>
                                 <CustomText weight='bold' size={h1}>Welcome</CustomText>
                                 <CustomText weight='bold' size={h1} color={colors.primary}> {currentUser.username}</CustomText>
@@ -198,9 +198,8 @@ export default function Main(){
                         </View>
                         
 
-                        <View>
-                            <View
-                                style={{ width: 0.9*width, flexDirection:'row', justifyContent: 'space-between' }}>
+                        <View style={{width: width*0.9, marginLeft: width*0.05 }}>
+                            <View style={{ width: 0.9*width, flexDirection:'row', justifyContent: 'space-between' }}>
                                 <CustomText weight='bold' size={h2}>Popular Near You</CustomText>
                                 <TouchableOpacity
                                 >
@@ -216,9 +215,8 @@ export default function Main(){
                             {renderHorizontal(parties, renderPopularItem)}
                         </View>
                         
-                        <View>
-                            <View
-                                style={{ width: 0.9*width,flexDirection:'row',justifyContent: 'space-between' }}>
+                        <View style={{width: width*0.9, marginLeft: width*0.05 }}>
+                            <View style={{ width: 0.9*width,flexDirection:'row',justifyContent: 'space-between' }}>
                                 <CustomText weight='bold' size={h2}>Trending Users</CustomText>
                                 <TouchableOpacity
                                 >
@@ -233,7 +231,7 @@ export default function Main(){
                             {renderHorizontal(users, renderUser)}
                         </View>
 
-                        <View>
+                        <View style={{width: width*0.9, marginLeft: width*0.05 }}>
                             <View style={{ width: 0.9*width, flexDirection:'row', justifyContent: 'space-between' }}>
                                 <CustomText weight='bold' size={20}>Parties</CustomText>
                                 <TouchableOpacity>
