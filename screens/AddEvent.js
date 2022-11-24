@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Modal, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
 
+
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -36,6 +37,7 @@ export default function AddEvent(){
     const route = useRoute();
 
     const height = Dimensions.get('window').height;
+    const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
 
@@ -166,11 +168,12 @@ export default function AddEvent(){
 
     return (
         <KeyboardAvoidingView 
-            behavior='position'
+            keyboardVerticalOffset={50}
+            behavior= {Platform.OS == "ios" ? "padding" : "height"}
             style={[styles.container, {backgroundColor: colors.background}]}>
             <ScrollView 
                 showsVerticalScrollIndicator={false}
-                style={{width: '90%'}}
+                style={{width: width*0.9}}
             >
                 <View style={{width: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 20, marginBottom: 10}}>
                     <CustomText weight='bold' size={h1}>New</CustomText>
