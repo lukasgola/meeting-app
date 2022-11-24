@@ -14,8 +14,6 @@ import TrendingUser from '../components/TrendingUser';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-import parties from '../data/parties';
-import meetings from '../data/meetings';
 
 
 

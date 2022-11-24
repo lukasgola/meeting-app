@@ -117,7 +117,7 @@ export default function Main(){
               });
               
         });
-        setUsers(users)
+        setUsers(users);
         setIsUsers(true);
     }
 

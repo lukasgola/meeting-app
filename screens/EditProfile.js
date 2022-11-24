@@ -56,7 +56,7 @@ export default function EditProfile() {
           console.log(url)
           updateAvatar(auth.currentUser.uid, url);
           setCurrentUser({
-            username: "lolo",
+            username: currentUser.username,
             email: currentUser.email,
             avatar: url,
             score: currentUser.score

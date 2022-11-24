@@ -133,8 +133,8 @@ export default function AddEvent(){
         Geocoder.from(location.coords.latitude, location.coords.longitude)
 		.then(json => {
 
-            setAddress(json.results[0].formatted_address)
-            setIsAddress(true)
+            setAddress(json.results[0].formatted_address);
+            setIsAddress(true);
 		})
 		.catch(error => console.warn(error));
 

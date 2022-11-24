@@ -203,7 +203,7 @@ if(isLocation && isCity){
                             <View style={[styles.info_row_left, {width: '60%',backgroundColor: colors.grey_l}]}>
                                 <View style={styles.info_row_single}>
                                     <Ionicons style={{marginRight: 5}} name='time-outline' size={20} color={colors.primary} />
-                                    <CustomText weight='bold' size={h4} color={colors.primary} >{route.params.item.time_hour}:{route.params.item.time_minute}</CustomText>
+                                    <CustomText weight='bold' size={h4} color={colors.primary} >{route.params.item.time_hour}:{route.params.item.time_minute == 0 ? "00" : route.params.item.time_minute }</CustomText>
                                 </View>
                                 <View style={styles.info_row_single}>
                                     <Ionicons style={{marginRight: 5}} name='calendar-outline' size={20} color={colors.primary} />

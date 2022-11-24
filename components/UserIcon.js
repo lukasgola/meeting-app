@@ -39,7 +39,7 @@ const UserIcon = (props) => {
             width: props.size*0.85,
             height: props.size*0.85,
             borderRadius: props.size/2,
-        }} source={{ uri: props.photo ||  'https://i.picsum.photos/id/362/200/300.jpg?hmac=YjZiJWaqrdKL4xFhgrjDw4Ic2tPzNLV975FWRb8td0s' }} />
+        }} source={{ uri: props.photo ||  'https://firebasestorage.googleapis.com/v0/b/brynol-app.appspot.com/o/default-user-icon-4.jpg?alt=media&token=7f3c246c-5414-481d-a8a2-a2a6f3f4e5ab' }} />
     </View>
   );
 }

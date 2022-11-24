@@ -215,3 +215,10 @@ export async function getURL(uid, avatar) {
   })
 }
 
+export async function getDefaultURL() {
+  let storageRef = ref(storage, `/default-user-icon-4.jpg`);
+  getDownloadURL(storageRef).then((url) => {
+    console.log(url)
+    return url;
+  })
+}
