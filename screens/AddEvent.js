@@ -104,12 +104,7 @@ export default function AddEvent(){
             maxGuests: maxGuests,
             description: description,
             latitude: eventLocation.latitude,
-            longitude: eventLocation.longitude,
-            organizer_uid: auth.currentUser.uid,
-            organizer_username: currentUser.username,
-            organizer_avatar: currentUser.avatar,
-            organizer_score: currentUser.score
-
+            longitude: eventLocation.longitude
         }
         addEvent(event);
     };

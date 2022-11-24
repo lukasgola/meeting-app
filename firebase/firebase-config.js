@@ -141,10 +141,6 @@ export async function addEvent(event){
       description: event.description,
       latitude: event.latitude,
       longitude: event.longitude,
-      organizer_uid: event.organizer_uid,
-      organizer_username: event.organizer_username,
-      organizer_avatar: event.organizer_avatar,
-      organizer_score: event.organizer_score
     });
   } catch (e) {
     console.error("Error adding document: ", e);
