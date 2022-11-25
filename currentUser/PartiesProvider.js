@@ -33,8 +33,7 @@ export const PartiesProvider = (props) => {
                     username: organizer.username
                 }
             }
-            setParties(old => [...old, party])  
-            console.log(party);   
+            setParties(old => [...old, party])    
         });
     }
     

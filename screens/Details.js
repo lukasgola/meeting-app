@@ -24,6 +24,10 @@ import getDirections from 'react-native-google-maps-directions'
 
 
 
+import { auth, db } from '../firebase/firebase-config';
+import { doc, getDoc } from "firebase/firestore";
+
+
 export default function Details(){
 
     Geocoder.init("AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE");
@@ -95,6 +99,9 @@ export default function Details(){
             {latitude: userLocation.latitude, longitude: userLocation.longitude},
             {latitude: latitude, longitude: longitude},
         );
+        
+        alert(item.id);
+
         return Math.round(dis/1000);
     };
 
@@ -117,11 +124,31 @@ export default function Details(){
         }
         getDirections(data)
       }
+
+      const [ avatar, setAvatar ] = useState();
+
+      const getAvatar = async () => {
+
+        console.log(item.id);
+
+        const docRef = doc(db, "users", item.id);
+        const docSnap = await getDoc(docRef);
+
+        console.log("Document elo:", docRef);
+
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            return('elo');
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
+    }
     
 
     useEffect(() => {
         getLocation();
-
+        getAvatar();
         Geocoder.from(route.params.item.latitude, route.params.item.longitude)
 		.then(json => {
 		var addressComponent = json.results[1].address_components[2];
@@ -255,7 +282,7 @@ if(isLocation && isCity){
                             onPress={() => navigation.navigate('Profile', {user: route.params.item.organizer})}
                             style={[styles.organizer, {backgroundColor: colors.grey_l}]}>
                             <View style={styles.organizer_avatar}>
-                                <UserIcon size={60} photo={route.params.item.organizer.avatar} score={route.params.item.organizer.score} />
+                                <UserIcon size={60} userID={route.params.item.id} score={route.params.item.organizer.score} />
                                 <View style={{width: '100%', height: 5}}></View>
                                 <CustomText weight='bold' size={h4} color={colors.text} >{route.params.item.organizer.username}</CustomText>
                             </View>

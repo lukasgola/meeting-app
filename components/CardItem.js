@@ -24,13 +24,15 @@ const CardItem = ({item, location}) => {
             {latitude: location.latitude, longitude: location.longitude},
             {latitude: latitude, longitude: longitude},
         );
+
         return Math.round(dis/1000);
+
     };
 
     return(
         <View style={styles.card_main}>
             <View style={styles.card_main_image_view}>
-                <UserIcon size={80} photo={item.organizer.avatar} score={item.organizer.score} />
+                <UserIcon size={80} userID={item.id} score={item.organizer.score} />
             </View>
             <View style={[styles.card_main_info, {width: 0.6*width}]}>
                 <CustomText weight='bold' size={16} >{item.title}</CustomText>
