@@ -99,7 +99,7 @@ export default function Main(){
     useEffect(() => {  
         //getLocation();
         getUsers();
-    },[])
+    })
 
 
     const renderPopularItem = ({item}) => {
