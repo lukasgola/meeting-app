@@ -26,12 +26,7 @@ export const PartiesProvider = (props) => {
             const party = {
                 ...doc.data(),
                 id: doc.id,
-                organizer: {
-                    avatar: organizer.avatar,
-                    email: organizer.email,
-                    score: organizer.score,
-                    username: organizer.username
-                }
+                organizer: docRef.id
             }
             setParties(old => [...old, party])    
         });

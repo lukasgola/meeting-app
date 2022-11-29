@@ -99,8 +99,6 @@ export default function Details(){
             {latitude: userLocation.latitude, longitude: userLocation.longitude},
             {latitude: latitude, longitude: longitude},
         );
-        
-        alert(item.id);
 
         return Math.round(dis/1000);
     };
@@ -125,30 +123,30 @@ export default function Details(){
         getDirections(data)
       }
 
-      const [ avatar, setAvatar ] = useState();
+      const [ user, setUser ] = useState();
+      const [isUser, setIsUser] = useState(false);
 
-      const getAvatar = async () => {
+    const getUser = async () => {
 
-        console.log(item.id);
-
-        const docRef = doc(db, "users", item.id);
+        const docRef = doc(db, "users", item.organizer);
         const docSnap = await getDoc(docRef);
-
-        console.log("Document elo:", docRef);
 
         if (docSnap.exists()) {
             console.log("Document data:", docSnap.data());
-            return('elo');
+            setUser(docSnap.data());
+            setIsUser(true);
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
           }
     }
+
     
 
     useEffect(() => {
         getLocation();
-        getAvatar();
+        getUser();
+        console.log(item.organizer)
         Geocoder.from(route.params.item.latitude, route.params.item.longitude)
 		.then(json => {
 		var addressComponent = json.results[1].address_components[2];
@@ -159,7 +157,7 @@ export default function Details(){
 		.catch(error => console.warn(error));
     }, [])
 
-if(isLocation && isCity){
+if(isLocation && isCity && isUser){
     return (
         <View style={[styles.container, {height: '40%'}]}>
             <View style={[styles.footer,{
@@ -282,7 +280,7 @@ if(isLocation && isCity){
                             onPress={() => navigation.navigate('Profile', {user: route.params.item.organizer})}
                             style={[styles.organizer, {backgroundColor: colors.grey_l}]}>
                             <View style={styles.organizer_avatar}>
-                                <UserIcon size={60} userID={route.params.item.id} score={route.params.item.organizer.score} />
+                                <UserIcon size={60} avatar={user.avatar} score={user.score} />
                                 <View style={{width: '100%', height: 5}}></View>
                                 <CustomText weight='bold' size={h4} color={colors.text} >{route.params.item.organizer.username}</CustomText>
                             </View>

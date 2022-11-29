@@ -20,12 +20,11 @@ const TrendingUser = ({item}) => {
         navigation.navigate('Profile', {currentUser: item})
     }
 
-
     return(
         <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickUser(item)}>
             <View style={[styles.card,{width: 120, height: 140, backgroundColor: colors.background, alignItems: 'center'}]}>
                 <View style={{width: 80, height: 60, alignItems: 'center', justifyContent: 'center'}}>
-                    <UserIcon size={60} photo={item.avatar} score={item.score} />
+                    <UserIcon size={60} avatar={item.avatar} score={item.score} />
                 </View>
                 <View style={{width: 80, height: 30, alignItems: 'center', justifyContent: 'center'}}>
                     <CustomText  weight='bold' color={colors.text}>{item.username}</CustomText>

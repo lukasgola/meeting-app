@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
@@ -11,6 +11,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Locations
 import {getDistance} from 'geolib';
+
+
+import { auth, db } from '../firebase/firebase-config';
+import { doc, getDoc } from "firebase/firestore";
     
 
 const CardItem = ({item, location}) => {
@@ -25,14 +29,39 @@ const CardItem = ({item, location}) => {
             {latitude: latitude, longitude: longitude},
         );
 
+
         return Math.round(dis/1000);
 
     };
 
+    const [ user, setUser ] = useState();
+    const [isUser, setIsUser] = useState(false);
+
+    const getUser = async () => {
+
+        const docRef = doc(db, "users", item.organizer);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            setUser(docSnap.data());
+            setIsUser(true);
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
+    }
+
+    useEffect(() => {
+      getUser();
+    }, [])
+
+    
+if(isUser)
     return(
         <View style={styles.card_main}>
             <View style={styles.card_main_image_view}>
-                <UserIcon size={80} userID={item.id} score={item.organizer.score} />
+                <UserIcon size={80} avatar={user.avatar} score={user.score} />
             </View>
             <View style={[styles.card_main_info, {width: 0.6*width}]}>
                 <CustomText weight='bold' size={16} >{item.title}</CustomText>

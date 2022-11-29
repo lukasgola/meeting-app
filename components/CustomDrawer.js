@@ -57,7 +57,7 @@ const CustomDrawer = (props) => {
                 <TouchableOpacity 
                     onPress={() => navigation.navigate('MyProfile')}
                     style={styles.profile}>
-                    <UserIcon size={50} photo={currentUser.avatar} score={currentUser.score} />
+                    <UserIcon size={50} avatar={currentUser.avatar} score={currentUser.score} />
                     <View style={styles.name}>
                         <CustomText color={colors.text} weight='bold' size={14} style={styles.name}>{currentUser.username}</CustomText>
                         <CustomText color={colors.text} size={12} style={styles.name}>{currentUser.email}</CustomText>
