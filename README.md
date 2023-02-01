@@ -11,4 +11,4 @@
 
 ## Preview
 
-![](https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro1.png?raw=true | width=100)
+![](https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro1.png?raw=true){width=100}
