@@ -11,6 +11,4 @@
 
 ## Preview
 
-![](https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro1.png?raw=true){width=100}
-
-<img src='https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro1.png?raw=true' width=100 />
+<img src='https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro1.png?raw=true' width=300 />
