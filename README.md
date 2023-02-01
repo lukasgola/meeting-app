@@ -10,6 +10,8 @@
 - Firebase
 
 ## Preview
-
-<img src='https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro1.png?raw=true' width=300 />
-<img src='https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro1.png?raw=true' width=300 />
+<div>
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro1.png?raw=true' width=300 />
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro2.png?raw=true' width=300 />
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/images/pro3.png?raw=true' width=300 />
+</div>
