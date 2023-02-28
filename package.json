@@ -42,6 +42,7 @@
     "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-native-maps": "1.3.2",
     "react-native-maps-directions": "^1.9.0",
+    "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^14.0.0",
     "react-native-pager-view": "6.0.1",
     "react-native-reanimated": "^2.12.0",

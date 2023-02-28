@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Modal, StyleSheet, KeyboardAvoidingView, TextInput, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
+import {View, Modal, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
 
 
 //Hooks
@@ -27,6 +27,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useParties } from '../currentUser/PartiesProvider';
 
 import {Picker} from '@react-native-picker/picker';
+//import Modal from "react-native-modal";
 
 export default function AddEvent(){
 
@@ -59,6 +60,7 @@ export default function AddEvent(){
     const [timeString, setTimeString] = useState('Select time')
 
     const [category, setCategory] = useState('Transport')
+    const [tempCategory, setTempCategory] = useState(category);
 
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -95,10 +97,20 @@ export default function AddEvent(){
         hideDatePicker();
     };
 
+    const [isCategoryPickerVisible, setCategoryPickerVisibility] = useState(false);
 
     const showCategoryPicker = () =>{
-        
+        setCategoryPickerVisibility(true);
     }
+
+    const hideCategoryPicker = () => {
+        setCategoryPickerVisibility(false);
+    }
+
+    const handleCategoryConfirm = (category) => {
+        //setCategory(category);
+        //hideCategoryPicker();
+    };
 
 
     const { control, handleSubmit, formState: {errors} } = useForm();
@@ -199,6 +211,81 @@ export default function AddEvent(){
 
     const [type, setType] = useState('Private');
     const [place, setPlace] = useState('Indoor');
+
+
+
+    const CategoryModal = () => {
+        return(
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={isCategoryPickerVisible}
+                coverScreen={true}
+                style={{margin:0}}
+
+            >
+                <View 
+                    style={{
+                        backgroundColor:'rgba(0,0,0,0.4)',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        alignItems: 'center'
+                    }}>
+
+                    <View style={{backgroundColor: colors.background,width: '95%',borderRadius: 10}}>
+                        <Picker
+                            selectedValue={category}
+                            //onValueChange={(value) => handleCategoryConfirm(value)}
+                            //onPointerLeave={(value) => setCategory(value)}
+                            onPointerMove={(value) => setCategory(value)}
+                            
+                        >
+                            <Picker.Item label="Party" value="Party" />
+                            <Picker.Item label="Meeting" value="Meeting" />
+                            <Picker.Item label="Transport" value="Transport" />
+                            <Picker.Item label="Game" value="Game" />
+                            <Picker.Item label="Other" value="Other" />
+                        </Picker>
+
+                        <TouchableOpacity
+                        style={{
+                            height: 60,
+                            backgroundColor: colors.background,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderTopWidth: 1,
+                            borderColor: colors.grey_l
+                        
+                        }}
+                        onPress={() => handleCategoryConfirm(category)}
+                    >
+                        <Text style={{fontSize: 20, color: colors.primary}}>Confirm</Text>
+                    </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity
+                        style={{
+                            marginTop: 10,
+                            marginBottom: 30,
+                            width: '95%',
+                            height: 60,
+                            backgroundColor: colors.background,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        
+                        }}
+                        onPress={hideCategoryPicker}
+                    >
+                        <Text style={{fontSize: 20,fontWeight: 'bold',color: colors.primary}}>Cancel</Text>
+                    </TouchableOpacity>
+
+
+                </View>
+                
+            </Modal>
+        )
+    }
 
 
 
@@ -435,18 +522,7 @@ export default function AddEvent(){
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Picker
-                    selectedValue={category}
-                    onValueChange={(itemValue, itemIndex) =>
-                        setCategory(itemValue)
-                    }
-                >
-                    <Picker.Item label="Party" value="Party" />
-                    <Picker.Item label="Meeting" value="Meeting" />
-                    <Picker.Item label="Transport" value="Transport" />
-                    <Picker.Item label="Game" value="Game" />
-                    <Picker.Item label="Other" value="Other" />
-                </Picker>
+                <CategoryModal/>
                 
 
                 <View style={{width: '100%', marginTop: 20}}>
