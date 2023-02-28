@@ -26,6 +26,7 @@ import { useCurrentUser } from '../currentUser/CurrentUserProvider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useParties } from '../currentUser/PartiesProvider';
 
+import {Picker} from '@react-native-picker/picker';
 
 export default function AddEvent(){
 
@@ -56,6 +57,8 @@ export default function AddEvent(){
 
     const [time, setTime] = useState(new Date())
     const [timeString, setTimeString] = useState('Select time')
+
+    const [category, setCategory] = useState('Transport')
 
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -91,6 +94,11 @@ export default function AddEvent(){
         setDateString(date.getDate() + ' / ' + month + ' / ' + date.getFullYear())
         hideDatePicker();
     };
+
+
+    const showCategoryPicker = () =>{
+        
+    }
 
 
     const { control, handleSubmit, formState: {errors} } = useForm();
@@ -191,7 +199,6 @@ export default function AddEvent(){
 
     const [type, setType] = useState('Private');
     const [place, setPlace] = useState('Indoor');
-
 
 
 
@@ -387,6 +394,62 @@ export default function AddEvent(){
                 </View>
 
                 <View style={{width: '100%', marginTop: 20}}>
+                    <CustomText color={colors.grey_d} size={h4}>Event category</CustomText>
+                </View>
+
+                <View style={{
+                    width: '100%',
+                    height: 50,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginTop: 10
+                }}> 
+                    <View style={{width: '100%', height: '100%'}}>    
+                        <TouchableOpacity 
+                            onPress={showCategoryPicker}
+                            style={{
+                                width: '100%', 
+                                height: '100%', 
+                                flexDirection: 'row',
+                                backgroundColor: colors.grey_l,
+                                borderRadius: 10,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                //justifyContent: 'center',
+                                borderColor: '#e8e8e8',
+                                borderWidth: 1
+                            }}>
+                            <View
+                                style={{
+                                    width: 40,
+                                    paddingLeft: 10,
+                                    //alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                                >
+                                    <Ionicons name={'calendar-outline'} size={16} color={colors.grey_d}/>
+                            </View>
+                            
+                            <CustomText size={12} color={colors.text}>{category}</CustomText>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <Picker
+                    selectedValue={category}
+                    onValueChange={(itemValue, itemIndex) =>
+                        setCategory(itemValue)
+                    }
+                >
+                    <Picker.Item label="Party" value="Party" />
+                    <Picker.Item label="Meeting" value="Meeting" />
+                    <Picker.Item label="Transport" value="Transport" />
+                    <Picker.Item label="Game" value="Game" />
+                    <Picker.Item label="Other" value="Other" />
+                </Picker>
+                
+
+                <View style={{width: '100%', marginTop: 20}}>
                     <CustomText color={colors.grey_d} size={h4}>Event type</CustomText>
                 </View>
 
@@ -485,7 +548,7 @@ export default function AddEvent(){
                         control={control}
                         placeholder="Max guests"
                         rules={{
-                            required: 'Title is required',
+                            required: 'Required',
                         }}
                         size={12} 
                         color={colors.grey_l} 
