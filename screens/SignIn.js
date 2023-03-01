@@ -34,8 +34,7 @@ export default function SignIn(){
     };
 
     const onSignUp = () => {
-        //navigation.navigate('SignUp')
-        console.log(currentUser);
+        navigation.navigate('SignUp')
     }
 
     const onForgotPassword = () => {
