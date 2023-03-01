@@ -132,11 +132,9 @@ export default function Details(){
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
             setUser(docSnap.data());
             setIsUser(true);
           } else {
-            // doc.data() will be undefined in this case
             console.log("No such document!");
           }
     }
@@ -146,11 +144,9 @@ export default function Details(){
     useEffect(() => {
         getLocation();
         getUser();
-        console.log(item.organizer)
         Geocoder.from(route.params.item.latitude, route.params.item.longitude)
 		.then(json => {
 		var addressComponent = json.results[1].address_components[2];
-			//console.log(addressComponent);
             setCity(addressComponent.long_name)
             setIsCity(true)
 		})

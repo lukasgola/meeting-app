@@ -41,8 +41,6 @@ export default function EditProfile() {
             quality: 1,
         });
     
-        console.log(result);
-    
         if (!result.canceled) {
             setAvatar(result.assets[0].uri);
             uploadImage(auth.currentUser.uid, result.assets[0].uri);
@@ -53,7 +51,6 @@ export default function EditProfile() {
         
         let storageRef = ref(storage, `/profilePictures/${auth.currentUser.uid}`)
         getDownloadURL(storageRef).then((url) => {
-          console.log(url)
           updateAvatar(auth.currentUser.uid, url);
           setCurrentUser({
             username: currentUser.username,

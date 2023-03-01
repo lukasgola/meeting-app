@@ -179,7 +179,6 @@ return (
                 placeholder='Search'
                 onPress={(data, details = null) => {
                     // 'details' is provided when fetchDetails = true
-                    console.log(data, details);
                     onPlaceSelected(details);
 
                 }}

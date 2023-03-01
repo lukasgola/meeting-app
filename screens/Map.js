@@ -153,9 +153,6 @@ export default function Map(){
                     strokeWidth={3}
                     strokeColor={colors.text} 
                     onReady={result => {
-                        
-                        console.log(`Distance: ${result.distance} km`)
-                        console.log(`Duration: ${result.duration} min.`)
 
                         mapRef.current.fitToCoordinates(result.coordinates, {
                             edgePadding: {
@@ -246,7 +243,6 @@ export default function Map(){
                     placeholder='Search'
                     onPress={(data, details = null) => {
                         // 'details' is provided when fetchDetails = true
-                        console.log(data, details);
                         onPlaceSelected(details);
 
                     }}
