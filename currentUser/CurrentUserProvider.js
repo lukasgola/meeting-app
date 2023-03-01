@@ -22,9 +22,11 @@ export const CurrentUserProvider = (props) => {
         getDoc(doc(db, "users", auth.currentUser.uid))
         .then(docSnap => {
         if (docSnap.exists()) {
+            //console.log("Document data:", docSnap.data());
             const user = {
                 ...docSnap.data()
             }
+            //console.log(JSON.stringify(user))
             setCurrentUser(user)
         } else {
         // doc.data() will be undefined in this case
