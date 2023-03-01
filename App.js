@@ -87,7 +87,7 @@ export default function App() {
 
                 {isUser == 2 ? <DrawerStack/> : isUser == 0  ? <Indicator /> : <LoginStack/> }
 
-              </NavigationContainer> 
+              </NavigationContainer>
             </PartiesProvider>
           </CurrentUserProvider>
         </ThemeProvider>

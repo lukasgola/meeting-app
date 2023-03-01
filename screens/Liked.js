@@ -5,7 +5,6 @@ import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
 
 import CustomText from '../components/CustomText';
-import CustomTextInput from '../components/CustomTextInput';
 
 import FlatListItem from '../components/FlatListItem';
 import PopularItem from '../components/PopularItem';

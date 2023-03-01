@@ -6,7 +6,6 @@ import {useTheme} from '../theme/ThemeProvider';
 
 //Components
 import CustomText from '../components/CustomText';
-import CustomTextInput from '../components/CustomTextInput';
 import FlatListItem from '../components/FlatListItem';
 import PopularItem from '../components/PopularItem';
 import TrendingUser from '../components/TrendingUser';
