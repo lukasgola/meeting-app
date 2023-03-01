@@ -107,9 +107,9 @@ export default function AddEvent(){
         setCategoryPickerVisibility(false);
     }
 
-    const handleCategoryConfirm = (category) => {
-        //setCategory(category);
-        //hideCategoryPicker();
+    const handleCategoryConfirm = () => {
+        setCategory(tempCategory);
+        hideCategoryPicker();
     };
 
 
@@ -217,7 +217,7 @@ export default function AddEvent(){
     const CategoryModal = () => {
         return(
             <Modal
-                animationType="slide"
+                //animationType="slide"
                 transparent={true}
                 visible={isCategoryPickerVisible}
                 coverScreen={true}
@@ -234,10 +234,8 @@ export default function AddEvent(){
 
                     <View style={{backgroundColor: colors.background,width: '95%',borderRadius: 10}}>
                         <Picker
-                            selectedValue={category}
-                            //onValueChange={(value) => handleCategoryConfirm(value)}
-                            //onPointerLeave={(value) => setCategory(value)}
-                            onPointerMove={(value) => setCategory(value)}
+                            selectedValue={tempCategory}
+                            onValueChange={(value) => setTempCategory(value)}
                             
                         >
                             <Picker.Item label="Party" value="Party" />
@@ -258,7 +256,7 @@ export default function AddEvent(){
                             borderColor: colors.grey_l
                         
                         }}
-                        onPress={() => handleCategoryConfirm(category)}
+                        onPress={() => handleCategoryConfirm()}
                     >
                         <Text style={{fontSize: 20, color: colors.primary}}>Confirm</Text>
                     </TouchableOpacity>
