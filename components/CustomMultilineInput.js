@@ -2,9 +2,6 @@ import React from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 import {Controller} from 'react-hook-form';
 
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import {useTheme} from '../theme/ThemeProvider'
 
 
@@ -67,6 +64,7 @@ const CustomMultilineInput = ({
                 keyboardType={keyboardType}
                 multiline={multiline}
                 textAlignVertical={'top'}
+                selectionColor={colors.primary}
               />
           </View>
           {error && (
