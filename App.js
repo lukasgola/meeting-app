@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {ThemeProvider} from './theme/ThemeProvider';
 
 import { CurrentUserProvider } from './currentUser/CurrentUserProvider';
+
 import { PartiesProvider } from './currentUser/PartiesProvider';
 
 //Firebase
@@ -50,7 +51,6 @@ export default function App() {
       onAuthStateChanged(auth, (user) => {
       if(user) {
           setIsUser(true);
-          
       }
       else setIsUser(false);
       })
@@ -68,7 +68,6 @@ export default function App() {
   } else {
     SplashScreen.hideAsync();
   }
-
   
     return (
         <ThemeProvider>
