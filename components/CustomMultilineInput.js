@@ -40,12 +40,10 @@ const CustomMultilineInput = ({
               borderRadius: 10,
               borderColor: error ? 'red' : '#e8e8e8',
               borderWidth: 1,
-
             }}
           >
               
               <TextInput
-
                 style={{
                   width: '90%',
                   height: '100%',
