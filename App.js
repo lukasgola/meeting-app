@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
-import { StatusBar, View, Text } from 'react-native';
+import { StatusBar, View, Text, ActivityIndicator } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,14 +13,12 @@ import { PartiesProvider } from './currentUser/PartiesProvider';
 
 //Firebase
 import { auth } from "./firebase/firebase-config";
+
 import { onAuthStateChanged } from "firebase/auth";
 
 //Stacks
 import DrawerStack from './navigation/DrawerStack';
 import LoginStack from './navigation/LoginStack';
-
-
-
 
 
 import { LogBox } from 'react-native';
@@ -45,14 +43,15 @@ export default function App() {
     'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf')
   });
 
-  const [isUser, setIsUser] = useState(false);
+  const [isUser, setIsUser] = useState(0);
 
   useEffect(() => {
       onAuthStateChanged(auth, (user) => {
+        console.log(user);
       if(user) {
-          setIsUser(true);
+          setIsUser(2);
       }
-      else setIsUser(false);
+      else setIsUser(1);
       })
   }, [])
 
@@ -69,6 +68,13 @@ export default function App() {
     SplashScreen.hideAsync();
   }
   
+
+    const Indicator = () => {
+      <View styles={{flex:1}}>
+        <ActivityIndicator />
+      </View>
+    }
+
     return (
         <ThemeProvider>
           <CurrentUserProvider>
@@ -79,7 +85,7 @@ export default function App() {
                     barStyle="dark-content" // Here is where you change the font-color
                 />
 
-                {isUser ? <DrawerStack/> : <LoginStack/> }
+                {isUser == 2 ? <DrawerStack/> : isUser == 0  ? <Indicator /> : <LoginStack/> }
 
               </NavigationContainer> 
             </PartiesProvider>

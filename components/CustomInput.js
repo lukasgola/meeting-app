@@ -80,6 +80,7 @@ const CustomInput = ({
                 keyboardType={keyboardType}
                 multiline={multiline}
                 autoCapitalize={"none"}
+                selectionColor={colors.primary}
               />
           </View>
           {error && (
