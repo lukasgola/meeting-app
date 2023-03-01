@@ -43,7 +43,6 @@ const CardItem = ({item, location}) => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
             setUser(docSnap.data());
             setIsUser(true);
           } else {
