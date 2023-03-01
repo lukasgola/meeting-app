@@ -26,8 +26,8 @@ import { useCurrentUser } from '../currentUser/CurrentUserProvider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useParties } from '../currentUser/PartiesProvider';
 
-import {Picker} from '@react-native-picker/picker';
-//import Modal from "react-native-modal";
+//import {Picker} from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function AddEvent(){
 
@@ -216,72 +216,28 @@ export default function AddEvent(){
 
     const CategoryModal = () => {
         return(
-            <Modal
-                //animationType="slide"
-                transparent={true}
-                visible={isCategoryPickerVisible}
-                coverScreen={true}
-                style={{margin:0}}
+            <RNPickerSelect
+                onValueChange={(value) => console.log(value)}
+                style={{
+                    fontSize: 16,
+                    paddingTop: 13,
+                    paddingHorizontal: 10,
+                    paddingBottom: 12,
+                    borderWidth: 1,
+                    borderColor: 'gray',
+                    borderRadius: 4,
+                    backgroundColor: 'white',
+                    color: 'black',
 
-            >
-                <View 
-                    style={{
-                        backgroundColor:'rgba(0,0,0,0.4)',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        alignItems: 'center'
-                    }}>
+                }}
+                items={[
+                    { label: 'Football', value: 'football' },
+                    { label: 'Baseball', value: 'baseball' },
+                    { label: 'Hockey', value: 'hockey' },
+                ]}
+            />
 
-                    <View style={{backgroundColor: colors.background,width: '95%',borderRadius: 10}}>
-                        <Picker
-                            selectedValue={tempCategory}
-                            onValueChange={(value) => setTempCategory(value)}
-                            
-                        >
-                            <Picker.Item label="Party" value="Party" />
-                            <Picker.Item label="Meeting" value="Meeting" />
-                            <Picker.Item label="Transport" value="Transport" />
-                            <Picker.Item label="Game" value="Game" />
-                            <Picker.Item label="Other" value="Other" />
-                        </Picker>
-
-                        <TouchableOpacity
-                        style={{
-                            height: 60,
-                            backgroundColor: colors.background,
-                            borderRadius: 10,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderTopWidth: 1,
-                            borderColor: colors.grey_l
-                        
-                        }}
-                        onPress={() => handleCategoryConfirm()}
-                    >
-                        <Text style={{fontSize: 20, color: colors.primary}}>Confirm</Text>
-                    </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity
-                        style={{
-                            marginTop: 10,
-                            marginBottom: 30,
-                            width: '95%',
-                            height: 60,
-                            backgroundColor: colors.background,
-                            borderRadius: 10,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        
-                        }}
-                        onPress={hideCategoryPicker}
-                    >
-                        <Text style={{fontSize: 20,fontWeight: 'bold',color: colors.primary}}>Cancel</Text>
-                    </TouchableOpacity>
-
-
-                </View>
-                
-            </Modal>
+                    
         )
     }
 
@@ -491,8 +447,7 @@ export default function AddEvent(){
                     marginTop: 10
                 }}> 
                     <View style={{width: '100%', height: '100%'}}>    
-                        <TouchableOpacity 
-                            onPress={showCategoryPicker}
+                        <View 
                             style={{
                                 width: '100%', 
                                 height: '100%', 
@@ -513,14 +468,32 @@ export default function AddEvent(){
                                     justifyContent: 'center'
                                 }}
                                 >
-                                    <Ionicons name={'calendar-outline'} size={16} color={colors.grey_d}/>
+                                    <Ionicons name={'time-outline'} size={16} color={colors.grey_d}/>
                             </View>
-                            
-                            <CustomText size={12} color={colors.text}>{category}</CustomText>
-                        </TouchableOpacity>
+                            <RNPickerSelect
+                                onValueChange={(value) => setCategory(value)}
+                                style={{
+                                    fontSize: 16,
+                                    paddingTop: 13,
+                                    paddingHorizontal: 10,
+                                    paddingBottom: 12,
+                                    borderWidth: 1,
+                                    borderColor: 'gray',
+                                    borderRadius: 4,
+                                    backgroundColor: 'red',
+                                    color: 'red',
+
+                                }}
+                                items={[
+                                    { label: 'Football', value: 'football' },
+                                    { label: 'Baseball', value: 'baseball' },
+                                    { label: 'Hockey', value: 'hockey' },
+                                ]}
+                                value={category}
+                            />
+                        </View>
                     </View>
                 </View>
-                <CategoryModal/>
                 
 
                 <View style={{width: '100%', marginTop: 20}}>
