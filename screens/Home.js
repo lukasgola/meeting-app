@@ -72,6 +72,7 @@ export default function Main(){
         }
         
         let location = await Location.getCurrentPositionAsync({});
+        console.log('elo')
         setLocation(location.coords);
         setIsLocation(true)
     };
