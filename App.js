@@ -49,9 +49,10 @@ export default function App() {
   useEffect(() => {
       onAuthStateChanged(auth, (user) => {
       if(user) {
-          setIsUser(true)
+          setIsUser(true);
+          
       }
-      else setIsUser(false)
+      else setIsUser(false);
       })
   }, [])
 
