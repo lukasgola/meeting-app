@@ -33,7 +33,7 @@ export default function Search({navigation}){
 
     const {colors} = useTheme();
 
-    const { parties, setParties } = useParties();
+    const [parties, setParties] = useState();
 
     const [search, setSearch] = useState('');
 
