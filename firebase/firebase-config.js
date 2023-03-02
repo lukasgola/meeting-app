@@ -127,7 +127,6 @@ export async function updateAvatar(uid, avatar){
 
 export async function addEvent(event){
   try {
-    
     await addDoc(collection(db, `users/${auth.currentUser.uid}/parties`), {
       title: event.title,
       day: event.day,

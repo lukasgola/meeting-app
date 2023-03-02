@@ -40,10 +40,10 @@ export default function Main(){
     const navigation = useNavigation();
 
     const { currentUser, setCurrentUser } = useCurrentUser();
-    const { parties, setParties } = useParties();
     const { currentLocation, setCurrentLocation } = useCurrentLocation();
     
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState([]);
+    const [parties, setParties] = useState([]);
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
@@ -68,10 +68,31 @@ export default function Main(){
         setUsers(users);
     }
 
+    const getParties = async () => {
+
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+
+        querySnapshot.forEach((doc)  => { 
+            //const userSnap = await getDoc(docRef);
+            //const organizer = userSnap.data();
+
+            const party = {
+                ...doc.data(),
+                id: doc.id,
+                organizer: doc.ref.parent.parent.id
+            }
+            setParties(old => [...old, party])
+        });
+
+        //setParties(parties);
+
+    }
+
 
     useEffect(() => {  
         getUsers();
-    })
+        getParties();
+    }, [users, parties])
 
 
     const renderPopularItem = ({item}) => {

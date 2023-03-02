@@ -28,7 +28,7 @@ export const PartiesProvider = (props) => {
                 id: doc.id,
                 organizer: docRef.id
             }
-            setParties(old => [...old, party])    
+            setParties(old => [...old, party])
         });
     }
     

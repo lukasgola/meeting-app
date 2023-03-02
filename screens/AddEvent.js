@@ -143,7 +143,7 @@ export default function AddEvent(){
                 username: currentUser.username
             }
         }
-        setParties([...parties, party]);
+        setParties([]);
         addEvent(event);
         navigation.goBack();
     };

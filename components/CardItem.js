@@ -35,22 +35,36 @@ const CardItem = ({item}) => {
 
     };
 
-    const [ user, setUser ] = useState();
-    const [isUser, setIsUser] = useState(false);
+    const [ user, setUser ] = useState(null);
 
-    const getUser = async () => {
+    const getUser = () => {
+        getDoc(doc(db, "users", item.organizer))
+        .then(docSnap => {
+        if (docSnap.exists()) {
+            //console.log("Document data:", docSnap.data());
+            const user = {
+                ...docSnap.data()
+            }
+            setUser(user)
+        } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+        }
+        })
 
-        const docRef = doc(db, "users", item.organizer);
+        /*
+        console.log(item.id)
+        const docRef = doc(db, "users", item.id);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
             console.log("Document data:", docSnap.data());
             setUser(docSnap.data());
-            setIsUser(true);
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
           }
+          */
     }
 
     useEffect(() => {
@@ -58,7 +72,7 @@ const CardItem = ({item}) => {
     }, [])
 
     
-if(isUser)
+if(user)
     return(
         <View style={styles.card_main}>
             <View style={styles.card_main_image_view}>
