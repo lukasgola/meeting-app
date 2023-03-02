@@ -89,31 +89,20 @@ export default function Map(){
 
         const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
-        querySnapshot.forEach( async (doc)  => {
+        const parties = [];
+        
+        querySnapshot.forEach((doc) => { 
 
-            const docRef = doc.ref.parent.parent;   
-            const userSnap = await getDoc(docRef);
-            const organizer = userSnap.data();
-
-            const party = {
+            parties.push({
                 ...doc.data(),
                 id: doc.id,
-                organizer: {
-                    avatar: organizer.avatar,
-                    email: organizer.email,
-                    score: organizer.score,
-                    username: organizer.username
-                }
-            }
-
-            setParties(old => [...old, party])
-                
+                organizer: doc.ref.parent.parent.id
+            })            
         });
-        setIsParties(true);
+        setParties(parties);
     }
 
     useEffect(() => {
-        setParties([])
         if(route.params.isEvent){
             setSelectedPlaceId(route.params.item.id)
             setItem(route.params.item)
@@ -189,7 +178,7 @@ export default function Map(){
     }
 
 
-    if(isParties){
+    if(parties){
 
     return (
         <View style={{flex: 1}}>

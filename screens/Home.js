@@ -25,7 +25,9 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { db, auth } from '../firebase/firebase-config'
 import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
 import { useParties } from '../providers/PartiesProvider';
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
+import { getParties } from '../functions/getParties';
 
 export default function Main(){
 
@@ -44,6 +46,7 @@ export default function Main(){
     
     const [users, setUsers] = useState([]);
     const [parties, setParties] = useState([]);
+
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
@@ -68,31 +71,29 @@ export default function Main(){
         setUsers(users);
     }
 
+    
     const getParties = async () => {
 
         const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
-        querySnapshot.forEach((doc)  => { 
-            //const userSnap = await getDoc(docRef);
-            //const organizer = userSnap.data();
+        const parties = [];
+        
+        querySnapshot.forEach((doc) => { 
 
-            const party = {
+            parties.push({
                 ...doc.data(),
                 id: doc.id,
                 organizer: doc.ref.parent.parent.id
-            }
-            setParties(old => [...old, party])
+            })            
         });
-
-        //setParties(parties);
-
+        setParties(parties);
     }
-
+    
 
     useEffect(() => {  
         getUsers();
         getParties();
-    }, [users, parties])
+    },[])
 
 
     const renderPopularItem = ({item}) => {
