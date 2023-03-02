@@ -24,11 +24,11 @@ const CardItem = ({item}) => {
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
-    const {location, setLocation} = useCurrentLocation();
+    const {currentLocation, setCurrentLocation} = useCurrentLocation();
 
     const calculateDistance = (latitude, longitude) => {
         var dis = getDistance(
-            {latitude: location.latitude, longitude: location.longitude},
+            {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
             {latitude: latitude, longitude: longitude},
         );
         return Math.round(dis/1000);

@@ -15,6 +15,7 @@ import FlatListItem from '../components/FlatListItem';
 import PopularItem from '../components/PopularItem';
 import TrendingUser from '../components/TrendingUser';
 
+
 //Map
 import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
@@ -40,7 +41,7 @@ export default function Main(){
 
     const { currentUser, setCurrentUser } = useCurrentUser();
     const { parties, setParties } = useParties();
-    const { location, setLocation } = useCurrentLocation();
+    const { currentLocation, setCurrentLocation } = useCurrentLocation();
     
     const [users, setUsers] = useState([])
 
@@ -130,7 +131,7 @@ export default function Main(){
                                     longitudeDelta: 0.0421,
                                 }}
                                 provider={PROVIDER_GOOGLE}
-                                onPress={() => navigation.navigate('Map', { isEvent})}
+                                onPress={() => navigation.navigate('Map', { location: currentLocation, isEvent})}
                                 zoomEnabled={false}
                                 rotateEnabled={false}
                                 scrollEnabled={false}

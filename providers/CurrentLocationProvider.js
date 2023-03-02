@@ -13,7 +13,7 @@ export const CurrentLocationContext = React.createContext({
 
 export const CurrentLocationProvider = (props) => {
 
-    const [location, setLocation] = React.useState({})
+    const [currentLocation, setCurrentLocation] = React.useState({})
     const [isLocation, setIsLocation] = React.useState(false)
 
     const getLocation = async () => {
@@ -25,7 +25,7 @@ export const CurrentLocationProvider = (props) => {
         }
         
         let location = await Location.getCurrentPositionAsync({});
-        setLocation(location.coords);
+        setCurrentLocation(location.coords);
         setIsLocation(true)
     };
     
@@ -35,13 +35,13 @@ export const CurrentLocationProvider = (props) => {
         getLocation();
     }, []);
 
-    const currentLocation = {
-        location,
-        setCurrentLocation: setLocation
+    const location = {
+        currentLocation,
+        setCurrentLocation: setCurrentLocation
     }
 
   return (
-        <CurrentLocationContext.Provider value={currentLocation}>
+        <CurrentLocationContext.Provider value={location}>
             {props.children}
         </CurrentLocationContext.Provider>
     );

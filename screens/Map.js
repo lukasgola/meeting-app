@@ -38,6 +38,7 @@ export default function Map(){
     const route = useRoute();
     const mapRef = useRef();
 
+    const {currentLocation, setCurrentLocation} = useCurrentLocation();
 
     const DEFAULT_DELTA = {
         latitudeDelta: 0.0922,
@@ -53,12 +54,11 @@ export default function Map(){
     const [parties, setParties] = useState([])
     const [isParties, setIsParties] = useState(false)
 
-    const {location, setLocation} = useCurrentLocation();
     const [errorMsg, setErrorMsg] = useState(null);
 
     const [region, setRegion] = useState({
-        latitude: route.params.location ? route.params.location.latitude : location.latitude,
-        longitude: route.params.location ? route.params.location.longitude : location.longitude,
+        latitude: route.params.location.latitude,
+        longitude: route.params.location.longitude,
         latitudeDelta: DEFAULT_DELTA.latitudeDelta,
         longitudeDelta: DEFAULT_DELTA.longitudeDelta,
     });
@@ -133,7 +133,7 @@ export default function Map(){
         if(destination.latitude != null){
             return(
                 <MapViewDirections
-                    origin={region}
+                    origin={route.params.location}
                     destination={destination}
                     apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
                     strokeWidth={3}
@@ -197,7 +197,7 @@ export default function Map(){
     }
 
 
-    if(location && isParties){
+    if(isParties){
 
     return (
         <View style={{flex: 1}}>

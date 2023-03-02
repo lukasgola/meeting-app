@@ -16,6 +16,8 @@ import * as Location from "expo-location"
 import {getDistance} from 'geolib';
 import Geocoder from 'react-native-geocoding';
 
+import { useCurrentLocation } from '../providers/CurrentLocationProvider';
+
 //Map settings
 import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
@@ -58,11 +60,6 @@ export default function Details(){
     ]
     
 
-    const location = {
-        latitude: route.params.item.latitude,
-        longitude: route.params.item.longitude
-    }
-
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
     const isEvent = true;
@@ -76,27 +73,13 @@ export default function Details(){
         else setLike(true)
     }
 
-    const [userLocation, setUserLocation] = useState(null);
-    const [isLocation, setIsLocation] = useState(null);
+    const {currentLocation, setCurrentLocation} = useCurrentLocation();
 
     const [city, setCity] = useState(null);
-    const [isCity, setIsCity] = useState(false);
-
-    const getLocation = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          return;
-        }
-  
-        let location = await Location.getCurrentPositionAsync({});
-        setUserLocation(location.coords);
-        setIsLocation(true)
-    };
 
     const calculateDistance = (latitude, longitude) => {
         var dis = getDistance(
-            {latitude: userLocation.latitude, longitude: userLocation.longitude},
+            {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
             {latitude: latitude, longitude: longitude},
         );
 
@@ -106,8 +89,8 @@ export default function Details(){
     const handleGetDirections = (destLat, destLng) => {
         const data = {
            source: {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude
+            latitude: currentLocation.latitude,
+            longitude: currentLocation.longitude
           },
           destination: {
             latitude: destLat,
@@ -124,7 +107,6 @@ export default function Details(){
       }
 
       const [ user, setUser ] = useState();
-      const [isUser, setIsUser] = useState(false);
 
     const getUser = async () => {
 
@@ -134,7 +116,6 @@ export default function Details(){
         if (docSnap.exists()) {
             console.log("Document data:", docSnap.data());
             setUser(docSnap.data());
-            setIsUser(true);
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -144,7 +125,6 @@ export default function Details(){
     
 
     useEffect(() => {
-        getLocation();
         getUser();
         console.log(item.organizer)
         Geocoder.from(route.params.item.latitude, route.params.item.longitude)
@@ -157,7 +137,7 @@ export default function Details(){
 		.catch(error => console.warn(error));
     }, [])
 
-if(isLocation && isCity && isUser){
+if(currentLocation && city && user){
     return (
         <View style={[styles.container, {height: '40%'}]}>
             <View style={[styles.footer,{
@@ -183,7 +163,7 @@ if(isLocation && isCity && isUser){
                 <MapView 
                     style={{width: '100%', height: 300}} 
                     provider={PROVIDER_GOOGLE}
-                    onPress={() => navigation.navigate('Map', {location, isEvent, item})}
+                    onPress={() => navigation.navigate('Map', {location: { longitude: item.longitude, latitude: item.latitude}, isEvent, item})}
                     //customMapStyle={mapSettings}
                     initialRegion={{
                         latitude: route.params.item.latitude - 0.01,
