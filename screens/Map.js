@@ -9,8 +9,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
 
-//Location
-import * as Location from "expo-location"
+
+import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
 //Map
 import mapSettingsLight from '../data/mapSettingsLight';
@@ -53,13 +53,13 @@ export default function Map(){
     const [parties, setParties] = useState([])
     const [isParties, setIsParties] = useState(false)
 
-    const [userLocation, setUserLocation] = useState(null);
-    const [isLocation, setIsLocation] = useState(null);
+    const {location, setLocation} = useCurrentLocation();
+    const [isLocation, setIsLocation] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
 
     const [region, setRegion] = useState({
-        latitude: route.params.location.latitude,
-        longitude: route.params.location.longitude,
+        latitude: location.latitude,
+        longitude: location.longitude,
         latitudeDelta: DEFAULT_DELTA.latitudeDelta,
         longitudeDelta: DEFAULT_DELTA.longitudeDelta,
     });
@@ -89,19 +89,6 @@ export default function Map(){
         }
         moveTo(position)
     }
-
-
-    const getLocation = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          return;
-        }
-  
-        let location = await Location.getCurrentPositionAsync({});
-        setUserLocation(location.coords);
-        setIsLocation(true)
-    };
 
     const getParties = async () => {
 
@@ -138,7 +125,7 @@ export default function Map(){
             setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
         getParties();
-        getLocation();
+
 
     }, [])
 
@@ -147,7 +134,7 @@ export default function Map(){
         if(destination.latitude != null){
             return(
                 <MapViewDirections
-                    origin={userLocation}
+                    origin={location}
                     destination={destination}
                     apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
                     strokeWidth={3}
@@ -181,7 +168,7 @@ export default function Map(){
                         style={{position: 'absolute', width: 40, height: 40, zIndex: 1, right: 0, justifyContent: 'center', alignItems: 'center'}}>
                         <Ionicons name='close-outline' size={30} color={colors.text} />
                     </TouchableOpacity>
-                    <FlatListItem item={item} location={userLocation} />
+                    <FlatListItem item={item} />
                 </View>
                 
             )
@@ -210,7 +197,7 @@ export default function Map(){
     }
 
 
-    if(isLocation && isParties){
+    if(location && isParties){
 
     return (
         <View style={{flex: 1}}>
@@ -221,8 +208,8 @@ export default function Map(){
                 provider={PROVIDER_GOOGLE}
                 //customMapStyle={mapSettings}
                 initialRegion={{
-                    latitude: route.params.location.latitude,
-                    longitude: route.params.location.longitude,
+                    latitude: location.latitude,
+                    longitude: location.longitude,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}

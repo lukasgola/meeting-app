@@ -5,16 +5,12 @@ import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, 
 import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
 import { useCurrentUser } from '../providers/CurrentUserProvider';
-import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
 //Components
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
 import PopularItem from '../components/PopularItem';
 import TrendingUser from '../components/TrendingUser';
-
-//Location
-import * as Location from "expo-location"
 
 //Map
 import mapSettingsLight from '../data/mapSettingsLight';
@@ -43,7 +39,6 @@ export default function Main(){
 
     const { currentUser, setCurrentUser } = useCurrentUser();
     const { parties, setParties } = useParties();
-    const { location, setLocation } = useCurrentLocation();
     
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
@@ -86,7 +81,7 @@ export default function Main(){
 
     const renderPopularItem = ({item}) => {
         return(
-            <PopularItem item={item} navigation={navigation} location={location} />
+            <PopularItem item={item} navigation={navigation} />
         )
     }
 
@@ -113,7 +108,7 @@ export default function Main(){
         return(
             <FlatList
                 data={data.slice(0,3)}
-                renderItem={({item}) => <FlatListItem item={item} location={location} />}
+                renderItem={({item}) => <FlatListItem item={item} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 style={{width: width}}
@@ -142,7 +137,7 @@ export default function Main(){
                                     longitudeDelta: 0.0421,
                                 }}
                                 provider={PROVIDER_GOOGLE}
-                                onPress={() => navigation.navigate('Map', {location, isEvent})}
+                                onPress={() => navigation.navigate('Map', {isEvent})}
                                 zoomEnabled={false}
                                 rotateEnabled={false}
                                 scrollEnabled={false}

@@ -10,7 +10,7 @@ import ItemFooter from './ItemFooter';
 import { useNavigation } from '@react-navigation/native';
 
 
-const FlatListItem = ({item, location}) => {
+const FlatListItem = ({item}) => {
 
     const width = Dimensions.get('window').width;
 
@@ -27,7 +27,7 @@ const FlatListItem = ({item, location}) => {
     <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickParty(item)}>
         <View style={[styles.card, {width: width*0.9, backgroundColor: colors.background}]}>
 
-            <CardItem item={item} location={location} />         
+            <CardItem item={item} />         
             <ItemFooter item={item} />
             
         </View>

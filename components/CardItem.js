@@ -3,6 +3,8 @@ import { View, Dimensions, StyleSheet } from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
 
+import { useCurrentLocation } from '../providers/CurrentLocationProvider';
+
 //Components
 import UserIcon from '../components/UserIcon';
 import CustomText from './CustomText';
@@ -17,11 +19,12 @@ import { auth, db } from '../firebase/firebase-config';
 import { doc, getDoc } from "firebase/firestore";
     
 
-const CardItem = ({item, location}) => {
+const CardItem = ({item}) => {
 
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
+    const {location, setLocation} = useCurrentLocation();
 
     const calculateDistance = (latitude, longitude) => {
         var dis = getDistance(

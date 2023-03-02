@@ -9,7 +9,7 @@ import CardItem from '../components/CardItem';
 import ItemFooter from './ItemFooter';
 
 
-const PopularItem = ({item, location}) => {
+const PopularItem = ({item}) => {
 
     const width = Dimensions.get('window').width;
     
@@ -24,7 +24,7 @@ const PopularItem = ({item, location}) => {
         <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickParty(item)}>
             <View style={[styles.card, {width: 0.8*width, backgroundColor: colors.background}]}>
 
-                <CardItem item={item} location={location} />
+                <CardItem item={item} />
                 
                 <ItemFooter item={item} />
 
