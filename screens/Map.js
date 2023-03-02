@@ -47,10 +47,7 @@ export default function Map(){
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
     const [item, setItem] = useState(null);
-
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
-
-
     const [parties, setParties] = useState([])
     const [isParties, setIsParties] = useState(false)
 
@@ -84,7 +81,6 @@ export default function Map(){
                 longitude: details.geometry.location.lng,
                 latitudeDelta: DEFAULT_DELTA.latitudeDelta,
                 longitudeDelta: DEFAULT_DELTA.longitudeDelta
-        
         }
         moveTo(position)
     }
@@ -124,47 +120,43 @@ export default function Map(){
             setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
         getParties();
-
-
     }, [])
 
 
     const renderMapViewDirections = () => {
-        if(destination.latitude != null){
-            return(
-                <MapViewDirections
-                    origin={route.params.location}
-                    destination={destination}
-                    apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
-                    strokeWidth={3}
-                    strokeColor={colors.text} 
-                    onReady={result => {
-                        
-                        console.log(`Distance: ${result.distance} km`)
-                        console.log(`Duration: ${result.duration} min.`)
+        return(
+            <MapViewDirections
+                origin={route.params.location}
+                destination={destination}
+                apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
+                strokeWidth={3}
+                strokeColor={colors.text} 
+                onReady={result => {
+                    
+                    console.log(`Distance: ${result.distance} km`)
+                    console.log(`Duration: ${result.duration} min.`)
 
-                        mapRef.current.fitToCoordinates(result.coordinates, {
-                            edgePadding: {
-                              right: 100,
-                              bottom: 250,
-                              left: 100,
-                              top: 100,
-                            },
-                            animated: true
-                    })}}
-                />
-            )
-        }
+                    mapRef.current.fitToCoordinates(result.coordinates, {
+                        edgePadding: {
+                            right: 100,
+                            bottom: 250,
+                            left: 100,
+                            top: 100,
+                        },
+                        animated: true
+                })}}
+            />
+        )
     }
 
 
     const renderParty = () => {
         console.log(item);
-        if(selectedPlaceId != null){
+        if(selectedPlaceId !== null){
             return(
                 <View>
                     <TouchableOpacity 
-                        onPress={() => [setSelectedPlaceId(null), setDestination({latitude: null, longitude: null})]}
+                        onPress={() => [setSelectedPlaceId(null), setDestination({latitude: null, longitude: null}), setItem(null)]}
                         style={{position: 'absolute', width: 40, height: 40, zIndex: 1, right: 0, justifyContent: 'center', alignItems: 'center'}}>
                         <Ionicons name='close-outline' size={30} color={colors.text} />
                     </TouchableOpacity>
@@ -186,7 +178,7 @@ export default function Map(){
                         latitude: marker.latitude,
                         longitude: marker.longitude
                     }}
-                    onPress={() => [setSelectedPlaceId(marker.id), setItem(marker), setDestination({latitude: marker.latitude, longitude: marker.longitude})]}
+                    onPress={() => [setSelectedPlaceId(marker.id), setItem(marker), setDestination({latitude: marker.latitude, longitude: marker.longitude}), console.log(marker)]}
                 >
                     <Ionicons name='location' size={40} color={selectedPlaceId == marker.id ? colors.primary : colors.text} />
 
@@ -221,7 +213,6 @@ export default function Map(){
 
                 {renderMarkers()}
 
-                {renderMapViewDirections()}
 
                 
 

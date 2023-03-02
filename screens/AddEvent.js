@@ -59,7 +59,7 @@ export default function AddEvent(){
     const [time, setTime] = useState(new Date())
     const [timeString, setTimeString] = useState('Select time')
 
-    const [category, setCategory] = useState('Transport')
+    const [category, setCategory] = useState('Party')
 
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -113,7 +113,7 @@ export default function AddEvent(){
             place: place,
             actGuests: 0,
             maxGuests: maxGuests,
-            description: description,
+            description:  description ? description : 'none',
             latitude: eventLocation.latitude,
             longitude: eventLocation.longitude,
             likes: 0,

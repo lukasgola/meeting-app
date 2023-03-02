@@ -142,7 +142,8 @@ export async function addEvent(event){
       description: event.description,
       latitude: event.latitude,
       longitude: event.longitude,
-      likes: event.likes
+      likes: event.likes,
+      category: event.category
     });
   } catch (e) {
     console.error("Error adding document: ", e);
