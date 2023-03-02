@@ -93,7 +93,7 @@ export default function Main(){
     useEffect(() => {  
         getUsers();
         getParties();
-    },[])
+    },[parties])
 
 
     const renderPopularItem = ({item}) => {
