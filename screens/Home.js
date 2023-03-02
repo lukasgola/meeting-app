@@ -4,6 +4,8 @@ import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, 
 //Hooks
 import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
+
+//Providers
 import { useCurrentUser } from '../providers/CurrentUserProvider';
 
 //Components
@@ -16,8 +18,6 @@ import TrendingUser from '../components/TrendingUser';
 import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Firestore
 import { db, auth } from '../firebase/firebase-config'
@@ -40,18 +40,11 @@ export default function Main(){
     const { currentUser, setCurrentUser } = useCurrentUser();
     const { parties, setParties } = useParties();
     
+    const [users, setUsers] = useState([])
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
-
-    const [users, setUsers] = useState([])
-    const [isUsers, setIsUsers] = useState(false)
-
-    const [isParties, setIsParties] = useState(false)
-
-    const [isLocation, setIsLocation] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
-
 
     const isEvent = false;
 
@@ -70,7 +63,6 @@ export default function Main(){
               
         });
         setUsers(users);
-        setIsUsers(true);
     }
 
 
@@ -114,7 +106,6 @@ export default function Main(){
                 style={{width: width}}
                 ListHeaderComponent={
                     <View style={{ width: width, marginVertical: 20}}>
-
                         <View style={{width: width*0.9, marginLeft: width*0.05 }}>
                             <View style={{ width: 0.9*width, flexDirection:'row' }}>
                                 <CustomText weight='bold' size={h1}>Welcome</CustomText>
@@ -197,7 +188,7 @@ export default function Main(){
     }
 
         
-    if(isLocation && isUsers && parties !== []){
+    if(users && parties !== []){
         return (
             <View style={{
                 flex: 1,

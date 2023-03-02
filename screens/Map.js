@@ -9,7 +9,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
 
-
+//Providers
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
 //Map
@@ -54,7 +54,6 @@ export default function Map(){
     const [isParties, setIsParties] = useState(false)
 
     const {location, setLocation} = useCurrentLocation();
-    const [isLocation, setIsLocation] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
 
     const [region, setRegion] = useState({

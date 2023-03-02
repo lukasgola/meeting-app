@@ -10,7 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 import CustomText from '../components/CustomText';
 import CustomInput from '../components/CustomInput';
 
-
 //Firebase
 import { createUserWithEmail } from '../firebase/firebase-config'
 

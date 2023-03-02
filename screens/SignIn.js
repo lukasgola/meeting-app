@@ -13,8 +13,6 @@ import CustomInput from '../components/CustomInput';
 //Firebase
 import { signInWithEmail } from '../firebase/firebase-config'
 
-import { useCurrentUser } from '../providers/CurrentUserProvider'
-
 
 export default function SignIn(){
 
@@ -25,8 +23,6 @@ export default function SignIn(){
     const { control, handleSubmit, formState: {errors} } = useForm();
 
     const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-    const { currentUser, setCurrentUser } = useCurrentUser();
 
     const onSignIn = async data => {
         const { email, password} = data;
