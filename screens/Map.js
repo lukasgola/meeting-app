@@ -57,8 +57,8 @@ export default function Map(){
     const [errorMsg, setErrorMsg] = useState(null);
 
     const [region, setRegion] = useState({
-        latitude: location.latitude,
-        longitude: location.longitude,
+        latitude: route.params.location ? route.params.location.latitude : location.latitude,
+        longitude: route.params.location ? route.params.location.longitude : location.longitude,
         latitudeDelta: DEFAULT_DELTA.latitudeDelta,
         longitudeDelta: DEFAULT_DELTA.longitudeDelta,
     });
@@ -133,7 +133,7 @@ export default function Map(){
         if(destination.latitude != null){
             return(
                 <MapViewDirections
-                    origin={location}
+                    origin={region}
                     destination={destination}
                     apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
                     strokeWidth={3}
@@ -159,6 +159,7 @@ export default function Map(){
 
 
     const renderParty = () => {
+        console.log(item);
         if(selectedPlaceId != null){
             return(
                 <View>
@@ -207,10 +208,10 @@ export default function Map(){
                 provider={PROVIDER_GOOGLE}
                 //customMapStyle={mapSettings}
                 initialRegion={{
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    latitude: region.latitude,
+                    longitude: region.longitude,
+                    latitudeDelta: region.latitudeDelta,
+                    longitudeDelta: region.longitudeDelta,
                 }}
                 onRegionChange={reg => setRegion(reg)}
                 showsUserLocation={true}

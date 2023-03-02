@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 //Providers
 import { useCurrentUser } from '../providers/CurrentUserProvider';
+import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
 //Components
 import CustomText from '../components/CustomText';
@@ -39,6 +40,7 @@ export default function Main(){
 
     const { currentUser, setCurrentUser } = useCurrentUser();
     const { parties, setParties } = useParties();
+    const { location, setLocation } = useCurrentLocation();
     
     const [users, setUsers] = useState([])
 
@@ -128,7 +130,7 @@ export default function Main(){
                                     longitudeDelta: 0.0421,
                                 }}
                                 provider={PROVIDER_GOOGLE}
-                                onPress={() => navigation.navigate('Map', {isEvent})}
+                                onPress={() => navigation.navigate('Map', { isEvent})}
                                 zoomEnabled={false}
                                 rotateEnabled={false}
                                 scrollEnabled={false}
