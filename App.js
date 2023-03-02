@@ -11,6 +11,8 @@ import { CurrentUserProvider } from './providers/CurrentUserProvider';
 
 import { PartiesProvider } from './providers/PartiesProvider';
 
+import { CurrentLocationProvider } from './providers/CurrentLocationProvider';
+
 //Firebase
 import { auth } from "./firebase/firebase-config";
 
@@ -78,17 +80,19 @@ export default function App() {
     return (
         <ThemeProvider>
           <CurrentUserProvider>
-            <PartiesProvider>
-              <NavigationContainer> 
-                <StatusBar
-                    backgroundColor="#fff"
-                    barStyle="dark-content" // Here is where you change the font-color
-                />
+            <CurrentLocationProvider>
+              <PartiesProvider>
+                <NavigationContainer> 
+                  <StatusBar
+                      backgroundColor="#fff"
+                      barStyle="dark-content" // Here is where you change the font-color
+                  />
 
-                {isUser == 2 ? <DrawerStack/> : isUser == 0  ? <Indicator /> : <LoginStack/> }
+                  {isUser == 2 ? <DrawerStack/> : isUser == 0  ? <Indicator /> : <LoginStack/> }
 
-              </NavigationContainer>
-            </PartiesProvider>
+                </NavigationContainer>
+              </PartiesProvider>
+            </CurrentLocationProvider>
           </CurrentUserProvider>
         </ThemeProvider>
     );

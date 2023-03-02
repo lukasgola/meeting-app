@@ -4,7 +4,8 @@ import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, 
 //Hooks
 import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
-import { useCurrentUser } from '../providers/CurrentUserProvider'
+import { useCurrentUser } from '../providers/CurrentUserProvider';
+import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
 //Components
 import CustomText from '../components/CustomText';
@@ -42,6 +43,7 @@ export default function Main(){
 
     const { currentUser, setCurrentUser } = useCurrentUser();
     const { parties, setParties } = useParties();
+    const { location, setLocation } = useCurrentLocation();
     
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
@@ -52,26 +54,11 @@ export default function Main(){
 
     const [isParties, setIsParties] = useState(false)
 
-    const [location, setLocation] = useState(null);
     const [isLocation, setIsLocation] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
 
 
     const isEvent = false;
-
-
-    const getLocation = async () => {
-        
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          return;
-        }
-        
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location.coords);
-        setIsLocation(true)
-    };
 
 
     const getUsers = async () => {
@@ -93,7 +80,6 @@ export default function Main(){
 
 
     useEffect(() => {  
-        getLocation();
         getUsers();
     })
 
