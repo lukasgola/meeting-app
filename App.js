@@ -7,9 +7,9 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import {ThemeProvider} from './theme/ThemeProvider';
 
-import { CurrentUserProvider } from './currentUser/CurrentUserProvider';
+import { CurrentUserProvider } from './providers/CurrentUserProvider';
 
-import { PartiesProvider } from './currentUser/PartiesProvider';
+import { PartiesProvider } from './providers/PartiesProvider';
 
 //Firebase
 import { auth } from "./firebase/firebase-config";

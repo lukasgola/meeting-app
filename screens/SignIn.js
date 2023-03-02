@@ -13,7 +13,7 @@ import CustomInput from '../components/CustomInput';
 //Firebase
 import { signInWithEmail } from '../firebase/firebase-config'
 
-import { useCurrentUser } from '../currentUser/CurrentUserProvider'
+import { useCurrentUser } from '../providers/CurrentUserProvider'
 
 
 export default function SignIn(){

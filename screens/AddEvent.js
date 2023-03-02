@@ -21,10 +21,10 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 //Firebase
 import { addEvent, auth } from '../firebase/firebase-config';
-import { useCurrentUser } from '../currentUser/CurrentUserProvider';
+import { useCurrentUser } from '../providers/CurrentUserProvider';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useParties } from '../currentUser/PartiesProvider';
+import { useParties } from '../providers/PartiesProvider';
 
 //import {Picker} from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';

@@ -18,7 +18,7 @@ import { db, auth } from '../firebase/firebase-config'
 import { collection, query, where, getDoc, getDocs, collectionGroup, limit } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useParties } from '../currentUser/PartiesProvider';
+import { useParties } from '../providers/PartiesProvider';
 
 
 export default function Search({navigation}){

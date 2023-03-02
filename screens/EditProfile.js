@@ -4,7 +4,7 @@ import {View, Dimensions, TouchableOpacity, Image, KeyboardAvoidingView} from 'r
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useCurrentUser } from '../currentUser/CurrentUserProvider';
+import { useCurrentUser } from '../providers/CurrentUserProvider';
 
 //Components
 import CustomText from '../components/CustomText';

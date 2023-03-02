@@ -28,8 +28,6 @@ const CardItem = ({item, location}) => {
             {latitude: location.latitude, longitude: location.longitude},
             {latitude: latitude, longitude: longitude},
         );
-
-
         return Math.round(dis/1000);
 
     };

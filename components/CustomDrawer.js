@@ -5,7 +5,7 @@ import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 
 import {useTheme} from '../theme/ThemeProvider';
 
-import { useCurrentUser } from '../currentUser/CurrentUserProvider'
+import { useCurrentUser } from '../providers/CurrentUserProvider'
 
 //Components
 import CustomText from "./CustomText";

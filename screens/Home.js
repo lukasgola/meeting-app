@@ -4,7 +4,7 @@ import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, 
 //Hooks
 import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
-import { useCurrentUser } from '../currentUser/CurrentUserProvider'
+import { useCurrentUser } from '../providers/CurrentUserProvider'
 
 //Components
 import CustomText from '../components/CustomText';
@@ -25,7 +25,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 //Firestore
 import { db, auth } from '../firebase/firebase-config'
 import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
-import { useParties } from '../currentUser/PartiesProvider';
+import { useParties } from '../providers/PartiesProvider';
 
 
 export default function Main(){
@@ -52,10 +52,7 @@ export default function Main(){
 
     const [isParties, setIsParties] = useState(false)
 
-    const [location, setLocation] = useState({
-        latitude: 50,
-        longitude: 18
-    });
+    const [location, setLocation] = useState(null);
     const [isLocation, setIsLocation] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -72,7 +69,6 @@ export default function Main(){
         }
         
         let location = await Location.getCurrentPositionAsync({});
-        console.log('elo')
         setLocation(location.coords);
         setIsLocation(true)
     };
@@ -97,7 +93,7 @@ export default function Main(){
 
 
     useEffect(() => {  
-        //getLocation();
+        getLocation();
         getUsers();
     })
 

@@ -3,7 +3,7 @@ import {View, Dimensions, ScrollView, TouchableOpacity, ImageBackground, FlatLis
 
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
-import { useCurrentUser } from '../currentUser/CurrentUserProvider'
+import { useCurrentUser } from '../providers/CurrentUserProvider'
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 //Components
