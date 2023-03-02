@@ -60,7 +60,6 @@ export default function AddEvent(){
     const [timeString, setTimeString] = useState('Select time')
 
     const [category, setCategory] = useState('Transport')
-    const [tempCategory, setTempCategory] = useState(category);
 
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -97,20 +96,6 @@ export default function AddEvent(){
         hideDatePicker();
     };
 
-    const [isCategoryPickerVisible, setCategoryPickerVisibility] = useState(false);
-
-    const showCategoryPicker = () =>{
-        setCategoryPickerVisibility(true);
-    }
-
-    const hideCategoryPicker = () => {
-        setCategoryPickerVisibility(false);
-    }
-
-    const handleCategoryConfirm = () => {
-        setCategory(tempCategory);
-        hideCategoryPicker();
-    };
 
 
     const { control, handleSubmit, formState: {errors} } = useForm();
@@ -132,6 +117,7 @@ export default function AddEvent(){
             latitude: eventLocation.latitude,
             longitude: eventLocation.longitude,
             likes: 0,
+            category: category
         }
         const party = {
             id: auth.currentUser.uid,
@@ -149,6 +135,7 @@ export default function AddEvent(){
             latitude: eventLocation.latitude,
             longitude: eventLocation.longitude,
             likes: 0,
+            category: category,
             organizer: {
                 avatar: currentUser.avatar,
                 email: currentUser.email,
@@ -211,35 +198,6 @@ export default function AddEvent(){
 
     const [type, setType] = useState('Private');
     const [place, setPlace] = useState('Indoor');
-
-
-
-    const CategoryModal = () => {
-        return(
-            <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
-                style={{
-                    fontSize: 16,
-                    paddingTop: 13,
-                    paddingHorizontal: 10,
-                    paddingBottom: 12,
-                    borderWidth: 1,
-                    borderColor: 'gray',
-                    borderRadius: 4,
-                    backgroundColor: 'white',
-                    color: 'black',
-
-                }}
-                items={[
-                    { label: 'Football', value: 'football' },
-                    { label: 'Baseball', value: 'baseball' },
-                    { label: 'Hockey', value: 'hockey' },
-                ]}
-            />
-
-                    
-        )
-    }
 
 
 
@@ -473,21 +431,21 @@ export default function AddEvent(){
                             <RNPickerSelect
                                 onValueChange={(value) => setCategory(value)}
                                 style={{
-                                    fontSize: 16,
-                                    paddingTop: 13,
-                                    paddingHorizontal: 10,
-                                    paddingBottom: 12,
-                                    borderWidth: 1,
-                                    borderColor: 'gray',
-                                    borderRadius: 4,
-                                    backgroundColor: 'red',
-                                    color: 'red',
-
+                                    inputIOS:{
+                                        fontSize: 12,
+                                        fontFamily: 'Montserrat-Regular',
+                                        width: '100%',
+                                        height: '100%',
+                                        paddingRight: '100%'
+                                    }
+                                    
                                 }}
+                                placeholder={{}}
                                 items={[
-                                    { label: 'Football', value: 'football' },
-                                    { label: 'Baseball', value: 'baseball' },
-                                    { label: 'Hockey', value: 'hockey' },
+                                    { label: 'Party', value: 'party' },
+                                    { label: 'Meeting', value: 'meeting' },
+                                    { label: 'Game', value: 'game' },
+                                    { label: 'Other', value: 'other'}
                                 ]}
                                 value={category}
                             />
