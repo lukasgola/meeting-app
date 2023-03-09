@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Modal, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
-
+import {View, KeyboardAvoidingView, Alert, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
 
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
@@ -20,26 +19,18 @@ import CustomMultilineInput from '../components/CustomMultilineInput';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 //Firebase
-import { addEvent, auth } from '../firebase/firebase-config';
-import { useCurrentUser } from '../providers/CurrentUserProvider';
+import { addEvent } from '../firebase/firebase-config';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useParties } from '../providers/PartiesProvider';
 
-//import {Picker} from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
 
 export default function AddEvent(){
 
     Geocoder.init("AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE");
 
-
-    const { currentUser } = useCurrentUser();
-
     const navigation = useNavigation();
     const route = useRoute();
-
-    const {parties, setParties} = useParties();
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
@@ -51,17 +42,22 @@ export default function AddEvent(){
     const h3 = 16
     const h4 = 14
 
-    const [title, setTitle] = useState(null);
-
     const [date, setDate] = useState(new Date());
     const [dateString, setDateString] = useState('Select date')
 
     const [time, setTime] = useState(new Date())
     const [timeString, setTimeString] = useState('Select time')
 
+    const [eventLocation, setEventLocation] = useState(null)
+    const [address, setAddress] = useState(null);
+
     const [category, setCategory] = useState('Party')
 
+    const [type, setType] = useState('Private');
+    const [place, setPlace] = useState('Indoor');
+
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const showTimePicker = () => {
         setTimePickerVisibility(true);
@@ -77,10 +73,6 @@ export default function AddEvent(){
         hideTimePicker();
     };
 
-
-
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
@@ -89,7 +81,7 @@ export default function AddEvent(){
         setDatePickerVisibility(false);
     };
 
-    const handleConfirm = (date) => {
+    const handleDateConfirm = (date) => {
         setDate(date)
         let month = date.getMonth()+1;
         setDateString(date.getDate() + ' / ' + month + ' / ' + date.getFullYear())
@@ -101,60 +93,38 @@ export default function AddEvent(){
     const { control, handleSubmit, formState: {errors} } = useForm();
 
     const onCreateEvent = async data => {
-        const { title, maxGuests, description} = data;
-        const event = {
-            title: title,
-            day: date.getDate(),
-            month: date.getMonth()+1,
-            year: date.getFullYear(),
-            time_hour: time.getHours(),
-            time_minute: time.getMinutes(),
-            type: type,
-            place: place,
-            actGuests: 0,
-            maxGuests: maxGuests,
-            description:  description ? description : 'none',
-            latitude: eventLocation.latitude,
-            longitude: eventLocation.longitude,
-            likes: 0,
-            category: category
-        }
-        const party = {
-            id: auth.currentUser.uid,
-            title: title,
-            day: date.getDate(),
-            month: date.getMonth()+1,
-            year: date.getFullYear(),
-            time_hour: time.getHours(),
-            time_minute: time.getMinutes(),
-            type: type,
-            place: place,
-            actGuests: 0,
-            maxGuests: maxGuests,
-            description: description,
-            latitude: eventLocation.latitude,
-            longitude: eventLocation.longitude,
-            likes: 0,
-            category: category,
-            organizer: {
-                avatar: currentUser.avatar,
-                email: currentUser.email,
-                score: currentUser.score,
-                username: currentUser.username
-            }
-        }
-        setParties([]);
-        addEvent(event);
-        navigation.goBack();
+        Alert.alert('New Event', 'Do you want to public this event?', [
+        {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+        },
+        {
+            text: 'Yes',
+            onPress: () => {
+                const { title, maxGuests, description} = data;
+                const event = {
+                    title: title,
+                    day: date.getDate(),
+                    month: date.getMonth()+1,
+                    year: date.getFullYear(),
+                    time_hour: time.getHours(),
+                    time_minute: time.getMinutes(),
+                    type: type,
+                    place: place,
+                    actGuests: 0,
+                    maxGuests: maxGuests,
+                    description:  description ? description : 'none',
+                    latitude: eventLocation.latitude,
+                    longitude: eventLocation.longitude,
+                    likes: 0,
+                    category: category
+                }
+                addEvent(event);
+            }},
+        ]);
+        
     };
-
-    const [userLocation, setUserLocation] = useState(null);
-    const [isLocation, setIsLocation] = useState(null);
-
-    const [eventLocation, setEventLocation] = useState(null)
-
-    const [address, setAddress] = useState(null);
-    const [isAddress, setIsAddress] = useState(null);
 
     const getLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -164,15 +134,12 @@ export default function AddEvent(){
         }
   
         let location = await Location.getCurrentPositionAsync({});
-        setUserLocation(location.coords);
         setEventLocation(location.coords)
-        setIsLocation(true)
 
         Geocoder.from(location.coords.latitude, location.coords.longitude)
 		.then(json => {
 
             setAddress(json.results[0].formatted_address);
-            setIsAddress(true);
 		})
 		.catch(error => console.warn(error));
 
@@ -189,23 +156,16 @@ export default function AddEvent(){
             .then(json => {
 
                 setAddress(json.results[0].formatted_address)
-                setIsAddress(true)
             })
             .catch(error => console.warn(error));
             }
     }, [route.params?.eventLocation])
 
-
-    const [type, setType] = useState('Private');
-    const [place, setPlace] = useState('Indoor');
-
-
-
     return (
         <KeyboardAvoidingView 
             keyboardVerticalOffset={50}
             behavior= {Platform.OS == "ios" ? "padding" : "height"}
-            style={[styles.container, {backgroundColor: colors.background}]}>
+            style={{flex: 1,alignItems: 'center', backgroundColor: colors.background}}>
             <ScrollView 
                 showsVerticalScrollIndicator={false}
                 style={{width: width*0.9}}
@@ -260,7 +220,6 @@ export default function AddEvent(){
                                     borderRadius: 10,
                                     flexDirection: 'row',
                                     alignItems: 'center',
-                                    //justifyContent: 'center',
                                     borderColor: error ? 'red' : '#e8e8e8',
                                     borderWidth: 1
                                 }}>
@@ -268,7 +227,6 @@ export default function AddEvent(){
                                     style={{
                                         width: 40,
                                         paddingLeft: 10,
-                                        //alignItems: 'center',
                                         justifyContent: 'center'
                                     }}
                                     >
@@ -279,7 +237,7 @@ export default function AddEvent(){
                                 <DateTimePickerModal
                                     isVisible={isDatePickerVisible}
                                     mode="date"
-                                    onConfirm={(date) => [onChange(date), handleConfirm(date)]}
+                                    onConfirm={(date) => [onChange(date), handleDateConfirm(date)]}
                                     onCancel={hideDatePicker}
                                     themeVariant='light'
                                     isDarkModeEnabled={false}
@@ -316,7 +274,6 @@ export default function AddEvent(){
                                     borderRadius: 10,
                                     flexDirection: 'row',
                                     alignItems: 'center',
-                                    //justifyContent: 'center',
                                     borderColor: error ? 'red' : '#e8e8e8',
                                     borderWidth: 1
                                 }}>
@@ -324,7 +281,6 @@ export default function AddEvent(){
                                     style={{
                                         width: 40,
                                         paddingLeft: 10,
-                                        //alignItems: 'center',
                                         justifyContent: 'center'
                                     }}
                                     >
@@ -371,7 +327,6 @@ export default function AddEvent(){
                             borderRadius: 10,
                             flexDirection: 'row',
                             alignItems: 'center',
-                            //justifyContent: 'center',
                             borderColor: '#e8e8e8',
                             borderWidth: 1
                         }}>
@@ -379,7 +334,6 @@ export default function AddEvent(){
                             style={{
                                 width: 40,
                                 paddingLeft: 10,
-                                //alignItems: 'center',
                                 justifyContent: 'center'
                             }}
                             >
@@ -414,7 +368,6 @@ export default function AddEvent(){
                                 borderRadius: 10,
                                 flexDirection: 'row',
                                 alignItems: 'center',
-                                //justifyContent: 'center',
                                 borderColor: '#e8e8e8',
                                 borderWidth: 1
                             }}>
@@ -422,7 +375,6 @@ export default function AddEvent(){
                                 style={{
                                     width: 40,
                                     paddingLeft: 10,
-                                    //alignItems: 'center',
                                     justifyContent: 'center'
                                 }}
                                 >
@@ -576,9 +528,7 @@ export default function AddEvent(){
                         multiline={true}
                     />
                 </View>
-                
-
-
+            
                 <TouchableOpacity 
                     onPress={handleSubmit(onCreateEvent)}
                     style={{ 
@@ -595,23 +545,6 @@ export default function AddEvent(){
                 </TouchableOpacity>
 
             </ScrollView>
-            
-            
         </KeyboardAvoidingView>
     );
 }
-
-const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        alignItems: 'center',
-    },
-    input: {
-        width: '100%',
-        height: 40,
-        borderRadius: 10,
-        paddingHorizontal: 10,
-        fontFamily: 'Montserrat-Regular',
-        fontSize: 12
-    }
-})
