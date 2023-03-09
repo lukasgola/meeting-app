@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, TouchableHighlight } from 'react-native';
+import {View, FlatList, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 
 //Hooks
 import { useTheme } from '../theme/ThemeProvider';
@@ -22,12 +22,8 @@ import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 //Firestore
-import { db, auth } from '../firebase/firebase-config'
+import { db } from '../firebase/firebase-config'
 import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
-import { useParties } from '../providers/PartiesProvider';
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
-
-import { getParties } from '../functions/getParties';
 
 export default function Main(){
 
@@ -175,10 +171,20 @@ export default function Main(){
                             
                             <CustomText size={h4} color={colors.grey_d}>Best parties</CustomText>
                         </View>
+
+                        {parties ? 
                         
-                        <View style={{ marginTop: 10 }}>
-                            {renderHorizontal(parties, renderPopularItem)}
-                        </View>
+                            <View style={{ marginTop: 10 }}>
+                                {renderHorizontal(parties, renderPopularItem)}
+                            </View>
+
+                            : 
+                            
+                            <View style={{width: '100%', height: 170, justifyContent: 'center', alignItems: 'center'}}>
+                                <ActivityIndicator />
+                            </View>
+                        }
+                        
                         
                         <View style={{width: width*0.9, marginLeft: width*0.05 }}>
                             <View style={{ width: 0.9*width,flexDirection:'row',justifyContent: 'space-between' }}>
@@ -191,11 +197,20 @@ export default function Main(){
                             </View>
                             <CustomText size={h4} color={colors.grey_d}>Last week</CustomText>
                         </View>
-                        
-                        <View style={{marginTop: 10}}>
-                            {renderHorizontal(users, renderUser)}
-                        </View>
 
+                        {users ? 
+                        
+                            <View style={{marginTop: 10}}>
+                                {renderHorizontal(users, renderUser)}
+                            </View>
+
+                            : 
+                            
+                            <View style={{width: '100%', height: 170, justifyContent: 'center', alignItems: 'center'}}>
+                                <ActivityIndicator />
+                            </View>
+                        }
+                        
                         <View style={{width: width*0.9, marginLeft: width*0.05 }}>
                             <View style={{ width: 0.9*width, flexDirection:'row', justifyContent: 'space-between' }}>
                                 <CustomText weight='bold' size={20}>Parties</CustomText>
@@ -212,26 +227,15 @@ export default function Main(){
         ) 
     }
 
-        
-    if(users && parties !== []){
-        return (
-            <View style={{
-                flex: 1,
-                alignItems: 'center',
-                backgroundColor: colors.background
-            }}>
+    return (
+        <View style={{
+            flex: 1,
+            alignItems: 'center',
+            backgroundColor: colors.background
+        }}>
 
-                {renderFlatlist(parties)}               
-                
-            </View>
-        )
-    }else {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <ActivityIndicator />
-            </View>
-            
-        )
-    }
+            {renderFlatlist(parties)}
+        </View>
+    )
     
 }
