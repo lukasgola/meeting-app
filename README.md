@@ -14,5 +14,4 @@
   <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/pro1.png?raw=true' width=300 />
   <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/pro2.png?raw=true' width=300 />
   <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/pro3.png?raw=true' width=300 />
-  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/pro4.png?raw=true' width=300 />
 </div>
