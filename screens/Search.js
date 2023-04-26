@@ -7,18 +7,11 @@ import {useTheme} from '../theme/ThemeProvider';
 //Components
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
-import PopularItem from '../components/PopularItem';
-import TrendingUser from '../components/TrendingUser';
 
-//Location
-import * as Location from "expo-location"
-
-//Firebase
-import { db, auth } from '../firebase/firebase-config'
-import { collection, query, where, getDoc, getDocs, collectionGroup, limit } from "firebase/firestore";
+//Providers
+import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useParties } from '../providers/PartiesProvider';
 
 
 export default function Search({navigation}){
@@ -37,29 +30,12 @@ export default function Search({navigation}){
 
     const [search, setSearch] = useState('');
 
-    const [users, setUsers] = useState([])
-    //const [parties, setParties] = useState([])
-    const [isParties, setIsParties] = useState(false)
+    const { currentLocation, setCurrentLocation } = useCurrentLocation();
 
-    const [location, setLocation] = useState(null);
-    const [isLocation, setIsLocation] = useState(false);
-
-    const getLocation = async () => {
-        
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          return;
-        }
     
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location.coords);
-        setIsLocation(true)
-    };
-
 
     useEffect(() => {
-        getLocation();
+        //getLocation();
     }, [])
 
 
@@ -127,7 +103,7 @@ export default function Search({navigation}){
         return(
             <FlatList
                 data={data}
-                renderItem={({item}) => <FlatListItem item={item} location={location} />}
+                renderItem={({item}) => <FlatListItem item={item} location={currentLocation} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={
@@ -140,8 +116,8 @@ export default function Search({navigation}){
             />
         ) 
     }
-    
-if(isLocation){
+
+
     return (
         <View style={{
             flex: 1,
@@ -169,13 +145,5 @@ if(isLocation){
             
         </View>
     );
-}
-else{
-    return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <ActivityIndicator />
-        </View>
-    )
-}
 }
 

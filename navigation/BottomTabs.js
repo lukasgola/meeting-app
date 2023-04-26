@@ -6,10 +6,7 @@ import CustomText from '../components/CustomText';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from '../screens/Home';
-import Search from '../screens/Search';
 import Liked from '../screens/Liked';
-import Chats from '../screens/Chats';
 
 import HomeStack from './HomeStack';
 import SearchStack from './SearchStack';
@@ -63,12 +60,6 @@ const BottomTabs = () => {
             <Tab.Screen name='Liked' component={Liked} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='heart-outline' filled='heart' title='Liked' />
-                )
-            }}
-            />
-            <Tab.Screen name='Chats' component={Chats} options={{
-                tabBarIcon: ({focused}) => (
-                    <Item focused={focused} icon='chatbubbles-outline' filled='chatbubbles' title='Chats' />
                 )
             }}
             />
