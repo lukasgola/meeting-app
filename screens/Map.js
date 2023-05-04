@@ -49,7 +49,6 @@ export default function Map(){
     const [item, setItem] = useState(null);
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
     const [parties, setParties] = useState([])
-    const [isParties, setIsParties] = useState(false)
 
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -139,8 +138,7 @@ export default function Map(){
     }
 
 
-    const renderParty = () => {
-        console.log(item);
+    const renderPartyCard = () => {
         if(selectedPlaceId !== null){
             return(
                 <View>
@@ -151,7 +149,6 @@ export default function Map(){
                     </TouchableOpacity>
                     <FlatListItem item={item} />
                 </View>
-                
             )
         }
     }
@@ -167,7 +164,7 @@ export default function Map(){
                         latitude: marker.latitude,
                         longitude: marker.longitude
                     }}
-                    onPress={() => [setSelectedPlaceId(marker.id), setItem(marker), setDestination({latitude: marker.latitude, longitude: marker.longitude}), console.log(marker)]}
+                    onPress={() => markerClick(marker)}
                 >
                     <Ionicons name='location' size={40} color={selectedPlaceId == marker.id ? colors.primary : colors.text} />
 
@@ -177,6 +174,13 @@ export default function Map(){
         )
     }
 
+
+    const markerClick = (marker) => {
+        setSelectedPlaceId(marker.id)
+        setItem(marker)
+        setDestination({latitude: marker.latitude, longitude: marker.longitude})
+        renderMapViewDirections()
+    }
 
     if(parties){
 
@@ -257,7 +261,7 @@ export default function Map(){
             
 
             <View style={{position: 'absolute', bottom: 20}}>
-                {renderParty()}
+                {renderPartyCard()}
             </View>
 
         </View>
