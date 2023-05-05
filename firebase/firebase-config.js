@@ -22,12 +22,13 @@ import { getStorage, ref, getDownloadURL, uploadBytesResumable, } from "firebase
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCd2e4UPkyUCvts_oKush6gMhqr6RC1yOI",
-  authDomain: "brynol-app.firebaseapp.com",
-  projectId: "brynol-app",
-  storageBucket: "brynol-app.appspot.com",
-  messagingSenderId: "472747692296",
-  appId: "1:472747692296:web:cfcad86ad9035920bf1cbd"
+  apiKey: "AIzaSyAhzCq96cfjP6pZ2RJDhMwRvD5AzEvKLVI",
+  authDomain: "meeting-test-2b256.firebaseapp.com",
+  projectId: "meeting-test-2b256",
+  storageBucket: "meeting-test-2b256.appspot.com",
+  messagingSenderId: "712675183534",
+  appId: "1:712675183534:web:c404ea2daa8d86ea51d63f",
+  measurementId: "G-54HBMDYXCP"
 };
 
 // Initialize Firebase

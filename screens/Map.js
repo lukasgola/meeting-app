@@ -84,22 +84,6 @@ export default function Map(){
         moveTo(position)
     }
 
-    const getParties = async () => {
-
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
-
-        const parties = [];
-        
-        querySnapshot.forEach((doc) => { 
-
-            parties.push({
-                ...doc.data(),
-                id: doc.id,
-                organizer: doc.ref.parent.parent.id
-            })            
-        });
-        setParties(parties);
-    }
 
     useEffect(() => {
         if(route.params.isEvent){
@@ -107,7 +91,6 @@ export default function Map(){
             setItem(route.params.item)
             setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
-        getParties();
     }, [])
 
 

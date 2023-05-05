@@ -22,8 +22,8 @@ import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 //Firestore
-import { db } from '../firebase/firebase-config'
-import { collection, query, where, getDoc, getDocs, collectionGroup, limit, orderBy } from "firebase/firestore";
+import { db, app } from '../firebase/firebase-config'
+import { collection, getDocs, collectionGroup } from "firebase/firestore";
 
 export default function Main(){
 
@@ -80,14 +80,13 @@ export default function Main(){
                 ...doc.data(),
                 id: doc.id,
                 organizer: doc.ref.parent.parent.id
-            })            
+            })
         });
         setParties(parties);
     }
     
 
     useEffect(() => {  
-        getUsers();
         getParties();
     },[parties])
 
