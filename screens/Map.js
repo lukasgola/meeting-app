@@ -136,8 +136,6 @@ export default function Map(){
         }
     }
 
-
-
     const renderMarkers = () => {
         return(
             parties.map((marker) => (
