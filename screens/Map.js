@@ -31,26 +31,20 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Map(){
 
-    const width = Dimensions.get('window').width;
-
     const {colors} = useTheme();
-    const navigation = useNavigation();
     const route = useRoute();
     const mapRef = useRef();
 
-    const {currentLocation, setCurrentLocation} = useCurrentLocation();
 
     const DEFAULT_DELTA = {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     }
-    const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
     const [item, setItem] = useState(null);
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
     const [parties, setParties] = useState([])
 
-    const [errorMsg, setErrorMsg] = useState(null);
 
     const [region, setRegion] = useState({
         latitude: route.params.location.latitude,
@@ -76,11 +70,12 @@ export default function Map(){
     
     const onPlaceSelected = (details) => {
         const position = {
-                latitude: details.geometry.location.lat,
-                longitude: details.geometry.location.lng,
+                latitude: details.latitude,
+                longitude: details.longitude,
                 latitudeDelta: DEFAULT_DELTA.latitudeDelta,
                 longitudeDelta: DEFAULT_DELTA.longitudeDelta
         }
+        console.log(position)
         moveTo(position)
     }
 
@@ -110,33 +105,6 @@ export default function Map(){
             })
         });
         setParties(parties);
-    }
-
-
-    const renderMapViewDirections = () => {
-        return(
-            <MapViewDirections
-                origin={route.params.location}
-                destination={destination}
-                apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
-                strokeWidth={3}
-                strokeColor={colors.text} 
-                onReady={result => {
-                    
-                    console.log(`Distance: ${result.distance} km`)
-                    console.log(`Duration: ${result.duration} min.`)
-
-                    mapRef.current.fitToCoordinates(result.coordinates, {
-                        edgePadding: {
-                            right: 100,
-                            bottom: 250,
-                            left: 100,
-                            top: 100,
-                        },
-                        animated: true
-                })}}
-            />
-        )
     }
 
 
@@ -179,7 +147,7 @@ export default function Map(){
         setSelectedPlaceId(marker.id)
         setItem(marker)
         setDestination({latitude: marker.latitude, longitude: marker.longitude})
-        renderMapViewDirections()
+        onPlaceSelected({latitude: marker.latitude, longitude: marker.longitude})
     }
 
     if(parties){
@@ -205,6 +173,34 @@ export default function Map(){
             >
 
                 {renderMarkers()}
+
+                {destination.latitude != null ? 
+                    <MapViewDirections
+                        origin={route.params.location}
+                        destination={destination}
+                        strokeWidth={3}
+                        strokeColor={colors.text}
+                        mode="WALKING"
+                        apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
+                        onReady={result => {
+
+                            //setDistance(result.distance);
+                            //setDuration(result.duration);
+
+                            console.log(`Distance: ${result.distance} km`)
+                            console.log(`Duration: ${result.duration} min.`)
+
+                            mapRef.current.fitToCoordinates(result.coordinates, {
+                                edgePadding: {
+                                    right: 100,
+                                    bottom: 250,
+                                    left: 100,
+                                    top: 100,
+                                },
+                                animated: true
+                            })}}
+                    />
+                    : <View></View>}
 
 
 
