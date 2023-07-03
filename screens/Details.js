@@ -22,7 +22,7 @@ import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import getDirections from 'react-native-google-maps-directions'
+import getDirections from 'react-native-maps-directions'
 
 
 
