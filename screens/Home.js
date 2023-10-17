@@ -90,6 +90,10 @@ export default function Main(){
         getParties();
     },[parties])
 
+    useEffect(() => {
+        getUsers();
+    },[users])
+
 
     const renderPopularItem = ({item}) => {
         return(
