@@ -9,8 +9,6 @@ import {ThemeProvider} from './theme/ThemeProvider';
 
 import { CurrentUserProvider } from './providers/CurrentUserProvider';
 
-import { PartiesProvider } from './providers/PartiesProvider';
-
 import { CurrentLocationProvider } from './providers/CurrentLocationProvider';
 
 //Firebase
@@ -80,7 +78,6 @@ export default function App() {
         <ThemeProvider>
           <CurrentUserProvider>
             <CurrentLocationProvider>
-              <PartiesProvider>
                 <NavigationContainer> 
                   <StatusBar
                       backgroundColor="#fff"
@@ -90,7 +87,6 @@ export default function App() {
                   {isUser == 2 ? <DrawerStack/> : isUser == 0  ? <Indicator /> : <LoginStack/> }
 
                 </NavigationContainer>
-              </PartiesProvider>
             </CurrentLocationProvider>
           </CurrentUserProvider>
         </ThemeProvider>

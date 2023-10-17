@@ -31,6 +31,7 @@ export default function EditProfile() {
     const { currentUser, setCurrentUser } = useCurrentUser();
 
     const [avatar, setAvatar] = useState(currentUser.avatar)
+    const [newAvatar, setNewAvatar] = useState(false);
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -45,6 +46,7 @@ export default function EditProfile() {
     
         if (!result.canceled) {
             setAvatar(result.assets[0].uri);
+            setNewAvatar(true);
             uploadImage(auth.currentUser.uid, result.assets[0].uri);
         }
     };
@@ -65,10 +67,6 @@ export default function EditProfile() {
         })
     }
 
-    const later = () => {
-        navigation.goBack();
-    }
-
   return (
     <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  backgroundColor: colors.background }}>
         <View style={{ width: 0.9*width }}>
@@ -81,11 +79,13 @@ export default function EditProfile() {
                             width: 100,
                             height: 100,
                             borderRadius: 50,
-                        }} source={{ uri: avatar }} />
-                    
+                            borderWidth: 1,
+                            borderColor: colors.grey
+                        }} source={avatar ? { uri: avatar } : require('../assets/images/default-user-icon-4.jpg')} />
                 </TouchableOpacity>
                 <CustomText color={colors.grey_d} weight='light' size={14}>Click to choose your profile picutre</CustomText>
             </View>
+            {newAvatar && 
             <TouchableOpacity 
                 onPress={() => submit()}
                 style={{ 
@@ -99,8 +99,9 @@ export default function EditProfile() {
                 }}>
                 <CustomText weight='bold' size={18} color={'white'}>Set Profile Picture</CustomText>
             </TouchableOpacity>
+            }
             <TouchableOpacity 
-                onPress={() => later()}
+                onPress={() => navigation.goBack()}
                 style={{ 
                     width: '100%', 
                     height: 50, 
@@ -112,7 +113,7 @@ export default function EditProfile() {
                     borderWidth: 1,
                     borderColor: colors.grey
                 }}>
-                <CustomText weight='bold' size={18} color={colors.text}>Later</CustomText>
+                <CustomText weight='bold' size={18} color={colors.text}>Cancel</CustomText>
             </TouchableOpacity>
         </View>
     </KeyboardAvoidingView>

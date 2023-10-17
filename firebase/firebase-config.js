@@ -22,13 +22,12 @@ import { getStorage, ref, getDownloadURL, uploadBytesResumable, } from "firebase
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAhzCq96cfjP6pZ2RJDhMwRvD5AzEvKLVI",
-  authDomain: "meeting-test-2b256.firebaseapp.com",
-  projectId: "meeting-test-2b256",
-  storageBucket: "meeting-test-2b256.appspot.com",
-  messagingSenderId: "712675183534",
-  appId: "1:712675183534:web:c404ea2daa8d86ea51d63f",
-  measurementId: "G-54HBMDYXCP"
+  apiKey: "AIzaSyBYrT9oMv1ixL5t1xia9A1u7brVv-BUMlg",
+  authDomain: "meetme-8190f.firebaseapp.com",
+  projectId: "meetme-8190f",
+  storageBucket: "meetme-8190f.appspot.com",
+  messagingSenderId: "824259763699",
+  appId: "1:824259763699:web:3c5e3b55809ab81e6f4686"
 };
 
 // Initialize Firebase
@@ -199,9 +198,14 @@ export async function uploadImage(uid, avatar) {
     }, 
     () => {
       // Upload completed successfully, now we can get the download URL
+
+      console.log("success")
+
+      /*
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log('File available at', downloadURL);
       });
+      */
     }
   );
   
