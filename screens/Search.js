@@ -11,6 +11,10 @@ import FlatListItem from '../components/FlatListItem';
 //Providers
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
+//Firebase
+import { db } from '../firebase/firebase-config'
+import { getDoc, getDocs, collectionGroup } from "firebase/firestore";
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
@@ -18,6 +22,7 @@ export default function Search({navigation}){
 
 
     const width = Dimensions.get('window').width;
+    const height = Dimensions.get('window').height;
 
     const h1 = 25
     const h2 = 20
@@ -32,10 +37,26 @@ export default function Search({navigation}){
 
     const { currentLocation, setCurrentLocation } = useCurrentLocation();
 
+    const getParties = async () => {
+
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+
+        const parties = [];
+        
+        querySnapshot.forEach((doc) => { 
+
+            parties.push({
+                ...doc.data(),
+                id: doc.id,
+                organizer: doc.ref.parent.parent.id
+            })
+        });
+        setParties(parties);
+    }
     
 
     useEffect(() => {
-        //getLocation();
+        getParties();
     }, [])
 
 
@@ -107,11 +128,23 @@ export default function Search({navigation}){
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={
-                        
                     <View style={{marginBottom: 20}}>
-
                     </View>
-
+                }
+                ListEmptyComponent={
+                        
+                    <View
+                        style={{
+                            flex: 1,
+                            paddingTop: height/3,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <CustomText>No events yet</CustomText>
+                    </View>
+                    
+                    
                 }
             />
         ) 

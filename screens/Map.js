@@ -22,8 +22,7 @@ import MapViewDirections from 'react-native-maps-directions';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
-import { getDoc, getDocs, collectionGroup } from "firebase/firestore";
-
+import { getDocs, collectionGroup } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -81,7 +80,7 @@ export default function Map(){
 
     
     useEffect(() => {
-        getParties()
+        getParties();
         if(route.params.isEvent){
             setSelectedPlaceId(route.params.item.id)
             setItem(route.params.item)
@@ -90,7 +89,7 @@ export default function Map(){
     }, [])
     
 
-
+    
     const getParties = async () => {
 
         const querySnapshot = await getDocs(collectionGroup(db, "parties"));
@@ -107,6 +106,7 @@ export default function Map(){
         });
         setParties(parties);
     }
+    
 
 
     const renderPartyCard = () => {
