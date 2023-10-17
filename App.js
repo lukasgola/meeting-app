@@ -49,7 +49,6 @@ export default function App() {
 
   useEffect(() => {
       onAuthStateChanged(auth, (user) => {
-        console.log(user);
       if(user) {
           setIsUser(2);
       }

@@ -8,7 +8,7 @@ export const CurrentUserContext = React.createContext({
     currentUser: {
         email: 'none',
         username: 'none',
-        avatar: 'https://i.picsum.photos/id/520/200/300.jpg?hmac=wYOWhYQGp5efB1HNroao-yTysVtEt5osptkdHJIsc0g',
+        avatar: null,
         score: 2.5
     },
     setCurrentUser: () => {}
@@ -26,7 +26,6 @@ export const CurrentUserProvider = (props) => {
             const user = {
                 ...docSnap.data()
             }
-            console.log(JSON.stringify(user))
             setCurrentUser(user)
         } else {
         // doc.data() will be undefined in this case
