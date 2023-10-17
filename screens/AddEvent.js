@@ -14,16 +14,16 @@ import * as Location from "expo-location"
 import CustomText from '../components/CustomText';
 import CustomInput from '../components/CustomInput';
 import CustomMultilineInput from '../components/CustomMultilineInput';
+import BottomSheet from '../components/BottomSheet';
 
 //Date
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {Picker} from '@react-native-picker/picker';
 
 //Firebase
 import { addEvent } from '../firebase/firebase-config';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import RNPickerSelect from 'react-native-picker-select';
 
 export default function AddEvent(){
 
@@ -52,12 +52,21 @@ export default function AddEvent(){
     const [address, setAddress] = useState(null);
 
     const [category, setCategory] = useState('Party')
+    const [categoryString, setCategoryString] = useState('Party');
 
     const [type, setType] = useState('Private');
     const [place, setPlace] = useState('Indoor');
 
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isCategoryPickerVisible, setCategoryPickerVisible] = useState(false);
+
+    const types = [
+        { label: 'Party', value: 'Party' },
+        { label: 'Meeting', value: 'Meeting' },
+        { label: 'Game', value: 'Game' },
+        { label: 'Other', value: 'Other'},
+    ]
 
     const showTimePicker = () => {
         setTimePickerVisibility(true);
@@ -88,6 +97,10 @@ export default function AddEvent(){
         hideDatePicker();
     };
 
+
+    const handleCategoryConfirm = () => {
+        setCategory(categoryString);
+    }
 
 
     const { control, handleSubmit, formState: {errors} } = useForm();
@@ -350,60 +363,59 @@ export default function AddEvent(){
                     <CustomText color={colors.grey_d} size={h4}>Event category</CustomText>
                 </View>
 
-                <View style={{
-                    width: '100%',
-                    height: 50,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginTop: 10
-                }}> 
-                    <View style={{width: '100%', height: '100%'}}>    
-                        <View 
+                <TouchableOpacity 
+                    onPress={() => setCategoryPickerVisible(true)}
+                    style={{
+                        width: '100%',
+                        height: 50,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginTop: 10
+                    }}
+                >   
+                    <View 
+                        style={{
+                            width: '100%', 
+                            height: '100%', 
+                            flexDirection: 'row',
+                            backgroundColor: colors.grey_l,
+                            borderRadius: 10,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            borderColor: '#e8e8e8',
+                            borderWidth: 1
+                        }}>
+                        <View
                             style={{
-                                width: '100%', 
-                                height: '100%', 
-                                flexDirection: 'row',
-                                backgroundColor: colors.grey_l,
-                                borderRadius: 10,
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                borderColor: '#e8e8e8',
-                                borderWidth: 1
-                            }}>
-                            <View
-                                style={{
-                                    width: 40,
-                                    paddingLeft: 10,
-                                    justifyContent: 'center'
-                                }}
-                                >
-                                    <Ionicons name={'time-outline'} size={16} color={colors.grey_d}/>
-                            </View>
-                            <RNPickerSelect
-                                onValueChange={(value) => setCategory(value)}
-                                style={{
-                                    inputIOS:{
-                                        fontSize: 12,
-                                        fontFamily: 'Montserrat-Regular',
-                                        width: '100%',
-                                        height: '100%',
-                                        paddingRight: '100%'
-                                    }
-                                    
-                                }}
-                                placeholder={{}}
-                                items={[
-                                    { label: 'Party', value: 'party' },
-                                    { label: 'Meeting', value: 'meeting' },
-                                    { label: 'Game', value: 'game' },
-                                    { label: 'Other', value: 'other'}
-                                ]}
-                                value={category}
-                            />
+                                width: 40,
+                                paddingLeft: 10,
+                                justifyContent: 'center'
+                            }}
+                            >
+                                <Ionicons name={'time-outline'} size={16} color={colors.grey_d}/>
                         </View>
+                        <CustomText size={12} color={colors.text}>{categoryString}</CustomText>
                     </View>
-                </View>
+                    <BottomSheet 
+                        visible={isCategoryPickerVisible} 
+                        setModalVisible={setCategoryPickerVisible}
+                        text={'Wybierz kategorię'}
+                        onConfirm={handleCategoryConfirm}
+                    >
+                        <Picker
+                            selectedValue={categoryString}
+                            onValueChange={(itemValue, itemIndex) =>{
+                                setCategoryString(itemValue)
+                            }
+                            }>
+                                {types.map((item) => (
+                                    <Picker.Item label={item.label} value={item.value} key={item.value} />
+                                ))}
+                        </Picker>
+                    </BottomSheet>
+                </TouchableOpacity>
+                
                 
 
                 <View style={{width: '100%', marginTop: 20}}>
