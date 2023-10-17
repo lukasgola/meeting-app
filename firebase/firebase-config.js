@@ -156,12 +156,13 @@ export async function uploadImage(uid, avatar) {
     contentType: 'image/jpeg'
   };
 
+  
   const response = await fetch(avatar);
   const blob = await response.blob();
 
   // Upload file and metadata to the object 'images/mountains.jpg'
   const storageRef = ref(storage, 'profilePictures/' + uid);
-  const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
+  const uploadTask = uploadBytesResumable(storageRef, blob);
 
   // Listen for state changes, errors, and completion of the upload.
   uploadTask.on('state_changed',
@@ -199,13 +200,11 @@ export async function uploadImage(uid, avatar) {
     () => {
       // Upload completed successfully, now we can get the download URL
 
-      console.log("success")
-
-      /*
+      
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log('File available at', downloadURL);
       });
-      */
+      
     }
   );
   

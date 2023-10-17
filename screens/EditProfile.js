@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {View, Dimensions, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
 
 //Hooks
-import {useTheme} from '../theme/ThemeProvider';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTheme } from '../theme/ThemeProvider';
 import { useCurrentUser } from '../providers/CurrentUserProvider';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 //Components
 import CustomText from '../components/CustomText';

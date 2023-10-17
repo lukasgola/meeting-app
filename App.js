@@ -5,10 +5,8 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 
-import {ThemeProvider} from './theme/ThemeProvider';
-
+import { ThemeProvider } from './theme/ThemeProvider';
 import { CurrentUserProvider } from './providers/CurrentUserProvider';
-
 import { CurrentLocationProvider } from './providers/CurrentLocationProvider';
 
 //Firebase
