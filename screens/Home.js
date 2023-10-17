@@ -85,15 +85,12 @@ export default function Main(){
         setParties(parties);
     }
     
-
+    
     useEffect(() => {  
         getParties();
-    },[parties])
-
-    useEffect(() => {
         getUsers();
-    },[users])
-
+    },[])
+    
 
     const renderPopularItem = ({item}) => {
         return(

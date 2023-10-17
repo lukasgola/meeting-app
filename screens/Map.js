@@ -79,7 +79,7 @@ export default function Map(){
         moveTo(position)
     }
 
-
+    /*
     useEffect(() => {
         getParties()
         if(route.params.isEvent){
@@ -88,6 +88,7 @@ export default function Map(){
             setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
     }, [])
+    */
 
 
     const getParties = async () => {
