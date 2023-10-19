@@ -59,18 +59,15 @@ export default function Search({navigation}){
     
 
     useEffect(() => {
-        console.log('useEffect')
         getParties();
     }, [])
 
     useLayoutEffect(() => {
-        console.log(data);
         navigation.setOptions({
           headerSearchBarOptions: {
             obscureBackground: false,
             placeholder: 'Search',
             onChangeText: (event) => {
-                //console.log(data)
               searchFilterFunction(event.nativeEvent.text, parties);
               LayoutAnimation.configureNext(layoutAnimConfig)
             },
@@ -91,8 +88,6 @@ export default function Search({navigation}){
       };
     
       function searchFilterFunction(text, parties) {
-        //console.log(parties)
-        /*
         if(text){ 
             const newData = parties.filter((item) => {
                 const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
@@ -104,7 +99,7 @@ export default function Search({navigation}){
         } else {
             setFilteredData(parties);
         }
-        */
+        
       }
 
 
