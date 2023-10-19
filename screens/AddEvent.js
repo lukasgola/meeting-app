@@ -18,6 +18,8 @@ import BottomSheet from '../components/BottomSheet';
 
 //Date
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 import {Picker} from '@react-native-picker/picker';
 
 //Firebase
@@ -68,33 +70,23 @@ export default function AddEvent(){
         { label: 'Other', value: 'Other'},
     ]
 
-    const showTimePicker = () => {
-        setTimePickerVisibility(true);
+    const onChangeTime = (event, value) => {
+        setTime(value);
     };
 
-    const hideTimePicker = () => {
-        setTimePickerVisibility(false);
-    };
-
-    const handleTimeConfirm = (time) => {
+    const handleTimeConfirm = () => {
         setTime(time)
-        setTimeString(time.getHours() + ':' + time.getMinutes())
-        hideTimePicker();
+        setTimeString(time.getHours() + ':' + (time.getMinutes() <= 9 ? ("0" + time.getMinutes()) : time.getMinutes()))
     };
 
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
+    const onChangeDate = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setDate(currentDate);
     };
 
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
-    const handleDateConfirm = (date) => {
-        setDate(date)
+    const handleDateConfirm = () => {
         let month = date.getMonth()+1;
         setDateString(date.getDate() + ' / ' + month + ' / ' + date.getFullYear())
-        hideDatePicker();
     };
 
 
@@ -224,7 +216,7 @@ export default function AddEvent(){
                     render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
                         <View style={{width: '47.5%', height: '100%'}}>    
                             <TouchableOpacity 
-                                onPress={showDatePicker}
+                                onPress={() => setDatePickerVisibility(true)}
                                 style={{
                                     width: '100%', 
                                     height: '100%', 
@@ -247,17 +239,22 @@ export default function AddEvent(){
                                 </View>
                                 
                                 <CustomText size={12} color={dateString !== 'Select date' ? colors.text : colors.grey_d}>{dateString}</CustomText>
-                                <DateTimePickerModal
-                                    isVisible={isDatePickerVisible}
-                                    mode="date"
-                                    onConfirm={(date) => [onChange(date), handleDateConfirm(date)]}
-                                    onCancel={hideDatePicker}
-                                    themeVariant='light'
-                                    isDarkModeEnabled={false}
-                                    buttonTextColorIOS={colors.primary}
-                                    selected={value}
-                                    onBlur={onBlur}
-                                /> 
+                                <BottomSheet 
+                                    visible={isDatePickerVisible}
+                                    setModalVisible={setDatePickerVisibility}
+                                    text={'Choose the date'}
+                                    onConfirm={handleDateConfirm}
+                                >
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={date}
+                                        mode={'date'}
+                                        is24Hour={true}
+                                        display="spinner"
+                                        onChange={onChangeDate}
+                                        textColor={colors.text}
+                                    />
+                                </BottomSheet>
                             </TouchableOpacity>
                         {error && (
                             <View style={{width: '100%'}}>
@@ -278,7 +275,7 @@ export default function AddEvent(){
                     render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
                         <View style={{width: '47.5%', height: '100%'}}>     
                             <TouchableOpacity 
-                                onPress={showTimePicker}
+                                onPress={()=> setTimePickerVisibility(true)}
                                 style={{
                                     width: '100%', 
                                     height: '100%', 
@@ -301,17 +298,24 @@ export default function AddEvent(){
                                 </View>
                                 
                                 <CustomText size={12} color={timeString !== 'Select time' ? colors.text : colors.grey_d}>{timeString}</CustomText>
-                                <DateTimePickerModal
-                                    isVisible={isTimePickerVisible}
-                                    mode="time"
-                                    onConfirm={(time) => [onChange(time), handleTimeConfirm(time)]}
-                                    onCancel={hideTimePicker}
-                                    themeVariant='light'
-                                    isDarkModeEnabled={false}
-                                    buttonTextColorIOS={colors.primary}
-                                    selected={value}
-                                    onBlur={onBlur}
-                                /> 
+                                <BottomSheet 
+                                    visible={isTimePickerVisible}
+                                    setModalVisible={setTimePickerVisibility}
+                                    text={'Choose the time'}
+                                    onConfirm={handleTimeConfirm}
+                                >
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={time}
+                                        mode={'time'}
+                                        display="spinner"
+                                        onChange={onChangeTime}
+                                        textColor={colors.text}
+                                        minuteInterval={1}
+                                        accentColor={colors.primary}
+                                        locale='es-ES'
+                                    />
+                                </BottomSheet>
                             </TouchableOpacity>
                         {error && (
                             <View style={{width: '100%'}}>
