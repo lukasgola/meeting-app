@@ -52,6 +52,7 @@ export default function Search({navigation}){
             })
         });
         setParties(parties);
+        setFilteredData(parties)
     }
     
 
@@ -62,8 +63,7 @@ export default function Search({navigation}){
     useLayoutEffect(() => {
         navigation.setOptions({
           headerSearchBarOptions: {
-            autoFocus: true,
-            hideWhenScrolling: false,
+            obscureBackground: false,
             placeholder: 'Search',
             onChangeText: (event) => {
               searchFilterFunction(event.nativeEvent.text);
@@ -197,7 +197,7 @@ export default function Search({navigation}){
             backgroundColor: colors.background,
         }}>
                 
-            {renderFlatlist(parties)}
+            {renderFlatlist(filteredData)}
 
             <View
                 style={{
