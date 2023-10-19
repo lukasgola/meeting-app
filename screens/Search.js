@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, ActivityIndicator} from 'react-native';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
+import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, LayoutAnimation} from 'react-native';
 
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
@@ -32,10 +32,10 @@ export default function Search({navigation}){
     const {colors} = useTheme();
 
     const [parties, setParties] = useState();
-
+    const [filteredData, setFilteredData] = useState(parties);
     const [search, setSearch] = useState('');
 
-    const { currentLocation, setCurrentLocation } = useCurrentLocation();
+    const { currentLocation } = useCurrentLocation();
 
     const getParties = async () => {
 
@@ -58,6 +58,46 @@ export default function Search({navigation}){
     useEffect(() => {
         getParties();
     }, [])
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+          headerSearchBarOptions: {
+            autoFocus: true,
+            hideWhenScrolling: false,
+            placeholder: 'Search',
+            onChangeText: (event) => {
+              searchFilterFunction(event.nativeEvent.text);
+              LayoutAnimation.configureNext(layoutAnimConfig)
+            },
+          },
+        });
+      }, [navigation]);
+    
+      const layoutAnimConfig = {
+        duration: 300,
+        update: {
+          type: LayoutAnimation.Types.easeInEaseOut, 
+        },
+        delete: {
+          duration: 100,
+          type: LayoutAnimation.Types.easeInEaseOut,
+          property: LayoutAnimation.Properties.opacity,
+        },
+      };
+    
+      const searchFilterFunction = (text) => {
+        if(text){ 
+            const newData = parties.filter(item => {
+                const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            })
+            
+            setFilteredData(newData);
+        } else {
+            setFilteredData(parties);
+        }
+      }
 
 
     const CATEGORIES = [
@@ -156,6 +196,8 @@ export default function Search({navigation}){
             flex: 1,
             backgroundColor: colors.background,
         }}>
+                
+            {renderFlatlist(parties)}
 
             <View
                 style={{
@@ -173,8 +215,6 @@ export default function Search({navigation}){
                     showsHorizontalScrollIndicator={false}
                 />
             </View>
-                
-            {renderFlatlist(parties)}
             
         </View>
     );

@@ -59,10 +59,7 @@ export default function SearchStack() {
                                 
                     headerRight: () =>  <TouchableOpacity>
                                             <Ionicons name='options-outline' size={25} color={colors.primary}/>
-                                        </TouchableOpacity>,
-                    headerSearchBarOptions:{
-                        autoFocus: true
-                    }
+                                        </TouchableOpacity>
                   
                 }}
             />
