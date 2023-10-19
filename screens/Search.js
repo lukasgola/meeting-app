@@ -32,8 +32,9 @@ export default function Search({navigation}){
     const {colors} = useTheme();
 
     const [parties, setParties] = useState();
-    const [filteredData, setFilteredData] = useState(parties);
-    const [search, setSearch] = useState('');
+    const [filteredData, setFilteredData] = useState();
+
+    const [ data, setData ] = useState();
 
     const { currentLocation } = useCurrentLocation();
 
@@ -41,37 +42,41 @@ export default function Search({navigation}){
 
         const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
-        const parties = [];
+        const temp = [];
         
         querySnapshot.forEach((doc) => { 
 
-            parties.push({
+            temp.push({
                 ...doc.data(),
                 id: doc.id,
                 organizer: doc.ref.parent.parent.id
             })
         });
-        setParties(parties);
-        setFilteredData(parties)
+        setParties(temp);
+        setFilteredData(temp);
+        setData(2);
     }
     
 
     useEffect(() => {
+        console.log('useEffect')
         getParties();
     }, [])
 
     useLayoutEffect(() => {
+        console.log(data);
         navigation.setOptions({
           headerSearchBarOptions: {
             obscureBackground: false,
             placeholder: 'Search',
             onChangeText: (event) => {
-              searchFilterFunction(event.nativeEvent.text);
+                //console.log(data)
+              searchFilterFunction(event.nativeEvent.text, parties);
               LayoutAnimation.configureNext(layoutAnimConfig)
             },
           },
         });
-      }, [navigation]);
+      }, [data, navigation]);
     
       const layoutAnimConfig = {
         duration: 300,
@@ -85,9 +90,11 @@ export default function Search({navigation}){
         },
       };
     
-      const searchFilterFunction = (text) => {
+      function searchFilterFunction(text, parties) {
+        //console.log(parties)
+        /*
         if(text){ 
-            const newData = parties.filter(item => {
+            const newData = parties.filter((item) => {
                 const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
@@ -97,6 +104,7 @@ export default function Search({navigation}){
         } else {
             setFilteredData(parties);
         }
+        */
       }
 
 
