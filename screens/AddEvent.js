@@ -207,125 +207,96 @@ export default function AddEvent(){
                     justifyContent: 'space-between',
                     marginTop: 20
                 }}> 
-                <Controller
-                    control={control}
-                    name={'date'}
-                    rules={{
-                        required: 'Date is required',
-                    }}
-                    render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
-                        <View style={{width: '47.5%', height: '100%'}}>    
-                            <TouchableOpacity 
-                                onPress={() => setDatePickerVisibility(true)}
+                
+                    <View style={{width: '47.5%', height: '100%'}}>    
+                        <TouchableOpacity 
+                            onPress={() => setDatePickerVisibility(true)}
+                            style={{
+                                width: '100%', 
+                                height: '100%', 
+                                flexDirection: 'row',
+                                backgroundColor: colors.grey_l,
+                                borderRadius: 10,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                borderColor: '#e8e8e8',
+                                borderWidth: 1
+                            }}>
+                            <View
                                 style={{
-                                    width: '100%', 
-                                    height: '100%', 
-                                    flexDirection: 'row',
-                                    backgroundColor: colors.grey_l,
-                                    borderRadius: 10,
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    borderColor: error ? 'red' : '#e8e8e8',
-                                    borderWidth: 1
-                                }}>
-                                <View
-                                    style={{
-                                        width: 40,
-                                        paddingLeft: 10,
-                                        justifyContent: 'center'
-                                    }}
-                                    >
-                                        <Ionicons name={'calendar-outline'} size={16} color={colors.grey_d}/>
-                                </View>
-                                
-                                <CustomText size={12} color={dateString !== 'Select date' ? colors.text : colors.grey_d}>{dateString}</CustomText>
-                                <BottomSheet 
-                                    visible={isDatePickerVisible}
-                                    setModalVisible={setDatePickerVisibility}
-                                    text={'Choose the date'}
-                                    onConfirm={handleDateConfirm}
+                                    width: 40,
+                                    paddingLeft: 10,
+                                    justifyContent: 'center'
+                                }}
                                 >
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={date}
-                                        mode={'date'}
-                                        is24Hour={true}
-                                        display="spinner"
-                                        onChange={onChangeDate}
-                                        textColor={colors.text}
-                                    />
-                                </BottomSheet>
-                            </TouchableOpacity>
-                        {error && (
-                            <View style={{width: '100%'}}>
-                            <CustomText color='red'>{error.message || 'Error'}</CustomText>
+                                    <Ionicons name={'calendar-outline'} size={16} color={colors.grey_d}/>
                             </View>
                             
-                        )}
-                        </View>
-                    )}
-                />
+                            <CustomText size={12} color={dateString !== 'Select date' ? colors.text : colors.grey_d}>{dateString}</CustomText>
+                            <BottomSheet 
+                                visible={isDatePickerVisible}
+                                setModalVisible={setDatePickerVisibility}
+                                text={'Choose the date'}
+                                onConfirm={handleDateConfirm}
+                            >
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={date}
+                                    mode={'date'}
+                                    is24Hour={true}
+                                    display="spinner"
+                                    onChange={onChangeDate}
+                                    textColor={colors.text}
+                                />
+                            </BottomSheet>
+                        </TouchableOpacity>
+                    </View>
 
-                <Controller
-                    control={control}
-                    name={'time'}
-                    rules={{
-                        required: 'Time is required',
-                    }}
-                    render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
-                        <View style={{width: '47.5%', height: '100%'}}>     
-                            <TouchableOpacity 
-                                onPress={()=> setTimePickerVisibility(true)}
+                    <View style={{width: '47.5%', height: '100%'}}>     
+                        <TouchableOpacity 
+                            onPress={()=> setTimePickerVisibility(true)}
+                            style={{
+                                width: '100%', 
+                                height: '100%', 
+                                flexDirection: 'row',
+                                backgroundColor: colors.grey_l,
+                                borderRadius: 10,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                borderColor: '#e8e8e8',
+                                borderWidth: 1
+                            }}>
+                            <View
                                 style={{
-                                    width: '100%', 
-                                    height: '100%', 
-                                    flexDirection: 'row',
-                                    backgroundColor: colors.grey_l,
-                                    borderRadius: 10,
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    borderColor: error ? 'red' : '#e8e8e8',
-                                    borderWidth: 1
-                                }}>
-                                <View
-                                    style={{
-                                        width: 40,
-                                        paddingLeft: 10,
-                                        justifyContent: 'center'
-                                    }}
-                                    >
-                                        <Ionicons name={'time-outline'} size={16} color={colors.grey_d}/>
-                                </View>
-                                
-                                <CustomText size={12} color={timeString !== 'Select time' ? colors.text : colors.grey_d}>{timeString}</CustomText>
-                                <BottomSheet 
-                                    visible={isTimePickerVisible}
-                                    setModalVisible={setTimePickerVisibility}
-                                    text={'Choose the time'}
-                                    onConfirm={handleTimeConfirm}
+                                    width: 40,
+                                    paddingLeft: 10,
+                                    justifyContent: 'center'
+                                }}
                                 >
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={time}
-                                        mode={'time'}
-                                        display="spinner"
-                                        onChange={onChangeTime}
-                                        textColor={colors.text}
-                                        minuteInterval={1}
-                                        accentColor={colors.primary}
-                                        locale='es-ES'
-                                    />
-                                </BottomSheet>
-                            </TouchableOpacity>
-                        {error && (
-                            <View style={{width: '100%'}}>
-                            <CustomText color='red'>{error.message || 'Error'}</CustomText>
+                                    <Ionicons name={'time-outline'} size={16} color={colors.grey_d}/>
                             </View>
                             
-                        )}
-                        </View>
-                    )}
-                />
+                            <CustomText size={12} color={timeString !== 'Select time' ? colors.text : colors.grey_d}>{timeString}</CustomText>
+                            <BottomSheet 
+                                visible={isTimePickerVisible}
+                                setModalVisible={setTimePickerVisibility}
+                                text={'Choose the time'}
+                                onConfirm={handleTimeConfirm}
+                            >
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={time}
+                                    mode={'time'}
+                                    display="spinner"
+                                    onChange={onChangeTime}
+                                    textColor={colors.text}
+                                    minuteInterval={1}
+                                    accentColor={colors.primary}
+                                    locale='es-ES'
+                                />
+                            </BottomSheet>
+                        </TouchableOpacity>
+                    </View>
                 
                 </View>
 

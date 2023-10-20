@@ -46,10 +46,7 @@ export default function Main(){
 
     const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
 
-    const [errorMsg, setErrorMsg] = useState(null);
-
     const isEvent = false;
-
 
     const getUsers = async () => {
         const querySnapshot = await getDocs(collection(db, "users"));
@@ -175,7 +172,7 @@ export default function Main(){
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
                         }}
-                        provider={PROVIDER_GOOGLE}
+                        //provider={PROVIDER_GOOGLE}
                         onPress={() => navigation.navigate('Map', { location: currentLocation, isEvent})}
                         zoomEnabled={false}
                         rotateEnabled={false}

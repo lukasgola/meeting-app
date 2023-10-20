@@ -151,15 +151,13 @@ export default function Map(){
         onPlaceSelected({latitude: marker.latitude, longitude: marker.longitude})
     }
 
-    if(parties){
-
     return (
         <View style={{flex: 1}}>
 
             <MapView 
                 ref={mapRef}
                 style={{width: '100%', height: '100%'}} 
-                provider={PROVIDER_GOOGLE}
+                //provider={PROVIDER_GOOGLE}
                 //customMapStyle={mapSettings}
                 initialRegion={{
                     latitude: region.latitude,
@@ -262,12 +260,4 @@ export default function Map(){
 
         </View>
     )
-    }else {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <ActivityIndicator />
-            </View>
-            
-        )
-    }
 }

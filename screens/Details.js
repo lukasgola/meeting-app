@@ -160,7 +160,7 @@ if(currentLocation && city && user){
             <ScrollView style={{width: width, backgroundColor: colors.background}}>
                 <MapView 
                     style={{width: '100%', height: 300}} 
-                    provider={PROVIDER_GOOGLE}
+                    //provider={PROVIDER_GOOGLE}
                     onPress={() => navigation.navigate('Map', { location:{latitude: item.latitude, longitude: item.longitude} ,isEvent, item})}
                     //customMapStyle={mapSettings}
                     initialRegion={{
