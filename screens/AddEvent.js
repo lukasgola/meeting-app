@@ -45,10 +45,10 @@ export default function AddEvent(){
     const h4 = 14
 
     const [date, setDate] = useState(new Date());
-    const [dateString, setDateString] = useState('Select date')
+    const [dateString, setDateString] = useState(new Date().getDate() + ' / ' + (new Date().getMonth()+1) + ' / ' + new Date().getFullYear())
 
-    const [time, setTime] = useState(new Date())
-    const [timeString, setTimeString] = useState('Select time')
+    const [time, setTime] = useState(new Date(Date.now()))
+    const [timeString, setTimeString] = useState(new Date(Date.now()).getHours() + ' : ' + (new Date(Date.now()).getMinutes() < 10 ? '0' + new Date(Date.now()).getMinutes() : new Date(Date.now()).getMinutes() ))
 
     const [eventLocation, setEventLocation] = useState(null)
     const [address, setAddress] = useState(null);
