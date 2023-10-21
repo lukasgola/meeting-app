@@ -3,11 +3,10 @@ import {View, Dimensions, ActivityIndicator, TouchableOpacity, FlatList} from 'r
 
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 //Components
 import CustomText from '../components/CustomText';
-import FlatListItem from '../components/FlatListItem';
 import MapPartyCard from '../components/MapPartyCard';
 
 //Providers
@@ -38,10 +37,13 @@ export default function Map({navigation}){
     const [item, setItem] = useState(null);
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
     const [partyVisible, setPartyVisible] = useState(null);
+    const [directionMode, setDirectionMode] = useState(null);
+    const [partyRoute, setPartyRoute] = useState(null);
+
     const [parties, setParties] = useState([])
     const {currentLocation} = useCurrentLocation();
-    const [directionMode, setDirectionMode] = useState("DRIVING");
-    const [partyRoute, setPartyRoute] = useState(null);
+
+    
 
     const DEFAULT_DELTA = {
         latitudeDelta: 0.0922,
@@ -68,7 +70,6 @@ export default function Map({navigation}){
             camera.center = position;
             mapRef.current.animateCamera(camera, {duration: 500})
         }
-        
     }
 
     
@@ -150,15 +151,19 @@ export default function Map({navigation}){
             },
         ]
 
-        if(selectedPlaceId !== null)   
+        const onDirectionModeCancel = () => {
+            setDirectionMode(null)
+            moveTo({latitude: item.latitude, longitude: item.longitude})
+        }
 
+        if(selectedPlaceId !== null)   
         return(
             <View style={{height:30}}>
                 <FlatList 
                     data={modes}
                     renderItem={({item}) => 
                         <TouchableOpacity 
-                            onPress={() => setDirectionMode(item.name)}
+                            onPress={() => directionMode !== item.name ? setDirectionMode(item.name) : onDirectionModeCancel()} 
                             style={{
                                 //padding: 10,
                                 paddingHorizontal: 13,
@@ -189,7 +194,7 @@ export default function Map({navigation}){
                         latitude: marker.latitude,
                         longitude: marker.longitude
                     }}
-                    onPress={() => markerClick(marker)}
+                    onPress={() => onMarkerClick(marker)}
                 >
                     <MapMarker marker={marker} selectedPlaceId={selectedPlaceId} />
                 </Marker> 
@@ -198,11 +203,13 @@ export default function Map({navigation}){
     }
 
 
-    const markerClick = (marker) => {
+    const onMarkerClick = (marker) => {
         setSelectedPlaceId(marker.id)
         setItem(marker)
         setDestination({latitude: marker.latitude, longitude: marker.longitude})
         onPlaceSelected({latitude: marker.latitude, longitude: marker.longitude})
+        setPartyVisible(true)
+        moveTo({latitude: marker.latitude, longitude: marker.longitude})
     }
 
     return (
@@ -227,7 +234,7 @@ export default function Map({navigation}){
 
                 {renderMarkers()}
 
-                {destination.latitude !== null ? 
+                {directionMode !== null ? 
                     <MapViewDirections
                         origin={currentLocation}
                         destination={destination}
@@ -253,7 +260,6 @@ export default function Map({navigation}){
                                 animated: true
                             })
                             setPartyRoute(result)
-                            setPartyVisible(true)
                         }}
                     />
                     : <View></View>}
