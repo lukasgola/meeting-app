@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Dimensions, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {View, Dimensions, ActivityIndicator, TouchableOpacity, FlatList} from 'react-native';
 
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
@@ -8,6 +8,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 //Components
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
+import MapPartyCard from '../components/MapPartyCard';
 
 //Providers
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
@@ -19,6 +20,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import MapView, { Marker, PROVIDER_GOOGLE, Heatmap, Callout } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
+import MapMarker  from '../components/MapMarker';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
@@ -26,28 +28,30 @@ import { getDocs, collectionGroup } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
-
-export default function Map(){
+export default function Map({navigation}){
 
     const {colors} = useTheme();
     const route = useRoute();
     const mapRef = useRef();
 
 
+    const [item, setItem] = useState(null);
+    const [selectedPlaceId, setSelectedPlaceId] = useState(null);
+    const [partyVisible, setPartyVisible] = useState(null);
+    const [parties, setParties] = useState([])
+    const {currentLocation} = useCurrentLocation();
+    const [directionMode, setDirectionMode] = useState("DRIVING");
+    const [partyRoute, setPartyRoute] = useState(null);
+
     const DEFAULT_DELTA = {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     }
 
-    const [item, setItem] = useState(null);
-    const [selectedPlaceId, setSelectedPlaceId] = useState(null);
-    const [parties, setParties] = useState([])
-
 
     const [region, setRegion] = useState({
-        latitude: route.params.location.latitude,
-        longitude: route.params.location.longitude,
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
         latitudeDelta: DEFAULT_DELTA.latitudeDelta,
         longitudeDelta: DEFAULT_DELTA.longitudeDelta,
     });
@@ -64,6 +68,7 @@ export default function Map(){
             camera.center = position;
             mapRef.current.animateCamera(camera, {duration: 500})
         }
+        
     }
 
     
@@ -74,8 +79,6 @@ export default function Map(){
                 latitudeDelta: DEFAULT_DELTA.latitudeDelta,
                 longitudeDelta: DEFAULT_DELTA.longitudeDelta
         }
-        console.log(position)
-        moveTo(position)
     }
 
     
@@ -87,8 +90,6 @@ export default function Map(){
             setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
     }, [])
-    
-
     
     const getParties = async () => {
 
@@ -108,20 +109,75 @@ export default function Map(){
     }
     
 
+    const onMapCardCancel = () => {
+        setSelectedPlaceId(null), 
+        setDestination({latitude: null, longitude: null}),
+        setPartyVisible(false)
+        setPartyRoute(null)
+    }
 
-    const renderPartyCard = () => {
-        if(selectedPlaceId !== null){
-            return(
-                <View>
-                    <TouchableOpacity 
-                        onPress={() => [setSelectedPlaceId(null), setDestination({latitude: null, longitude: null}), setItem(null)]}
-                        style={{position: 'absolute', width: 40, height: 40, zIndex: 1, right: 0, justifyContent: 'center', alignItems: 'center'}}>
-                        <Ionicons name='close-outline' size={30} color={colors.text} />
-                    </TouchableOpacity>
-                    <FlatListItem item={item} />
-                </View>
+
+    const PartyCard = () => {
+        if(partyVisible) {
+            return (
+                <MapPartyCard 
+                    item={item} 
+                    onCancel={onMapCardCancel}
+                    visible={partyVisible}
+                />
             )
         }
+    }
+
+    const PartyRoute = () => {
+
+        const modes = [
+            {
+                id: 1,
+                name: 'DRIVING'
+            },
+            {
+                id: 2,
+                name: 'WALKING'
+            },
+            {
+                id: 3,
+                name: 'TRANSIT'
+            },
+            {
+                id: 4,
+                name: 'BICYCLING'
+            },
+        ]
+
+        if(selectedPlaceId !== null)   
+
+        return(
+            <View style={{height:30}}>
+                <FlatList 
+                    data={modes}
+                    renderItem={({item}) => 
+                        <TouchableOpacity 
+                            onPress={() => setDirectionMode(item.name)}
+                            style={{
+                                //padding: 10,
+                                paddingHorizontal: 13,
+                                height: '100%',
+                                backgroundColor: directionMode == item.name ? colors.text : colors.background,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: 5,
+                                marginLeft: 10,
+                        }}>
+                            <CustomText size={12} color={directionMode == item.name ? colors.background : colors.text} weight='bold'>{item.name}</CustomText>
+                        </TouchableOpacity>
+                    }
+                    keyExtractor={item => item.id}
+                    horizontal
+                />
+            </View>
+            
+        )
     }
 
     const renderMarkers = () => {
@@ -135,10 +191,8 @@ export default function Map(){
                     }}
                     onPress={() => markerClick(marker)}
                 >
-                    <Ionicons name='location' size={40} color={selectedPlaceId == marker.id ? colors.primary : colors.text} />
-
-                </Marker>
-                    
+                    <MapMarker marker={marker} selectedPlaceId={selectedPlaceId} />
+                </Marker> 
             ))
         )
     }
@@ -153,12 +207,11 @@ export default function Map(){
 
     return (
         <View style={{flex: 1}}>
-
             <MapView 
                 ref={mapRef}
                 style={{width: '100%', height: '100%'}} 
                 //provider={PROVIDER_GOOGLE}
-                //customMapStyle={mapSettings}
+                customMapStyle={mapSettingsLight}
                 initialRegion={{
                     latitude: region.latitude,
                     longitude: region.longitude,
@@ -173,13 +226,13 @@ export default function Map(){
 
                 {renderMarkers()}
 
-                {destination.latitude != null ? 
+                {destination.latitude !== null ? 
                     <MapViewDirections
-                        origin={route.params.location}
+                        origin={currentLocation}
                         destination={destination}
                         strokeWidth={3}
-                        strokeColor={colors.text}
-                        mode="WALKING"
+                        strokeColor={colors.primary}
+                        mode={directionMode}
                         apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
                         onReady={result => {
 
@@ -188,7 +241,7 @@ export default function Map(){
 
                             console.log(`Distance: ${result.distance} km`)
                             console.log(`Duration: ${result.duration} min.`)
-
+                            
                             mapRef.current.fitToCoordinates(result.coordinates, {
                                 edgePadding: {
                                     right: 100,
@@ -197,7 +250,10 @@ export default function Map(){
                                     top: 100,
                                 },
                                 animated: true
-                            })}}
+                            })
+                            setPartyRoute(result)
+                            setPartyVisible(true)
+                        }}
                     />
                     : <View></View>}
 
@@ -205,58 +261,70 @@ export default function Map(){
 
             </MapView>
 
-            <View style={{position:'absolute', borderRadius: 10, top: 10, marginLeft: '5%', width: '90%', height: 50, backgroundColor: colors.background}}>
-                <GooglePlacesAutocomplete
-                    fetchDetails={true}
-                    placeholder='Search'
-                    onPress={(data, details = null) => {
-                        // 'details' is provided when fetchDetails = true
-                        console.log(data, details);
-                        onPlaceSelected(details);
+            <View style={{
+                position:'absolute', 
+                borderBottomLeftRadius: 10, 
+                borderBottomRightRadius: 10, 
+                width: '100%', 
+                height: selectedPlaceId !== null ? 90: 50, 
+                backgroundColor: colors.background,
+                borderTopWidth: 1,
+                borderColor: colors.grey_l,
+                paddingTop: selectedPlaceId !== null ? 10: 0
+            }}>
+                <PartyRoute />
+                <View style={{height: 50}}>
+                    <GooglePlacesAutocomplete
+                        fetchDetails={true}
+                        placeholder='Search'
+                        onPress={(data, details = null) => {
+                            // 'details' is provided when fetchDetails = true
+                            console.log(data, details);
+                            onPlaceSelected(details);
 
-                    }}
-                    query={{
-                        key: 'AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE',
-                        language: 'en',
-                        components: 'country:pl'
-                    }}
-                    textInputProps={{
-                        placeholderTextColor: colors.grey_d,
-                    }}
-                    renderLeftButton={() => 
-                        <View style={{width: 50, height: 50, justifyContent: 'center', alignItems: 'center'}}>
-                            <Ionicons name='search' size={20} color={colors.grey_d} />
-                        </View>
-                    }
-                    styles={{
-                        container:{
-                            width: '100%',
-                            height: 400,
-                            position: 'absolute',
-                            zIndex: 1,
-                            flex: 0,
-                        },
-                        textInput:{
-                            fontFamily: 'Montserrat-Regular',
-                            fontSize: 14,
-                            height: 50,
-                            color: colors.text,
-                            marginLeft: -10
-                        }
                         }}
-                    renderRow={(item) =>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <Ionicons name='location-outline' size={20} color={colors.grey_d} style={{marginRight: 15}} />
-                            <CustomText>{item.description}</CustomText>
-                        </View>
-                    }
-                />
-            </View>
+                        query={{
+                            key: 'AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE',
+                            language: 'en',
+                            components: 'country:pl'
+                        }}
+                        textInputProps={{
+                            placeholderTextColor: colors.grey_d,
+                        }}
+                        enablePoweredByContainer={false}
+                        renderLeftButton={() => 
+                            <View style={{width: 50, height: 50, justifyContent: 'center', alignItems: 'center'}}>
+                                <Ionicons name='search' size={20} color={colors.grey_d} />
+                            </View>
+                        }
+                        styles={{
+                            container:{
+                                width: '100%',
+                                height: 400,
+                                //position: 'absolute',
+                                zIndex: 1,
+                                flex: 0,
+                            },
+                            textInput:{
+                                height: 49
+                            }
+                            
+                            }}
+                        renderRow={(item) =>
+                            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                                <Ionicons name='location-outline' size={20} color={colors.grey_d} style={{marginRight: 15}} />
+                                <CustomText>{item.description}</CustomText>
+                            </View>
+                        }
+                    />
+                </View>
+                
+                
+            </View>     
+
             
 
-            <View style={{position: 'absolute', bottom: 20}}>
-                {renderPartyCard()}
-            </View>
+            <PartyCard />
 
         </View>
     )

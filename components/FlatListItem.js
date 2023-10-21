@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 
 import {useTheme} from '../theme/ThemeProvider';
@@ -27,7 +27,7 @@ const FlatListItem = ({item}) => {
     <TouchableOpacity style={{marginLeft: 0.05*width}} onPress={() => onClickParty(item)}>
         <View style={[styles.card, {width: width*0.9, backgroundColor: colors.background}]}>
 
-            <CardItem item={item} />         
+            <CardItem item={item} />
             <ItemFooter item={item} />
             
         </View>
