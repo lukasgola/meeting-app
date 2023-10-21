@@ -28,6 +28,7 @@ import getDirections from 'react-native-maps-directions'
 
 import { auth, db } from '../firebase/firebase-config';
 import { doc, getDoc } from "firebase/firestore";
+import MapMarker from '../components/MapMarker';
 
 
 export default function Details(){
@@ -180,7 +181,7 @@ if(currentLocation && city && user){
                             longitude: route.params.item.longitude
                         }}  
                     >
-                        <Ionicons name='location' size={40} color={colors.primary} />
+                        <MapMarker marker={route.params.item} selectedPlaceId={route.params.item.id} />
                     </Marker>
                 </MapView>
                 

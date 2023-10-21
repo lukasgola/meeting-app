@@ -89,7 +89,7 @@ export default function MainStack() {
                 component={MapChoose}
                 options={{
                     title: 'Choose event location',
-                    presentation: 'modal'
+                    //presentation: 'modal'
                 }}
             />
             <Stack.Screen 

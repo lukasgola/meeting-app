@@ -212,6 +212,7 @@ export default function Map({navigation}){
                 style={{width: '100%', height: '100%'}} 
                 //provider={PROVIDER_GOOGLE}
                 customMapStyle={mapSettingsLight}
+                
                 initialRegion={{
                     latitude: region.latitude,
                     longitude: region.longitude,

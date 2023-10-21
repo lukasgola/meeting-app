@@ -135,8 +135,8 @@ return (
         <MapView 
             ref={mapRef}
             style={{width: '100%', height: '100%'}} 
-            provider={PROVIDER_GOOGLE}
-            //customMapStyle={mapSettings}
+            //provider={PROVIDER_GOOGLE}
+            customMapStyle={mapSettingsLight}
             initialRegion={{
                 latitude: marker.latitude,
                 longitude: marker.longitude,

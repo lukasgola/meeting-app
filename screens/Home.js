@@ -173,6 +173,7 @@ export default function Main(){
                             longitudeDelta: 0.0421,
                         }}
                         //provider={PROVIDER_GOOGLE}
+                        customMapStyle={mapSettingsLight}
                         onPress={() => navigation.navigate('Map', { location: currentLocation, isEvent})}
                         zoomEnabled={false}
                         rotateEnabled={false}
