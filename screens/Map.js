@@ -125,6 +125,7 @@ export default function Map({navigation}){
                     item={item} 
                     onCancel={onMapCardCancel}
                     visible={partyVisible}
+                    route={partyRoute}
                 />
             )
         }
@@ -153,6 +154,7 @@ export default function Map({navigation}){
 
         const onDirectionModeCancel = () => {
             setDirectionMode(null)
+            setPartyRoute(null)
             moveTo({latitude: item.latitude, longitude: item.longitude})
         }
 

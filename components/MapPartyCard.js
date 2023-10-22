@@ -8,6 +8,7 @@ import * as Haptics from 'expo-haptics';
 import {useTheme} from '../theme/ThemeProvider';
 
 import FlatListItem from './FlatListItem';
+import CustomText from './CustomText';
 
 const MapPartyCard = (props) => {
 
@@ -57,10 +58,36 @@ const MapPartyCard = (props) => {
             width: '95%',
             position: 'absolute',
             bottom: leftValue,
+            marginLeft: '2.5%'
         }}>
+            {props.route !== null ? 
+                <View style={{
+                    width: '100%',
+                    height: 40,
+                    backgroundColor: colors.background,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: 20
+                }}>
+                    <View style={{flexDirection: 'row'}}>
+                        <CustomText weight='bold' color={colors.primary}>{(props.route.duration).toFixed(0) + ' min '} </CustomText>
+                        <CustomText>{(props.route.distance).toFixed(0) + ' km '}</CustomText>
+                    </View>
+                    <TouchableOpacity>
+                        <Ionicons name='navigate-outline' size={20} color={colors.text} />
+                    </TouchableOpacity>
+                </View>
+                :
+                <View>
+
+                </View>
+            }
             <TouchableOpacity 
                 onPress={() => slideOut()}
-                style={{position: 'absolute', width: 40, height: 40, zIndex: 1, right: 0, justifyContent: 'center', alignItems: 'center'}}>
+                style={{position: 'absolute', width: 40, height: 40, zIndex: 1, right: 0, top: 60, justifyContent: 'center', alignItems: 'center'}}>
                 <Ionicons name='close-outline' size={30} color={colors.text} />
             </TouchableOpacity>
             <FlatListItem item={props.item} />
