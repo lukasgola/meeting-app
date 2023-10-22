@@ -1,3 +1,6 @@
+//miganie
+//cancel button
+
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { View, Modal, KeyboardAvoidingView, Text, TouchableOpacity, Animated, Pressable } from 'react-native';
 
