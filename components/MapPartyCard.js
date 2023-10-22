@@ -54,10 +54,10 @@ const MapPartyCard = (props) => {
 
 
     return (
-        <Animated.View style={{
+        <View style={{
             width: '95%',
             position: 'absolute',
-            bottom: leftValue,
+            bottom: 20,
             marginLeft: '2.5%'
         }}>
             {props.route !== null ? 
@@ -91,7 +91,7 @@ const MapPartyCard = (props) => {
                 <Ionicons name='close-outline' size={30} color={colors.text} />
             </TouchableOpacity>
             <FlatListItem item={props.item} />
-        </Animated.View>
+        </View>
     );
 }
 
