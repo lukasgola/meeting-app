@@ -8,7 +8,7 @@ import { useRoute } from '@react-navigation/native';
 //Components
 import CustomText from '../components/CustomText';
 import MapPartyCard from '../components/MapPartyCard';
-import FlatListItem from '../components/FlatListItem';
+import MapMarker  from '../components/MapMarker';
 
 //Providers
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
@@ -19,8 +19,6 @@ import mapSettingsDark from '../data/mapSettingsDark';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView, { Marker, PROVIDER_GOOGLE, Heatmap, Callout } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-
-import MapMarker  from '../components/MapMarker';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
@@ -35,6 +33,8 @@ export default function Map({navigation}){
     const route = useRoute();
     const mapRef = useRef();
 
+    const mapSettings = colors.background == '#FFFFFF' ? mapSettingsLight : mapSettingsDark;
+
 
     const [item, setItem] = useState(null);
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
@@ -46,16 +46,14 @@ export default function Map({navigation}){
     const {currentLocation} = useCurrentLocation();
 
     
-
     const DEFAULT_DELTA = {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     }
 
-
     const [region, setRegion] = useState({
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
+        latitude: route.params.item ? route.params.item.latitude : currentLocation.latitude,
+        longitude: route.params.item ? route.params.item.longitude : currentLocation.longitude,
         latitudeDelta: DEFAULT_DELTA.latitudeDelta,
         longitudeDelta: DEFAULT_DELTA.longitudeDelta,
     });
@@ -84,15 +82,6 @@ export default function Map({navigation}){
         }
         moveTo(position)
     }
-
-    
-    useEffect(() => {
-        getParties();
-        if(route.params.item){
-            onMarkerClick(route.params.item)
-            
-        }
-    }, [])
     
     const getParties = async () => {
 
@@ -214,9 +203,14 @@ export default function Map({navigation}){
         setDestination({latitude: marker.latitude, longitude: marker.longitude})
         onPlaceSelected({latitude: marker.latitude, longitude: marker.longitude})
         setPartyVisible(true)
-        moveTo({latitude: marker.latitude, longitude: marker.longitude})
     }
 
+    useEffect(() => {
+        getParties();
+        if(route.params.item){
+            onMarkerClick(route.params.item)
+        }
+    }, [])
 
     return (
         <View style={{flex: 1}}>
@@ -224,8 +218,7 @@ export default function Map({navigation}){
                 ref={mapRef}
                 style={{width: '100%', height: '100%'}} 
                 //provider={PROVIDER_GOOGLE}
-                customMapStyle={mapSettingsLight}
-                
+                customMapStyle={mapSettings}
                 initialRegion={{
                     latitude: region.latitude,
                     longitude: region.longitude,
