@@ -82,6 +82,7 @@ export default function Map({navigation}){
                 latitudeDelta: DEFAULT_DELTA.latitudeDelta,
                 longitudeDelta: DEFAULT_DELTA.longitudeDelta
         }
+        moveTo({latitude: details.latitude, longitude: details.longitude})
     }
 
     
@@ -290,8 +291,9 @@ export default function Map({navigation}){
                         placeholder='Search'
                         onPress={(data, details = null) => {
                             // 'details' is provided when fetchDetails = true
-                            console.log(data, details);
-                            onPlaceSelected(details);
+                            console.log(details);
+
+                            moveTo({latitude: details.geometry.location.lat, longitude: details.geometry.location.lng})
 
                         }}
                         query={{
