@@ -47,8 +47,8 @@ export default function Map({navigation}){
 
     
     const DEFAULT_DELTA = {
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.3,
+        longitudeDelta: 0.3,
     }
 
     const [region, setRegion] = useState({
@@ -205,7 +205,9 @@ export default function Map({navigation}){
     useEffect(() => {
         getParties();
         if(route.params.item){
-            onMarkerClick(route.params.item)
+            setSelectedPlaceId(route.params.item.id)
+            setItem(route.params.item)
+            setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
         }
     }, [])
 
@@ -216,12 +218,7 @@ export default function Map({navigation}){
                 style={{width: '100%', height: '100%'}} 
                 //provider={PROVIDER_GOOGLE}
                 customMapStyle={mapSettings}
-                initialRegion={{
-                    latitude: region.latitude,
-                    longitude: region.longitude,
-                    latitudeDelta: region.latitudeDelta,
-                    longitudeDelta: region.longitudeDelta,
-                }}
+                initialRegion={region}
                 onRegionChange={reg => setRegion(reg)}
                 showsUserLocation={true}
                 followsUserLocation={true}
