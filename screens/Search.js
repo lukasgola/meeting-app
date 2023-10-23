@@ -73,7 +73,7 @@ export default function Search({navigation}){
             },
           },
         });
-      }, [data, navigation]);
+    }, [data, navigation]);
     
       const layoutAnimConfig = {
         duration: 300,

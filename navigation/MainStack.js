@@ -10,10 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import Home from '../screens/Home';
 import Details from '../screens/Details';
 import Map from '../screens/Map';
-import MapChoose from '../screens/MapChoose'
 import MyProfile from '../screens/MyProfile';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
@@ -83,13 +81,8 @@ export default function MainStack() {
             <Stack.Screen 
                 name='Map' 
                 component={Map}
-            />
-            <Stack.Screen 
-                name='MapChoose' 
-                component={MapChoose}
                 options={{
-                    title: 'Choose event location',
-                    //presentation: 'modal'
+                    headerBackTitle: 'Back'
                 }}
             />
             <Stack.Screen 
