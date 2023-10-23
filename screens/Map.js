@@ -19,6 +19,7 @@ import mapSettingsDark from '../data/mapSettingsDark';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView, { Marker, PROVIDER_GOOGLE, Heatmap, Callout } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import Geocoder from 'react-native-geocoding';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
@@ -44,6 +45,9 @@ export default function Map({navigation}){
     const [parties, setParties] = useState([])
 
     const {currentLocation} = useCurrentLocation();
+
+    const [ chooseMarker, setChooseMarker ] = useState(null);
+    const [ address, setAddress ] = useState(null);
 
     
     const DEFAULT_DELTA = {
@@ -168,6 +172,26 @@ export default function Map({navigation}){
         onPlaceSelected({latitude: marker.latitude, longitude: marker.longitude})
     }
 
+
+    const setLocation = (location, timeout) => {
+        setChooseMarker(location);
+
+        Geocoder.from(location.latitude, location.longitude)
+            .then(json => {
+
+                setAddress(json.results[0].formatted_address)
+            })
+            .catch(error => console.warn(error));
+            
+        setTimeout(() => {
+            moveTo(location)
+        }, timeout)
+    }
+
+    const onLocationConfirm = () => {
+        navigation.navigate('AddEvent', {eventLocation: chooseMarker})
+    }
+
     const renderMarkers = () => {
         return(
             parties.map((marker) => (
@@ -203,11 +227,16 @@ export default function Map({navigation}){
     }
 
     useEffect(() => {
-        getParties();
-        if(route.params.item){
-            setSelectedPlaceId(route.params.item.id)
-            setItem(route.params.item)
-            setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
+        if(route.params.mapChoose){
+            setLocation(currentLocation)
+        }
+        else{
+            getParties();
+            if(route.params.item){
+                setSelectedPlaceId(route.params.item.id)
+                setItem(route.params.item)
+                setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
+            }
         }
     }, [])
 
@@ -223,7 +252,21 @@ export default function Map({navigation}){
                 showsUserLocation={true}
                 followsUserLocation={true}
                 showsMyLocationButton={true}
+                onPress={(event) =>  (route.params.mapChoose && setLocation(event.nativeEvent.coordinate, 0))}
             >
+
+                {route.params.mapChoose && chooseMarker !== null ? 
+                    <Marker 
+                        coordinate={{
+                            latitude: chooseMarker.latitude,
+                            longitude: chooseMarker.longitude
+                        }}
+                        draggable={true}
+                        onDragEnd={(event) => setLocation(event.nativeEvent.coordinate, 500) }
+                    />
+                    :
+                    <View></View>
+                }
 
                 {renderMarkers()}
 
@@ -276,6 +319,9 @@ export default function Map({navigation}){
                             console.log(details);
 
                             moveTo({latitude: details.geometry.location.lat, longitude: details.geometry.location.lng})
+                            if(route.params.mapChoose){
+                                setLocation({latitude: details.geometry.location.lat, longitude: details.geometry.location.lng})
+                            }
 
                         }}
                         query={{
@@ -315,7 +361,39 @@ export default function Map({navigation}){
             </View>
 
             {PartyCard()}
-
+            {route.params.mapChoose && 
+                <View style={{
+                    position: 'absolute',
+                    bottom: 40,
+                    width: '100%',
+                    paddingHorizontal: '5%'
+                }}>
+                    <View style ={{
+                        width: '100%',
+                        height: 50,
+                        backgroundColor: colors.background,
+                        borderRadius: 10,
+                        justifyContent: 'center', 
+                        alignItems: 'center', 
+                    }}>
+                        <CustomText>{address}</CustomText>
+                    </View>
+                    <TouchableOpacity 
+                        onPress={() => onLocationConfirm()}
+                        style={{ 
+                            width: '100%', 
+                            height: 50, 
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                            borderRadius: 10,
+                            backgroundColor: colors.primary,
+                            marginTop: 10
+                        }}>
+                        <CustomText weight='bold' size={18} color={colors.background}>Select this location</CustomText>
+                    </TouchableOpacity>
+                </View>
+                
+            }
         </View>
     )
 }

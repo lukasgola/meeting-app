@@ -306,7 +306,7 @@ export default function AddEvent(){
 
                 <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>   
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate('MapChoose', {eventLocation})}
+                        onPress={() => navigation.navigate('Map', {mapChoose: true})}
                         style={{
                             width: '100%', 
                             paddingVertical: 16,
