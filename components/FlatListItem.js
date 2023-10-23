@@ -5,7 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Components
 import CustomText from './CustomText';
-import ItemFooter from './ItemFooter';
 import UserIcon from '../components/UserIcon';
 
 //Providers
@@ -26,7 +25,7 @@ const FlatListItem = ({item}) => {
     const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
-    const {currentLocation, setCurrentLocation} = useCurrentLocation();
+    const {currentLocation} = useCurrentLocation();
     const navigation = useNavigation()
 
     const [ user, setUser ] = useState(null);
@@ -42,7 +41,6 @@ const FlatListItem = ({item}) => {
             {latitude: latitude, longitude: longitude},
         );
         return Math.round(dis/1000);
-
     };
 
     const getUser = () => {
@@ -69,7 +67,6 @@ const FlatListItem = ({item}) => {
         style={[styles.card, {width: '100%', backgroundColor: colors.background}]}
     >
         <View style={styles.card_main}>
-            
             <View style={styles.card_main_image_view}>
             {user ? 
                 <UserIcon size={80} avatar={user.avatar} score={user.score} />

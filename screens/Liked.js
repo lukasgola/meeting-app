@@ -1,19 +1,14 @@
 import React, {useState} from 'react';
-import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, TextInput} from 'react-native';
+import {View, Dimensions} from 'react-native';
 
-import {useTheme} from '../theme/ThemeProvider';
+//Providers
+import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
 
+//Components
 import CustomText from '../components/CustomText';
 
-import FlatListItem from '../components/FlatListItem';
-import PopularItem from '../components/PopularItem';
-import TrendingUser from '../components/TrendingUser';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-
-
 
 
 export default function Search(){

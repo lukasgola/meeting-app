@@ -12,9 +12,6 @@ import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 //Components
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
-import PopularItem from '../components/PopularItem';
-import TrendingUser from '../components/TrendingUser';
-
 
 //Map
 import mapSettingsLight from '../data/mapSettingsLight';

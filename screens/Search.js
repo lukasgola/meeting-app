@@ -1,19 +1,19 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, LayoutAnimation} from 'react-native';
 
-//Hooks
-import {useTheme} from '../theme/ThemeProvider';
+
 
 //Components
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
 
 //Providers
+import {useTheme} from '../theme/ThemeProvider';
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
-import { getDoc, getDocs, collectionGroup } from "firebase/firestore";
+import { getDocs, collectionGroup } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
