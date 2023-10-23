@@ -57,10 +57,10 @@ const MapPartyCard = (props) => {
 
 
     return (
-        <View style={{
+        <Animated.View style={{
             width: '95%',
             position: 'absolute',
-            bottom: 20,
+            bottom: leftValue,
             marginLeft: '2.5%'
         }}>
             {props.route !== null ? 
@@ -88,13 +88,14 @@ const MapPartyCard = (props) => {
 
                 </View>
             }
+            <FlatListItem item={props.item} />
+
             <TouchableOpacity 
                 onPress={() => slideOut()}
-                style={{position: 'absolute', width: 40, height: 40, zIndex: 1, right: 0, top: 60, justifyContent: 'center', alignItems: 'center'}}>
-                <Ionicons name='close-outline' size={30} color={colors.text} />
+                style={{width: '100%', height: 40, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginTop: -10, marginBottom: 20}}>
+                <CustomText size={18}>Cancel</CustomText>
             </TouchableOpacity>
-            <FlatListItem item={props.item} />
-        </View>
+        </Animated.View>
     );
 }
 

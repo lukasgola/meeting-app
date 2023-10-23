@@ -8,6 +8,7 @@ import { useRoute } from '@react-navigation/native';
 //Components
 import CustomText from '../components/CustomText';
 import MapPartyCard from '../components/MapPartyCard';
+import FlatListItem from '../components/FlatListItem';
 
 //Providers
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
@@ -26,6 +27,7 @@ import { db } from '../firebase/firebase-config'
 import { getDocs, collectionGroup } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { loadLocalRawResource } from 'react-native-svg';
 
 export default function Map({navigation}){
 
@@ -333,7 +335,7 @@ export default function Map({navigation}){
 
             
 
-            <PartyCard />
+            {PartyCard()}
 
         </View>
     )
