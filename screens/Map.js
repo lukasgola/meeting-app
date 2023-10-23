@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Dimensions, ActivityIndicator, TouchableOpacity, FlatList} from 'react-native';
+import {View, TouchableOpacity, FlatList} from 'react-native';
 
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
@@ -38,11 +38,11 @@ export default function Map({navigation}){
 
     const [item, setItem] = useState(null);
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
-    const [partyVisible, setPartyVisible] = useState(null);
     const [directionMode, setDirectionMode] = useState(null);
-    const [partyRoute, setPartyRoute] = useState(null);
+    const [partyRouteDetails, setPartyRouteDetails] = useState(null);
 
     const [parties, setParties] = useState([])
+
     const {currentLocation} = useCurrentLocation();
 
     
@@ -82,48 +82,30 @@ export default function Map({navigation}){
         }
         moveTo(position)
     }
-    
-    const getParties = async () => {
 
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
-
-        const parties = [];
-        
-        querySnapshot.forEach((doc) => { 
-
-            parties.push({
-                ...doc.data(),
-                id: doc.id,
-                organizer: doc.ref.parent.parent.id
-            })
-        });
-        setParties(parties);
-    }
-    
-
-    const onPartyCardCancel = () => {
-        setSelectedPlaceId(null), 
-        setDestination({latitude: null, longitude: null}),
-        setPartyVisible(false)
-        setPartyRoute(null)
-        setDirectionMode(null)
-    }
 
 
     const PartyCard = () => {
-        if(partyVisible) {
+        if(selectedPlaceId) {
             return (
                 <MapPartyCard 
                     item={item} 
                     onCancel={onPartyCardCancel}
-                    visible={partyVisible}
-                    route={partyRoute}
+                    visible={selectedPlaceId}
+                    route={partyRouteDetails}
                 />
             )
         }
     }
 
-    const PartyRoute = () => {
+    const onPartyCardCancel = () => {
+        setSelectedPlaceId(null), 
+        setDestination({latitude: null, longitude: null}),
+        setPartyRouteDetails(null)
+        setDirectionMode(null)
+    }
+
+    const PartyRouteModes = () => {
 
         const modes = [
             {
@@ -146,7 +128,7 @@ export default function Map({navigation}){
 
         const onDirectionModeCancel = () => {
             setDirectionMode(null)
-            setPartyRoute(null)
+            setPartyRouteDetails(null)
             moveTo({latitude: item.latitude, longitude: item.longitude})
         }
 
@@ -179,6 +161,13 @@ export default function Map({navigation}){
         )
     }
 
+    const onMarkerClick = (marker) => {
+        setSelectedPlaceId(marker.id)
+        setItem(marker)
+        setDestination({latitude: marker.latitude, longitude: marker.longitude})
+        onPlaceSelected({latitude: marker.latitude, longitude: marker.longitude})
+    }
+
     const renderMarkers = () => {
         return(
             parties.map((marker) => (
@@ -196,13 +185,21 @@ export default function Map({navigation}){
         )
     }
 
+    const getParties = async () => {
 
-    const onMarkerClick = (marker) => {
-        setSelectedPlaceId(marker.id)
-        setItem(marker)
-        setDestination({latitude: marker.latitude, longitude: marker.longitude})
-        onPlaceSelected({latitude: marker.latitude, longitude: marker.longitude})
-        setPartyVisible(true)
+        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+
+        const parties = [];
+        
+        querySnapshot.forEach((doc) => { 
+
+            parties.push({
+                ...doc.data(),
+                id: doc.id,
+                organizer: doc.ref.parent.parent.id
+            })
+        });
+        setParties(parties);
     }
 
     useEffect(() => {
@@ -242,12 +239,6 @@ export default function Map({navigation}){
                         mode={directionMode}
                         apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
                         onReady={result => {
-
-                            //setDistance(result.distance);
-                            //setDuration(result.duration);
-
-                            console.log(`Distance: ${result.distance} km`)
-                            console.log(`Duration: ${result.duration} min.`)
                             
                             mapRef.current.fitToCoordinates(result.coordinates, {
                                 edgePadding: {
@@ -258,7 +249,7 @@ export default function Map({navigation}){
                                 },
                                 animated: true
                             })
-                            setPartyRoute(result)
+                            setPartyRouteDetails(result)
                         }}
                     />
                     : <View></View>}
@@ -278,7 +269,7 @@ export default function Map({navigation}){
                 borderColor: colors.grey_l,
                 paddingTop: selectedPlaceId !== null ? 10: 0
             }}>
-                <PartyRoute />
+                <PartyRouteModes />
                 <View style={{height: 50}}>
                     <GooglePlacesAutocomplete
                         fetchDetails={true}
@@ -308,7 +299,6 @@ export default function Map({navigation}){
                             container:{
                                 width: '100%',
                                 height: 400,
-                                //position: 'absolute',
                                 zIndex: 1,
                                 flex: 0,
                             },
@@ -325,11 +315,7 @@ export default function Map({navigation}){
                         }
                     />
                 </View>
-                
-                
-            </View>     
-
-            
+            </View>
 
             {PartyCard()}
 
