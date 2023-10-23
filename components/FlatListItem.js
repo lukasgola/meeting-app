@@ -24,13 +24,12 @@ const FlatListItem = ({item}) => {
     }
 
   return (
-    <TouchableOpacity  onPress={() => onClickParty(item)}>
-        <View style={[styles.card, {width: '100%', backgroundColor: colors.background}]}>
-
+    <TouchableOpacity  
+        onPress={() => onClickParty(item)}
+        tyle={[styles.card, {width: '100%', backgroundColor: colors.background}]}
+    >
             <CardItem item={item} />
             <ItemFooter item={item} />
-            
-        </View>
     </TouchableOpacity>
   );
 }
