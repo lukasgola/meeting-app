@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {View, Platform, StyleSheet, Dimensions, ScrollView, FlatList, TouchableOpacity, ImageBackground, ActivityIndicator} from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import {View, Platform, StyleSheet, Dimensions, ScrollView, FlatList, TouchableOpacity, ActivityIndicator} from 'react-native';
 
 
 //Hooks
@@ -22,7 +22,6 @@ import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import getDirections from 'react-native-maps-directions'
 
 
 
@@ -30,6 +29,8 @@ import { auth, db } from '../firebase/firebase-config';
 import { doc, getDoc } from "firebase/firestore";
 import MapMarker from '../components/MapMarker';
 
+
+import redirectToMaps from '../functions/redirectToMaps';
 
 export default function Details(){
 
@@ -87,6 +88,8 @@ export default function Details(){
         return Math.round(dis/1000);
     };
 
+    const mapsURL = "https://www.google.com/maps/dir/?api=1"
+
     const handleGetDirections = (destLat, destLng) => {
         const data = {
            source: {
@@ -104,7 +107,7 @@ export default function Details(){
             }
           ]
         }
-        getDirections(data)
+        redirectToMaps(data)
       }
 
       const [ user, setUser ] = useState();
@@ -163,7 +166,7 @@ if(currentLocation && city && user){
                     style={{width: '100%', height: 300}} 
                     //provider={PROVIDER_GOOGLE}
                     onPress={() => navigation.navigate('Map', { location:{latitude: item.latitude, longitude: item.longitude} ,isEvent, item})}
-                    //customMapStyle={mapSettings}
+                    customMapStyle={mapSettingsLight}
                     initialRegion={{
                         latitude: route.params.item.latitude - 0.01,
                         longitude: route.params.item.longitude,

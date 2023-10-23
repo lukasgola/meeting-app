@@ -27,7 +27,7 @@ import { db } from '../firebase/firebase-config'
 import { getDocs, collectionGroup } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { loadLocalRawResource } from 'react-native-svg';
+
 
 export default function Map({navigation}){
 
@@ -113,11 +113,12 @@ export default function Map({navigation}){
     }
     
 
-    const onMapCardCancel = () => {
+    const onPartyCardCancel = () => {
         setSelectedPlaceId(null), 
         setDestination({latitude: null, longitude: null}),
         setPartyVisible(false)
         setPartyRoute(null)
+        setDirectionMode(null)
     }
 
 
@@ -126,7 +127,7 @@ export default function Map({navigation}){
             return (
                 <MapPartyCard 
                     item={item} 
-                    onCancel={onMapCardCancel}
+                    onCancel={onPartyCardCancel}
                     visible={partyVisible}
                     route={partyRoute}
                 />
@@ -216,6 +217,7 @@ export default function Map({navigation}){
         setPartyVisible(true)
         moveTo({latitude: marker.latitude, longitude: marker.longitude})
     }
+
 
     return (
         <View style={{flex: 1}}>
