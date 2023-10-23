@@ -82,16 +82,15 @@ export default function Map({navigation}){
                 latitudeDelta: DEFAULT_DELTA.latitudeDelta,
                 longitudeDelta: DEFAULT_DELTA.longitudeDelta
         }
-        moveTo({latitude: details.latitude, longitude: details.longitude})
+        moveTo(position)
     }
 
     
     useEffect(() => {
         getParties();
-        if(route.params.isEvent){
-            setSelectedPlaceId(route.params.item.id)
-            setItem(route.params.item)
-            setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
+        if(route.params.item){
+            onMarkerClick(route.params.item)
+            
         }
     }, [])
     

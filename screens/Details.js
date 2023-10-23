@@ -133,7 +133,6 @@ export default function Details(){
         Geocoder.from(route.params.item.latitude, route.params.item.longitude)
 		.then(json => {
 		var addressComponent = json.results[1].address_components[2];
-			//console.log(addressComponent);
             setCity(addressComponent.long_name)
 		})
 		.catch(error => console.warn(error));
@@ -165,7 +164,7 @@ if(currentLocation && city && user){
                 <MapView 
                     style={{width: '100%', height: 300}} 
                     //provider={PROVIDER_GOOGLE}
-                    onPress={() => navigation.navigate('Map', { location:{latitude: item.latitude, longitude: item.longitude} ,isEvent, item})}
+                    onPress={() => navigation.navigate('Map', {item: item})}
                     customMapStyle={mapSettingsLight}
                     initialRegion={{
                         latitude: route.params.item.latitude - 0.01,
