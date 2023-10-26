@@ -64,10 +64,10 @@ export default function AddEvent(){
     const [isCategoryPickerVisible, setCategoryPickerVisible] = useState(false);
 
     const types = [
-        { label: 'Party', value: 'Party' },
-        { label: 'Meeting', value: 'Meeting' },
-        { label: 'Game', value: 'Game' },
-        { label: 'Other', value: 'Other'},
+        { label: 'Party', value: 'parties' },
+        { label: 'Meeting', value: 'meetings' },
+        { label: 'Game', value: 'game' },
+        { label: 'Other', value: 'other'},
     ]
 
     const onChangeTime = (event, value) => {

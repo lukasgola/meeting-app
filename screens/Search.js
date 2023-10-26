@@ -13,34 +13,60 @@ import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
-import { getDocs, collectionGroup } from "firebase/firestore";
+import { getDocs, collectionGroup, where, query } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function Search({navigation}){
 
-
-    const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
 
-    const h1 = 25
-    const h2 = 20
-    const h3 = 16
-    const h4 = 14
-
     const {colors} = useTheme();
+    const { currentLocation } = useCurrentLocation();
 
     const [parties, setParties] = useState();
     const [filteredData, setFilteredData] = useState();
 
     const [ data, setData ] = useState();
 
-    const { currentLocation } = useCurrentLocation();
+    
+
+    const CATEGORIES = [
+        {
+            id: 1,
+            title: 'parties',
+            icon: 'beer-outline'
+        },
+        {
+            id: 2,
+            title: 'meetings',
+            icon: 'people-outline'
+        },
+        {
+            id: 3,
+            title: 'transport',
+            icon: 'car-outline'
+        },
+        {
+            id: 4,
+            title: 'games',
+            icon: 'american-football-outline'
+        },
+        {
+            id: 5,
+            title: 'others',
+            icon: 'earth-outline'
+        },
+    ]
+
+    const [selectedValue, setSelectedValue] = useState('parties')
 
     const getParties = async () => {
 
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+        const collectionRef = collectionGroup(db, "parties");
+        const q = query(collectionRef, where("category", "==", selectedValue));
+        const querySnapshot = await getDocs(q);
 
         const temp = [];
         
@@ -58,13 +84,10 @@ export default function Search({navigation}){
     }
     
 
-    useEffect(() => {
-        getParties();
-    }, [])
-
     useLayoutEffect(() => {
         navigation.setOptions({
           headerSearchBarOptions: {
+            hideWhenScrolling: false,
             obscureBackground: false,
             placeholder: 'Search',
             onChangeText: (event) => {
@@ -102,95 +125,31 @@ export default function Search({navigation}){
         
       }
 
+    useEffect(() => {
+        getParties();
+    }, [selectedValue])
 
-    const CATEGORIES = [
-        {
-            id: 1,
-            title: 'Parties',
-            icon: 'beer-outline'
-        },
-        {
-            id: 2,
-            title: 'Meetings',
-            icon: 'people-outline'
-        },
-        {
-            id: 3,
-            title: 'Transport',
-            icon: 'car-outline'
-        },
-        {
-            id: 4,
-            
-            title: 'Games',
-            icon: 'american-football-outline'
-        },
-        {
-            id: 5,
-            title: 'Others',
-            icon: 'earth-outline'
-        },
-    ]
 
-    const [selectedId, setSelectedId] = useState(1);
+    const CategoryItem = ({item}) => {
 
-    const CategoryItem = ({ item, onPress, backgroundColor, textColor}) => (
-        <TouchableOpacity 
-            onPress={onPress}
+        const textColor = item.title == selectedValue ? colors.text : colors.grey_d 
+
+        return (
+            <TouchableOpacity 
+            onPress={() =>  setSelectedValue(item.title)}
             style={{
                 height: 60,
                 paddingHorizontal: 20,
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: backgroundColor
+                backgroundColor: colors.background
             }}
         >
             <Ionicons style={{marginBottom: 5}} name={item.icon} size={25} color={textColor} />
-            <CustomText size={12} color={textColor} weight={item.id == selectedId ? 'bold' : 'regular'} >{item.title}</CustomText>
+            <CustomText size={12} color={textColor} weight={item.title == selectedValue ? 'bold' : 'regular'} >{item.title}</CustomText>
         </TouchableOpacity>
-      );
-
-
-    const renderCategoryItem = ({ item }) => {
-    
-        return (
-          <CategoryItem
-            item={item}
-            onPress={() => setSelectedId(item.id)}
-            backgroundColor={ colors.background }
-            textColor={ item.id == selectedId ? colors.text : colors.grey_d }
-          />
-        );
-    };
-
-    const renderFlatlist = (data) => {
-        return(
-            <FlatList
-                data={data}
-                renderItem={({item}) => <FlatListItem item={item} location={currentLocation} />}
-                keyExtractor={(item) => item.id}
-                showsVerticalScrollIndicator={false}
-                ListHeaderComponent={
-                    <View style={{marginBottom: 20}}>
-                    </View>
-                }
-                ListEmptyComponent={
-                        
-                    <View
-                        style={{
-                            flex: 1,
-                            paddingTop: height/3,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <CustomText>No events yet</CustomText>
-                    </View>
-                    
-                    
-                }
-            />
-        ) 
+        )
+        
     }
 
 
@@ -198,26 +157,51 @@ export default function Search({navigation}){
         <View style={{
             flex: 1,
             backgroundColor: colors.background,
+            paddingTop: 60,
+            paddingHorizontal: '5%'
         }}>
-                
-            {renderFlatlist(filteredData)}
 
             <View
                 style={{
                     height: 60,
+                    position: 'absolute',
+                    top: 0,
                     borderBottomWidth: 1,
                     borderBottomColor: 'rgba(0,0,0,0.1)',
+                    zIndex: 0
                 }}    
             >
                 <FlatList
                     data={CATEGORIES}
-                    renderItem={renderCategoryItem}
+                    renderItem={({item}) => <CategoryItem item={item}/>}
                     keyExtractor={(item) => item.id}
-                    extraData={selectedId}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                 />
             </View>
+
+            <FlatList
+                data={filteredData}
+                renderItem={({item}) => <FlatListItem item={item} location={currentLocation} />}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={
+                    <View style={{marginTop: 10}}>
+
+                    </View>
+                }
+                ListEmptyComponent={
+                    <View
+                        style={{
+                            paddingTop: height/3,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <CustomText>No events yet</CustomText>
+                    </View>
+                }
+            />
             
         </View>
     );
