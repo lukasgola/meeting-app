@@ -10,7 +10,7 @@ import Liked from '../screens/Liked';
 
 import HomeStack from './HomeStack';
 import SearchStack from './SearchStack';
-
+import LikedStack from './LikedStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -57,7 +57,7 @@ const BottomTabs = () => {
             }}
 
             />
-            <Tab.Screen name='Liked' component={Liked} options={{
+            <Tab.Screen name='Liked' component={LikedStack} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='heart-outline' filled='heart' title='Liked' />
                 )
