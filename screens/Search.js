@@ -21,6 +21,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function Search({navigation}){
 
     const height = Dimensions.get('window').height;
+    const width = Dimensions.get('window').width;
 
     const {colors} = useTheme();
     const { currentLocation } = useCurrentLocation();
@@ -34,27 +35,26 @@ export default function Search({navigation}){
 
     const CATEGORIES = [
         {
-            id: 1,
+            title: 'all',
+            icon: 'beer-outline'
+        },
+        {
             title: 'parties',
             icon: 'beer-outline'
         },
         {
-            id: 2,
             title: 'meetings',
             icon: 'people-outline'
         },
         {
-            id: 3,
             title: 'transport',
             icon: 'car-outline'
         },
         {
-            id: 4,
             title: 'games',
             icon: 'american-football-outline'
         },
         {
-            id: 5,
             title: 'others',
             icon: 'earth-outline'
         },
@@ -65,7 +65,11 @@ export default function Search({navigation}){
     const getParties = async () => {
 
         const collectionRef = collectionGroup(db, "parties");
-        const q = query(collectionRef, where("category", "==", selectedValue));
+        let q = query(collectionRef);
+        if (selectedValue != 'all'){
+            q = query(collectionRef, where("category", "==", selectedValue));
+        }
+        
         const querySnapshot = await getDocs(q);
 
         const temp = [];
@@ -164,17 +168,17 @@ export default function Search({navigation}){
             <View
                 style={{
                     height: 60,
+                    width: width,
                     position: 'absolute',
                     top: 0,
                     borderBottomWidth: 1,
                     borderBottomColor: 'rgba(0,0,0,0.1)',
-                    zIndex: 0
                 }}    
             >
                 <FlatList
                     data={CATEGORIES}
                     renderItem={({item}) => <CategoryItem item={item}/>}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.title}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                 />
