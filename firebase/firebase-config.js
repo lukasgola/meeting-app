@@ -149,6 +149,15 @@ export async function addEvent(event){
   }
 }
 
+export async function setLikeParty(id){
+  try {
+    await addDoc(collection(db, `users/${auth.currentUser.uid}/liked`), {
+      partyID: id
+    });
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
 
 export async function uploadImage(uid, avatar) {
 

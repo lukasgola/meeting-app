@@ -16,7 +16,7 @@ import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 import {getDistance} from 'geolib';
 
 //Firebase
-import { db } from '../firebase/firebase-config';
+import { db, setLikeParty } from '../firebase/firebase-config';
 import { doc, getDoc } from "firebase/firestore";
 
 
@@ -33,6 +33,11 @@ const FlatListItem = ({item}) => {
 
     const onClickParty = (item) => {
         navigation.navigate('Details', {item})
+    }
+
+    const onClickLike = (id) => {
+        console.log(id)
+        setLikeParty(id)
     }
 
     const calculateDistance = (latitude, longitude) => {
@@ -116,6 +121,7 @@ const FlatListItem = ({item}) => {
             </View>
             <View style={styles.card_footer_half}>
                 <TouchableOpacity 
+                    onPress={() =>  onClickLike(item.id)}
                     style={[styles.card_footer_half_content, {zIndex: 1}]}>
                     <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.primary : colors.grey_d } />
                     <CustomText weight='bold' color={like ? colors.text : colors.grey_d} size={15}>{item.likes}</CustomText>

@@ -60,7 +60,7 @@ export default function Search({navigation}){
         },
     ]
 
-    const [selectedValue, setSelectedValue] = useState('parties')
+    const [selectedValue, setSelectedValue] = useState('all')
 
     const getParties = async () => {
 
