@@ -9,12 +9,12 @@ import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import Liked from '../screens/Liked';
+import Profile from '../screens/Profile';
 
 
 const Stack = createNativeStackNavigator();
 
-export default function LikedStack() {
+export default function ProfileStack() {
 
     const {colors} = useTheme();
 
@@ -27,7 +27,7 @@ export default function LikedStack() {
 
     return(
         <Stack.Navigator
-            initialRouteName='Liked'
+            initialRouteName='Profile'
             screenOptions={{
                 headerShown: true,
                 headerShadowVisible: false,
@@ -48,14 +48,10 @@ export default function LikedStack() {
         >
 
             <Stack.Screen 
-                name='Liked' 
-                component={Liked}
+                name='Profile' 
+                component={Profile}
                 options={{
-                    title: 'Liked',
-                    headerLeft: () =>   <TouchableOpacity onPress={toggleDrawer}>
-                                            <Ionicons name='menu-outline' size={25} color={colors.primary}/>
-                                        </TouchableOpacity>,
-                  
+                    title: 'Profile',
                 }}
             />
         </Stack.Navigator>

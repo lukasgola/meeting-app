@@ -3,7 +3,8 @@ import {View, Dimensions, ScrollView, TouchableOpacity, ImageBackground, FlatLis
 
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { useCurrentUser } from '../providers/CurrentUserProvider';
 
 //Components
 import CustomText from '../components/CustomText';
@@ -23,11 +24,10 @@ export default function Profile(){
     const h4 = 14
 
     const {colors} = useTheme();
+    const { currentUser } = useCurrentUser();
 
     const navigation = useNavigation();
     const route = useRoute();
-
-    const [currentUser, setCurrentUser] = useState(route.params.currentUser);
 
     const data = [
         {
