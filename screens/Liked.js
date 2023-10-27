@@ -5,6 +5,7 @@ import {View, Dimensions, FlatList} from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 import { useCurrentUser } from '../providers/CurrentUserProvider'
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
+import { useIsFocused } from '@react-navigation/native';
 
 //Components
 import CustomText from '../components/CustomText';
@@ -26,6 +27,7 @@ export default function Search({navigation}){
     const {colors} = useTheme();
     const {currentUser} = useCurrentUser()
     const { currentLocation } = useCurrentLocation()
+    const { isFocused } = useIsFocused()
  
     const [ liked, setLiked ] = useState([]);
 
@@ -67,9 +69,18 @@ export default function Search({navigation}){
     }
 
 
-    useEffect(() => {
-        getLiked()
-    }, [])
+    React.useEffect(() => {
+        //getLiked()
+        const unsubscribe = navigation.addListener('tabPress', (e) => {
+            // Prevent default behavior
+            e.preventDefault();
+            console.log('elo')
+            // Do something manually
+            // ...
+          });
+        
+          return unsubscribe;
+    }, [navigation])
     
 
     return (

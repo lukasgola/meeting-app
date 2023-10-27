@@ -1,4 +1,3 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, TouchableOpacity, StatusBar } from 'react-native';
 import {useTheme} from '../theme/ThemeProvider';
 
@@ -10,7 +9,9 @@ import HomeStack from './HomeStack';
 import SearchStack from './SearchStack';
 import LikedStack from './LikedStack';
 
-const Tab = createBottomTabNavigator();
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+const Tab = createMaterialTopTabNavigator();
 
 const BottomTabs = () => {
 
@@ -21,6 +22,7 @@ const BottomTabs = () => {
             <View style={{
                 alignItems: 'center',
                 justifyContent: 'center',
+                width: 80,
             }}>
                 <Ionicons name={props.focused ? props.filled : props.icon} size={25} color={props.focused ? colors.primary : colors.grey} />
                 <CustomText size={10} color={props.focused ? colors.text : colors.grey}>{props.title}</CustomText>
@@ -31,34 +33,50 @@ const BottomTabs = () => {
 
     return(
         <Tab.Navigator
+            initialRouteName='HomeStack'
+            tabBarPosition='bottom'
             screenOptions={{
-                headerShown: false,
+                tabBarStyle: {
+                backgroundColor: colors.background,
+                height: 70,
+                },
                 tabBarShowLabel: false,
-                tabBarInactiveTintColor: colors.grey,
-                tabBarActiveTintColor: colors.primary,
-                tabBarStyle:{
-                    backgroundColor: colors.background,
-                }
+                tabBarIconStyle: {
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 5
+                },
+                tabBarIndicatorStyle:{
+                position: 'absolute',
+                top: 0,
+                backgroundColor: colors.primary
+                },
+                swipeEnabled: false
+                
             }}
+
             
         >
             <Tab.Screen name='HomeStack' component={HomeStack} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='home-outline' filled='home' title='Home' />
-                )
+                ),
+                
             }}
             />
             <Tab.Screen name='SearchStack' component={SearchStack} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='search-outline' filled='search' title='Search' />
-                )
+                ),
+                
             }}
 
             />
             <Tab.Screen name='LikedStack' component={LikedStack} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='heart-outline' filled='heart' title='Liked' />
-                )
+                ),
+                tabBarLabel: ''
             }}
             />
         </Tab.Navigator>

@@ -10,6 +10,7 @@ import FlatListItem from '../components/FlatListItem';
 //Providers
 import {useTheme} from '../theme/ThemeProvider';
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
+import { useIsFocused } from '@react-navigation/native';
 
 //Firebase
 import { db } from '../firebase/firebase-config'
@@ -25,6 +26,7 @@ export default function Search({navigation}){
 
     const {colors} = useTheme();
     const { currentLocation } = useCurrentLocation();
+    const {isFocused} = useIsFocused()
 
     const [parties, setParties] = useState();
     const [filteredData, setFilteredData] = useState();
@@ -131,7 +133,7 @@ export default function Search({navigation}){
 
     useEffect(() => {
         getParties(selectedValue);
-    }, [selectedValue])
+    }, [selectedValue, isFocused])
 
 
     const CategoryItem = ({item}) => {
