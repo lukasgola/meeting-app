@@ -52,7 +52,6 @@ export default function Search({navigation}){
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                console.log(docSnap.data(),)
                 temp.push({
                     ...docSnap.data(),
                     id: docSnap.id,

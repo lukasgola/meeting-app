@@ -22,6 +22,8 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { db, app } from '../firebase/firebase-config'
 import { collection, getDocs, collectionGroup } from "firebase/firestore";
 
+import { getParties } from '../functions/getParties';
+
 export default function Main(){
 
     const width = Dimensions.get('window').width;
@@ -61,7 +63,7 @@ export default function Main(){
     }
 
     
-    const getParties = async () => {
+    const getPartiesNew = async () => {
 
         const querySnapshot = await getDocs(collectionGroup(db, "parties"));
 
@@ -77,12 +79,23 @@ export default function Main(){
         });
         setParties(parties);
     }
+
+
+    const fetchParties = async () => {
+        try {
+            const result = await getParties(); // Call the async function
+            setParties(result);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+        
     
     
-    useEffect(() => {  
-        getParties();
-        //getUsers();
-    },[])
+    useEffect(() => {       
+        fetchParties();
+    }, []);
+
 
 
     const renderFlatlist = (data) => {
