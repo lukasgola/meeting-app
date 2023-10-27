@@ -6,8 +6,6 @@ import CustomText from '../components/CustomText';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Liked from '../screens/Liked';
-
 import HomeStack from './HomeStack';
 import SearchStack from './SearchStack';
 import LikedStack from './LikedStack';
@@ -57,7 +55,7 @@ const BottomTabs = () => {
             }}
 
             />
-            <Tab.Screen name='Liked' component={LikedStack} options={{
+            <Tab.Screen name='LikedStack' component={LikedStack} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='heart-outline' filled='heart' title='Liked' />
                 )

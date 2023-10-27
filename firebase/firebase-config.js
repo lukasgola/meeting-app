@@ -14,7 +14,7 @@ import {
 
 //Firestore
 import { getFirestore } from "firebase/firestore";
-import { collection, setDoc, getDoc, addDoc, doc, updateDoc } from "firebase/firestore"; 
+import { collection, setDoc, getDoc, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore"; 
 
 //Storage
 import { getStorage, ref, getDownloadURL, uploadBytesResumable, } from "firebase/storage";
@@ -149,14 +149,35 @@ export async function addEvent(event){
   }
 }
 
-export async function setLikeParty(id){
-  try {
-    await addDoc(collection(db, `users/${auth.currentUser.uid}/liked`), {
-      partyID: id
-    });
-  } catch (e) {
-    console.error("Error adding document: ", e);
+export async function setLikeParty(id, organizer, likes, mode){
+  if(mode == "add") {
+    try {
+      await setDoc(doc(db, `users/${auth.currentUser.uid}/liked`, id), {
+        partyID: id
+      }).then( async() => {
+        await updateDoc(doc(db, `users/${organizer}/parties`, id), {
+          likes: likes
+        });
+      });
+      
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  } else {
+    try {
+      await deleteDoc(doc(db, `users/${auth.currentUser.uid}/liked`, id), {
+        partyID: id
+      }).then( async() => {
+        await updateDoc(doc(db, `users/${organizer}/parties`, id), {
+          likes: likes
+        });
+      });
+      
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
+  
 }
 
 export async function uploadImage(uid, avatar) {

@@ -16,8 +16,8 @@ import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 import {getDistance} from 'geolib';
 
 //Firebase
-import { db, setLikeParty } from '../firebase/firebase-config';
-import { doc, getDoc } from "firebase/firestore";
+import { db, auth, setLikeParty } from '../firebase/firebase-config';
+import { getDocs, getDoc, doc }  from "firebase/firestore";
 
 
 const FlatListItem = ({item}) => {
@@ -29,15 +29,52 @@ const FlatListItem = ({item}) => {
     const navigation = useNavigation()
 
     const [ user, setUser ] = useState(null);
-    const [like, setLike] = useState(false)
+    const [like, setLike] = useState(item.likes)
 
     const onClickParty = (item) => {
         navigation.navigate('Details', {item})
     }
 
-    const onClickLike = (id) => {
-        console.log(id)
-        setLikeParty(id)
+    const checkLike = async (id) => {
+        const docRef = doc(db, `users/${auth.currentUser.uid}/liked`, id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            console.log(true)
+            return true
+        }
+        else {
+            console.log(false)
+        }
+        return false
+    }
+
+    const onClickLike = async (item) => {
+        checkLike(item.id).then((result) => {
+            if(result) {
+                const newLikes = like - 1;
+                setLike(newLikes)
+                setLikeParty(item.id, item.organizer, newLikes, "sub")
+            } else {
+                const newLikes = like + 1;
+                setLike(newLikes)
+                setLikeParty(item.id, item.organizer, newLikes, "add")
+            }
+        })
+        
+        
+        /*
+        if(!checkLike(item.id)){
+            const newLikes = like - 1;
+            setLike(newLikes)
+            setLikeParty(item.id, item.organizer, newLikes, "sub")
+        } else {
+            const newLikes = like + 1;
+            setLike(newLikes)
+            setLikeParty(item.id, item.organizer, newLikes, "add")
+        }
+        */
+        
+        
     }
 
     const calculateDistance = (latitude, longitude) => {
@@ -121,10 +158,10 @@ const FlatListItem = ({item}) => {
             </View>
             <View style={styles.card_footer_half}>
                 <TouchableOpacity 
-                    onPress={() =>  onClickLike(item.id)}
+                    onPress={() =>  onClickLike(item)}
                     style={[styles.card_footer_half_content, {zIndex: 1}]}>
                     <Ionicons style={{marginRight: 5}} name={like ? 'heart' : 'heart-outline'} size={20} color={like ? colors.primary : colors.grey_d } />
-                    <CustomText weight='bold' color={like ? colors.text : colors.grey_d} size={15}>{item.likes}</CustomText>
+                    <CustomText weight='bold' color={like ? colors.text : colors.grey_d} size={15}>{like}</CustomText>
                 </TouchableOpacity>
             </View>
         </View>
