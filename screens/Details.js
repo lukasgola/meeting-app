@@ -164,7 +164,7 @@ if(currentLocation && city && user){
                 <MapView 
                     style={{width: '100%', height: 300}} 
                     //provider={PROVIDER_GOOGLE}
-                    onPress={() => navigation.navigate('Map', {item: item})}
+                    onPress={() => navigation.navigate('Map', {isEvent: true, item: item})}
                     customMapStyle={mapSettingsLight}
                     initialRegion={{
                         latitude: route.params.item.latitude - 0.01,

@@ -127,7 +127,6 @@ export default function Search({navigation}){
 
     useEffect(() => {
         const unsubscribe = navigation.getParent().addListener('tabPress', (e) => {
-            console.log('eo')
             fetchParties()
           });
           return unsubscribe;

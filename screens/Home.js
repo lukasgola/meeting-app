@@ -121,7 +121,7 @@ export default function Main(){
                 }}
                 //provider={PROVIDER_GOOGLE}
                 customMapStyle={mapSettings}
-                onPress={() => navigation.navigate('Map', { location: currentLocation, isEvent})}
+                onPress={() => navigation.navigate('Map', {isEvent: false})}
                 zoomEnabled={false}
                 rotateEnabled={false}
                 scrollEnabled={false}

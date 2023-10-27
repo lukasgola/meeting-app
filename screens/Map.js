@@ -56,8 +56,8 @@ export default function Map({navigation}){
     }
 
     const [region, setRegion] = useState({
-        latitude: route.params.item ? route.params.item.latitude : currentLocation.latitude,
-        longitude: route.params.item ? route.params.item.longitude : currentLocation.longitude,
+        latitude: route.params?.isEvent ? route.params.item.latitude : currentLocation.latitude,
+        longitude: route.params?.isEvent != undefined ? route.params.item.longitude : currentLocation.longitude,
         latitudeDelta: DEFAULT_DELTA.latitudeDelta,
         longitudeDelta: DEFAULT_DELTA.longitudeDelta,
     });
@@ -228,17 +228,17 @@ export default function Map({navigation}){
 
     useLayoutEffect(() => {
         navigation.setOptions({
-          headerTitle: route.params.mapChoose && 'Choose event location'
+          headerTitle: route.params?.mapChoose && 'Choose event location'
         });
     }, []);
 
     useEffect(() => {
-        if(route.params.mapChoose){
+        if(route.params?.mapChoose){
             setLocation(currentLocation)
         }
         else{
             getParties();
-            if(route.params.item){
+            if(route.params?.isEvent){
                 setSelectedPlaceId(route.params.item.id)
                 setItem(route.params.item)
                 setDestination({latitude: route.params.item.latitude, longitude: route.params.item.longitude})
@@ -258,10 +258,10 @@ export default function Map({navigation}){
                 showsUserLocation={true}
                 followsUserLocation={true}
                 showsMyLocationButton={true}
-                onPress={(event) =>  (route.params.mapChoose && setLocation(event.nativeEvent.coordinate, 0))}
+                onPress={(event) =>  (route.params?.mapChoose && setLocation(event.nativeEvent.coordinate, 0))}
             >
 
-                {route.params.mapChoose && chooseMarker !== null ? 
+                {route.params?.mapChoose && chooseMarker !== null ? 
                     <Marker 
                         coordinate={{
                             latitude: chooseMarker.latitude,
@@ -325,7 +325,7 @@ export default function Map({navigation}){
                             console.log(details);
 
                             moveTo({latitude: details.geometry.location.lat, longitude: details.geometry.location.lng})
-                            if(route.params.mapChoose){
+                            if(route.params?.mapChoose){
                                 setLocation({latitude: details.geometry.location.lat, longitude: details.geometry.location.lng})
                             }
 
@@ -367,7 +367,7 @@ export default function Map({navigation}){
             </View>
 
             {PartyCard()}
-            {route.params.mapChoose && 
+            {route.params?.mapChoose && 
                 <View style={{
                     position: 'absolute',
                     bottom: 40,

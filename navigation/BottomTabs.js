@@ -11,6 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeStack from './HomeStack';
 import SearchStack from './SearchStack';
 import ProfileStack from './ProfileStack';
+import MapStack from './MapStack';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -79,6 +80,15 @@ const BottomTabs = () => {
                 
             }}
             />
+
+            <Tab.Screen name='MapStack' component={MapStack} options={{
+                tabBarIcon: ({focused}) => (
+                    <Item focused={focused} icon='map-outline' filled='map' title='Map' />
+                ),
+                
+            }}
+            />
+
             <Tab.Screen name='SearchStack' component={SearchStack} options={{
                 tabBarIcon: ({focused}) => (
                     <Item focused={focused} icon='search-outline' filled='search' title='Search' />
