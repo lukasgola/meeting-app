@@ -12,6 +12,8 @@ import {useTheme} from '../theme/ThemeProvider';
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 import { useIsFocused } from '@react-navigation/native';
 
+import { getParties } from '../functions/getParties';
+
 //Firebase
 import { db } from '../firebase/firebase-config'
 import { getDocs, collectionGroup, where, query } from "firebase/firestore";
@@ -64,29 +66,15 @@ export default function Search({navigation}){
 
     const [selectedValue, setSelectedValue] = useState('all')
 
-    const getParties = async (category) => {
-
-        const collectionRef = collectionGroup(db, "parties");
-        let q = query(collectionRef);
-        if (selectedValue != 'all'){
-            q = query(collectionRef, where("category", "==", category));
+    const fetchParties = async () => {
+        try {
+            const result = await getParties(selectedValue); // Call the async function
+            setParties(result);
+            setFilteredData(result);
+            setData(2);
+          } catch (error) {
+            console.error("Error fetching data:", error);
         }
-        
-        const querySnapshot = await getDocs(q);
-
-        const temp = [];
-        
-        querySnapshot.forEach((doc) => { 
-
-            temp.push({
-                ...doc.data(),
-                id: doc.id,
-                organizer: doc.ref.parent.parent.id
-            })
-        });
-        setParties(temp);
-        setFilteredData(temp);
-        setData(2);
     }
     
 
@@ -131,10 +119,19 @@ export default function Search({navigation}){
         
       }
 
+    
     useEffect(() => {
-        getParties(selectedValue);
-    }, [selectedValue, isFocused])
+        fetchParties()
+    }, [selectedValue])
+    
 
+    useEffect(() => {
+        const unsubscribe = navigation.getParent().addListener('tabPress', (e) => {
+            console.log('eo')
+            fetchParties()
+          });
+          return unsubscribe;
+    }, [navigation])
 
     const CategoryItem = ({item}) => {
 

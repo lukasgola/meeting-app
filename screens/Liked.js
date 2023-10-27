@@ -70,15 +70,9 @@ export default function Search({navigation}){
 
 
     React.useEffect(() => {
-        //getLiked()
-        const unsubscribe = navigation.addListener('tabPress', (e) => {
-            // Prevent default behavior
-            e.preventDefault();
-            console.log('elo')
-            // Do something manually
-            // ...
+        const unsubscribe = navigation.getParent().addListener('tabPress', (e) => {
+            getLiked()
           });
-        
           return unsubscribe;
     }, [navigation])
     
