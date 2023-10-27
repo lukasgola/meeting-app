@@ -46,44 +46,10 @@ export default function Main(){
 
     const isEvent = false;
 
-    const getUsers = async () => {
-        const querySnapshot = await getDocs(collection(db, "users"));
-
-        const users = [];
-
-        querySnapshot.forEach((doc) => {
-            users.push({
-                ...doc.data(),
-                id: doc.id,
-                
-              });
-              
-        });
-        setUsers(users);
-    }
-
-    
-    const getPartiesNew = async () => {
-
-        const querySnapshot = await getDocs(collectionGroup(db, "parties"));
-
-        const parties = [];
-        
-        querySnapshot.forEach((doc) => { 
-
-            parties.push({
-                ...doc.data(),
-                id: doc.id,
-                organizer: doc.ref.parent.parent.id
-            })
-        });
-        setParties(parties);
-    }
-
 
     const fetchParties = async () => {
         try {
-            const result = await getParties(); // Call the async function
+            const result = await getParties('all'); // Call the async function
             setParties(result);
           } catch (error) {
             console.error("Error fetching data:", error);

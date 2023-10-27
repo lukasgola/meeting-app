@@ -62,12 +62,12 @@ export default function Search({navigation}){
 
     const [selectedValue, setSelectedValue] = useState('all')
 
-    const getParties = async () => {
+    const getParties = async (category) => {
 
         const collectionRef = collectionGroup(db, "parties");
         let q = query(collectionRef);
         if (selectedValue != 'all'){
-            q = query(collectionRef, where("category", "==", selectedValue));
+            q = query(collectionRef, where("category", "==", category));
         }
         
         const querySnapshot = await getDocs(q);
@@ -130,7 +130,7 @@ export default function Search({navigation}){
       }
 
     useEffect(() => {
-        getParties();
+        getParties(selectedValue);
     }, [selectedValue])
 
 

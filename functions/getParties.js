@@ -1,21 +1,39 @@
 import { db } from '../firebase/firebase-config'
-import { getDocs, collectionGroup } from "firebase/firestore";
+import { getDocs, collectionGroup, query, where, get } from "firebase/firestore";
 
-async function getParties () {
+async function getParties (category) {
 
-    const querySnapshot = await getDocs(collectionGroup(db, "parties"));
+    const collectionRef = collectionGroup(db, "parties");
+    let q = query(collectionRef);
+    if (category != 'all'){
+        q = query(collectionRef, where("category", "==", category));
+    }
+    
+    const querySnapshot = await getDocs(q);
 
-    const parties = [];
+    const temp = [];
     
     querySnapshot.forEach((doc) => { 
-        parties.push({
+        console.log("partyID: " + doc.id)
+        const getLikes = async () => {
+            const likesRef = collectionGroup(db, "liked");
+            q = query(likesRef, where("partyID", "==", doc.id));
+            const querySnap = await getDocs(collectionRef);
+            querySnap.forEach((like) => {
+                console.log(like.data())
+            })
+        }
+        
+        getLikes()
+
+        temp.push({
             ...doc.data(),
             id: doc.id,
             organizer: doc.ref.parent.parent.id
         })
     });
-    console.log(parties)
-    return parties
+
+    return temp
 }
 
 export {getParties}
