@@ -13,6 +13,7 @@ import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import AddEvent from '../screens/AddEvent';
 import Avatar from '../screens/Avatar';
+import QuickAction from '../screens/QuickAction';
 
 import BottomTabs from './BottomTabs';
 
@@ -92,6 +93,13 @@ export default function MainStack() {
             <Stack.Screen 
                 name='AddEvent' 
                 component={AddEvent} 
+                options={{
+                    title: '',
+                }}
+            />
+            <Stack.Screen 
+                name='QuickAction' 
+                component={QuickAction} 
                 options={{
                     title: '',
                 }}

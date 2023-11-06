@@ -227,6 +227,10 @@ export default function Map({navigation}){
         setParties(parties);
     }
 
+    const onQuickAction = () => {
+        navigation.navigate('QuickAction')
+    }
+
     useLayoutEffect(() => {
         navigation.setOptions({
           headerTitle: route.params?.mapChoose && 'Choose event location',
@@ -311,7 +315,7 @@ export default function Map({navigation}){
 
             <View style={{
                 position:'absolute', 
-                borderBottomLeftRadius: 10, 
+                borderBottomLeftRadius: 5, 
                 borderBottomRightRadius: 10, 
                 width: '100%', 
                 height: selectedPlaceId !== null ? 90: 50, 
@@ -375,7 +379,7 @@ export default function Map({navigation}){
 
             {(route.params?.isQuickLaunch && (selectedPlaceId == null)) && 
                 <TouchableOpacity
-                    onPress={() => console.log('Quick Action') }
+                    onPress={() => onQuickAction() }
                     style={{
                         position: 'absolute',
                         bottom: 40,
