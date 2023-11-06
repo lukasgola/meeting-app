@@ -64,10 +64,10 @@ export default function AddEvent(){
     const [isCategoryPickerVisible, setCategoryPickerVisible] = useState(false);
 
     const types = [
-        { label: 'Party', value: 'parties' },
-        { label: 'Meeting', value: 'meetings' },
-        { label: 'Game', value: 'game' },
-        { label: 'Other', value: 'other'},
+        { label: 'Party', value: 'Party' },
+        { label: 'Meeting', value: 'Meeting' },
+        { label: 'Game', value: 'Game' },
+        { label: 'Other', value: 'Other'},
     ]
 
     const onChangeTime = (event, value) => {
@@ -91,7 +91,7 @@ export default function AddEvent(){
 
 
     const handleCategoryConfirm = () => {
-        setCategory(categoryString);
+        setCategoryString(category);
     }
 
 
@@ -123,7 +123,7 @@ export default function AddEvent(){
                     latitude: eventLocation.latitude,
                     longitude: eventLocation.longitude,
                     likes: 0,
-                    category: category
+                    category: categoryString
                 }
                 addEvent(event);
             }},
@@ -370,7 +370,7 @@ export default function AddEvent(){
                             >
                                 <Ionicons name={'time-outline'} size={16} color={colors.grey_d}/>
                         </View>
-                        <CustomText size={12} color={colors.text}>{categoryString}</CustomText>
+                        <CustomText size={12} color={colors.text}>{category}</CustomText>
                     </View>
                     <BottomSheet 
                         visible={isCategoryPickerVisible} 
@@ -379,9 +379,9 @@ export default function AddEvent(){
                         onConfirm={handleCategoryConfirm}
                     >
                         <Picker
-                            selectedValue={categoryString}
+                            selectedValue={category}
                             onValueChange={(itemValue, itemIndex) =>{
-                                setCategoryString(itemValue)
+                                setCategory(itemValue)
                             }
                             }>
                                 {types.map((item) => (

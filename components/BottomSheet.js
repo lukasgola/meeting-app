@@ -40,27 +40,6 @@ const BottomSheet = (props) => {
             props.setModalVisible(false)
         }, 100)
     }
-
-    const globalAnimation = useRef(null);
-    const extendValue = useRef(new Animated.Value(0)).current;
-    const [ lottieSize, setLottieSize ] = useState(0);
-
-    function extend(){
-        Animated.spring(extendValue,{
-            toValue: 100,
-            duration: 400,
-            useNativeDriver: false
-        }).start()
-        setLottieSize(60);
-    } 
-    function fold(){
-        Animated.spring(extendValue,{
-            toValue: 0,
-            duration: 100,
-            useNativeDriver: false
-        }).start()
-        setLottieSize(0);
-    } 
     
     useLayoutEffect(() => {
         if (firstUpdate.current) {
@@ -79,14 +58,9 @@ const BottomSheet = (props) => {
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Success
           )
-        extend();
-        globalAnimation.current.play();
         setTimeout(() => {
-            fold();
-            setTimeout(() => {
-                slideOut();
-            }, 50)
-        }, 700)
+            slideOut();
+        }, 50)
         props.onConfirm();
         
    }
@@ -160,27 +134,6 @@ const BottomSheet = (props) => {
                     {props.children}
                 
             </View>
-            
-
-            <Animated.View style={{
-                height: extendValue,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingTop: 10,
-                backgroundColor: colors.background
-            }}>
-                <LottieView
-                    ref={globalAnimation}
-                    style={{
-                        width: lottieSize,
-                        height: lottieSize,
-                    }}
-                    // Find more Lottie files at https://lottiefiles.com/featured
-                    source={require('../assets/confirm_anim.json')}
-                    loop={false}
-                    speed={3}
-                />
-            </Animated.View>
             
 
             <View
