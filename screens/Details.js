@@ -129,7 +129,6 @@ export default function Details(){
 
     useEffect(() => {
         getUser();
-        console.log(item.organizer)
         Geocoder.from(route.params.item.latitude, route.params.item.longitude)
 		.then(json => {
 		var addressComponent = json.results[1].address_components[2];

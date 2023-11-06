@@ -51,7 +51,7 @@ export default function SearchStack() {
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Map')}
                         >
-                            <Ionicons name='options-outline' size={25} color={colors.primary}/>
+                            <Ionicons name='map-outline' size={25} color={colors.primary}/>
                         </TouchableOpacity>
                   
                 }}
