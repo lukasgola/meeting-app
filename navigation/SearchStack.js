@@ -17,15 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function SearchStack() {
 
     const {colors} = useTheme();
-
-    const navigation = useNavigation();
-
-    const toggleDrawer = () => {
-        //Props to open/close the drawer
-        navigation.toggleDrawer();
-    };
-
-
+    
     return(
         <Stack.Navigator
             initialRouteName='Search'
@@ -53,9 +45,6 @@ export default function SearchStack() {
                 component={Search}
                 options={{
                     title: 'Search',
-                    headerLeft: () =>   <TouchableOpacity onPress={toggleDrawer}>
-                                            <Ionicons name='menu-outline' size={25} color={colors.primary}/>
-                                        </TouchableOpacity>,
                                 
                     headerRight: () =>  <TouchableOpacity>
                                             <Ionicons name='options-outline' size={25} color={colors.primary}/>

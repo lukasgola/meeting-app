@@ -15,7 +15,6 @@ import { auth } from "./firebase/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 
 //Stacks
-import DrawerStack from './navigation/DrawerStack';
 import LoginStack from './navigation/LoginStack';
 import BottomTabs from './navigation/BottomTabs';
 

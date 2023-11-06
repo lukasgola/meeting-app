@@ -5,8 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
 
-//Components
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Map from '../screens/Map';

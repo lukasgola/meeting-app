@@ -29,13 +29,6 @@ export default function MainStack() {
 
     const navigation = useNavigation();
 
-
-    const toggleDrawer = () => {
-        //Props to open/close the drawer
-        navigation.toggleDrawer();
-    };
-
-
     return(
         <Stack.Navigator
             initialRouteName='BottomTabs'
@@ -61,9 +54,6 @@ export default function MainStack() {
                 options={{
                     headerShown: false,
                     //title: 'Home',
-                    headerLeft: () =>   <TouchableOpacity onPress={toggleDrawer}>
-                                            <Ionicons name='menu-outline' size={25} color={colors.primary}/>
-                                        </TouchableOpacity>,
                                 
                     headerRight: () =>  <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
                                             <Ionicons name='create-outline' size={25} color={colors.primary}/>

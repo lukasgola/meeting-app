@@ -16,7 +16,6 @@ import redirectToMaps from '../functions/redirectToMaps';
 
 const MapPartyCard = (props) => {
 
-
     const leftValue = useState(new Animated.Value(-500))[0];
 
     const {colors} = useTheme();
@@ -117,7 +116,7 @@ const MapPartyCard = (props) => {
 
             <TouchableOpacity 
                 onPress={() => slideOut()}
-                style={{width: '100%', height: 50, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginTop: -10, marginBottom: 10}}>
+                style={{width: '100%', height: 50, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginTop: -10}}>
                 <CustomText size={18}>Cancel</CustomText>
             </TouchableOpacity>
         </Animated.View>

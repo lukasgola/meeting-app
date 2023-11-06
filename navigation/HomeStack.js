@@ -22,12 +22,6 @@ export default function HomeStack() {
     const navigation = useNavigation();
 
 
-    const toggleDrawer = () => {
-        //Props to open/close the drawer
-        navigation.toggleDrawer();
-    };
-
-
     return(
         <Stack.Navigator
             initialRouteName='Home'
@@ -53,9 +47,6 @@ export default function HomeStack() {
                 component={Home}
                 options={{
                     title: 'Home',
-                    headerLeft: () =>   <TouchableOpacity onPress={toggleDrawer}>
-                                            <Ionicons name='menu-outline' size={25} color={colors.primary}/>
-                                        </TouchableOpacity>,
                                 
                     headerRight: () =>  <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
                                             <Ionicons name='create-outline' size={25} color={colors.primary}/>

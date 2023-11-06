@@ -367,6 +367,7 @@ export default function Map({navigation}){
             </View>
 
             {PartyCard()}
+            
             {route.params?.mapChoose && 
                 <View style={{
                     position: 'absolute',
