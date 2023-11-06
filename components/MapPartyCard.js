@@ -79,16 +79,15 @@ const MapPartyCard = (props) => {
     return (
         <Animated.View 
             style={{
-                width: '95%',
+                width: '100%',
                 position: 'absolute',
                 bottom: leftValue,
-                marginLeft: '2.5%',
-                marginBottom: 10
+                marginBottom: 10,
             }}
         >
             {props.route !== null ? 
                 <View style={{
-                    width: '100%',
+                    width: '90%',
                     height: 50,
                     backgroundColor: colors.background,
                     borderRadius: 10,
@@ -96,7 +95,8 @@ const MapPartyCard = (props) => {
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    paddingHorizontal: 20
+                    paddingHorizontal: 20,
+                    marginHorizontal: '5%'
                 }}>
                     <View style={{flexDirection: 'row'}}>
                         <CustomText weight='bold' color={colors.primary}>{(props.route.duration).toFixed(0) + ' min '} </CustomText>
@@ -104,8 +104,14 @@ const MapPartyCard = (props) => {
                     </View>
                     <TouchableOpacity
                         onPress={() => handleRedirectToMaps(props.item.latitude, props.item.longitude)}
+                        style={{
+                            padding: 5,
+                            paddingHorizontal: 10,
+                            borderRadius: 5,
+                            backgroundColor: colors.grey_l
+                        }}
                     >
-                        <Ionicons name='navigate-outline' size={20} color={colors.text} />
+                        <CustomText>NAVIGATE</CustomText>
                     </TouchableOpacity>
                 </View>
                 :
@@ -117,7 +123,7 @@ const MapPartyCard = (props) => {
 
             <TouchableOpacity 
                 onPress={() => slideOut()}
-                style={{width: '100%', height: 50, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginTop: -10}}>
+                style={{width: '90%', height: 50, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginTop: -10, marginHorizontal: '5%'}}>
                 <CustomText size={18}>Cancel</CustomText>
             </TouchableOpacity>
         </Animated.View>

@@ -10,8 +10,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Search from '../screens/Search';
-import Map from '../screens/Map';
-import Details from '../screens/Details';
 
 
 const Stack = createNativeStackNavigator();
@@ -58,21 +56,7 @@ export default function SearchStack() {
                   
                 }}
             />
-            <Stack.Screen 
-                name='Details' 
-                component={Details}
-                options={{
-                    title: 'Details',
-                }}
-            />
-
-            <Stack.Screen 
-                name='Map' 
-                component={Map}
-                options={{
-                    title: 'Map',
-                }}
-            />
+            
         </Stack.Navigator>
     )
 }
