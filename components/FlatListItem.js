@@ -106,7 +106,7 @@ const FlatListItem = ({item}) => {
   return (
     <TouchableOpacity  
         onPress={() => onClickParty(item)}
-        style={[styles.card, {width: '100%', backgroundColor: colors.background}]}
+        style={[styles.card, {width: '90%', backgroundColor: colors.background, padding: 10, marginLeft: "5%"}]}
     >
         <View style={styles.card_main}>
             <View style={styles.card_main_image_view}>

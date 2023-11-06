@@ -7,8 +7,9 @@ export const lightColors = {
     grey_l: '#f2f2f2',
     grey: '#cbcbd7',
     grey_d: '#74747f',
-    background: '#FFFFFF',
+    background: '#FFF',
     text: '#000000',
+    container: '#F9F9F9',
     star: '#fed600'
   };
   

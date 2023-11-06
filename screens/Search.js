@@ -150,7 +150,7 @@ export default function Search({navigation}){
     return (
         <View style={{
             flex: 1,
-            backgroundColor: colors.background,
+            backgroundColor: colors.container,
             paddingTop: 60,
             paddingHorizontal: '5%'
         }}>
@@ -179,6 +179,7 @@ export default function Search({navigation}){
                 renderItem={({item}) => <FlatListItem item={item} location={currentLocation} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
+                style={{marginHorizontal: -0.05*width}}
                 ListHeaderComponent={
                     <View style={{marginTop: 10}}>
 

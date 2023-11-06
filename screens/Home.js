@@ -71,13 +71,14 @@ export default function Main(){
                 renderItem={({item}) => <FlatListItem item={item} />}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
+                style={{marginHorizontal: -0.05*width}}
             />
         ) 
     }
 
     const SubtitleSection = ({text1, text2}) => {
         return(
-            <View style={{width: '100%'}}>
+            <View style={{width: '100%', paddingBottom: 10}}>
                 <View style={{ width: '100%', flexDirection:'row', justifyContent: 'space-between' }}>
                     <CustomText weight='bold' size={h2}>{text1}</CustomText>
                     <TouchableOpacity
@@ -95,7 +96,7 @@ export default function Main(){
     return (
         <View style={{
             flex: 1,
-            backgroundColor: colors.background,
+            backgroundColor: colors.container,
             paddingHorizontal: '5%'
         }}>
 
