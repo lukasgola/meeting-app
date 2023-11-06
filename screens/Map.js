@@ -57,7 +57,7 @@ export default function Map({navigation}){
 
     const [region, setRegion] = useState({
         latitude: route.params?.isEvent ? route.params.item.latitude : currentLocation.latitude,
-        longitude: route.params?.isEvent != undefined ? route.params.item.longitude : currentLocation.longitude,
+        longitude: route.params?.isEvent ? route.params.item.longitude : currentLocation.longitude,
         latitudeDelta: DEFAULT_DELTA.latitudeDelta,
         longitudeDelta: DEFAULT_DELTA.longitudeDelta,
     });
@@ -228,7 +228,11 @@ export default function Map({navigation}){
 
     useLayoutEffect(() => {
         navigation.setOptions({
-          headerTitle: route.params?.mapChoose && 'Choose event location'
+          headerTitle: route.params?.mapChoose && 'Choose event location',
+          headerRight: () =>  !route.params?.mapChoose &&
+            <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
+                <Ionicons name='create-outline' size={25} color={colors.primary}/>
+            </TouchableOpacity>,
         });
     }, []);
 

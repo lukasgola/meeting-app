@@ -64,7 +64,8 @@ export default function MainStack() {
                 name='Map' 
                 component={Map}
                 options={{
-                    headerBackTitle: 'Back'
+                    title: 'Home',
+                    headerBackTitle: 'Back',
                 }}
             />
             <Stack.Screen 
