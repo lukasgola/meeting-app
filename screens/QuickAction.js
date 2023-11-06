@@ -2,24 +2,42 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet ,Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import { Camera } from 'expo-camera';
 
-import CustomText from '../components/CustomText';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {useTheme} from '../theme/ThemeProvider';
 
 export default function App() {
-    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+    const [permission, requestPermission] = Camera.useCameraPermissions();
     const [camera, setCamera] = useState(null);
     const [image, setImage] = useState(null);
-    const [type, setType] = useState(Camera.Constants.Type.back);
+    const [type, setType] = useState(Camera.Constants.Type.front);
 
     const {colors} = useTheme();
 
-    useEffect(() => {
-        (async () => {
-        const cameraStatus = await Camera.requestPermissionsAsync();
-        setHasCameraPermission(cameraStatus.status === 'granted');
-    })();
-    }, []);
+    
+
+    if (!permission) {
+    // Camera permissions are still loading
+    return <View />;
+    }
+
+    if (!permission.granted) {
+    // Camera permissions are not granted yet
+    return (
+        <View style={styles.container}>
+        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="grant permission" />
+        </View>
+    );
+    }
+
+    function toggleCameraType() {
+        setType(
+            type === Camera.Constants.Type.back
+                ? Camera.Constants.Type.front
+                : Camera.Constants.Type.back
+            );
+    }
 
 
     const takePicture = async () => {
@@ -29,7 +47,7 @@ export default function App() {
         }
     }
 
-    if (hasCameraPermission === false) {
+    if (permission === false) {
         return <Text>No access to camera</Text>;
     }
     return (
@@ -41,39 +59,46 @@ export default function App() {
             />
             <View style={{
                 position: 'absolute',
-                bottom: 0,
+                bottom: 50,
                 width: '100%',
-                height: 300,
+                height: 200,
                 alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'row'
+                justifyContent: 'space-around',
             }}>
                 <TouchableOpacity 
-                    onPress={() => {
-                        setType(
-                        type === Camera.Constants.Type.back
-                            ? Camera.Constants.Type.front
-                            : Camera.Constants.Type.back
-                        );
-                    }}
-                    style={{
-                        width: 80,
-                        height: 80,
-                        borderRadius: 40,
-                        backgroundColor: colors.grey
-                    }}
-                />
-
-                <TouchableOpacity 
-                    title="Take Picture" 
                     onPress={() => takePicture()} 
                     style={{
                         width: 80,
                         height: 80,
                         borderRadius: 40,
-                        backgroundColor: colors.grey
+                        backgroundColor: colors.grey_l,
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}
-                />
+                >
+                    <View style={{
+                        width: 60,
+                        height: 60,
+                        borderRadius: 30,
+                        backgroundColor: colors.grey
+                    }}>
+
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                    onPress={() => toggleCameraType() }
+                    style={{
+                        width: 60,
+                        height: 60,
+                        borderRadius: 30,
+                        backgroundColor: colors.grey_l,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <Ionicons name={'repeat-outline'} size={25} color={colors.text} />
+                </TouchableOpacity>
             </View>
         </View>
     );
