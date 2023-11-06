@@ -46,14 +46,6 @@ export default function SearchStack() {
                 component={Search}
                 options={{
                     title: 'Search',
-                                
-                    headerRight: () =>  
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('Map')}
-                        >
-                            <Ionicons name='map-outline' size={25} color={colors.primary}/>
-                        </TouchableOpacity>
-                  
                 }}
             />
             

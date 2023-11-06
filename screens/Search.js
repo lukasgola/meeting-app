@@ -82,6 +82,12 @@ export default function Search({navigation}){
               LayoutAnimation.configureNext(layoutAnimConfig)
             },
           },
+          headerRight: () =>  
+            <TouchableOpacity
+                onPress={() => navigation.navigate('Map', {isQuickLaunch: true})}
+            >
+                <Ionicons name='map-outline' size={25} color={colors.primary}/>
+            </TouchableOpacity>
         });
     }, [data, navigation]);
     

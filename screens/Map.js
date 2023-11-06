@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
 import {View, TouchableOpacity, FlatList} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 //Hooks
 import {useTheme} from '../theme/ThemeProvider';
@@ -371,6 +372,35 @@ export default function Map({navigation}){
             </View>
 
             {PartyCard()}
+
+            {(route.params?.isQuickLaunch && (selectedPlaceId == null)) && 
+                <TouchableOpacity
+                    onPress={() => console.log('Quick Action') }
+                    style={{
+                        position: 'absolute',
+                        bottom: 40,
+                        width: '90%',
+                        marginLeft: '5%',
+                        height: 50,
+                        borderRadius: 10,
+                        backgroundColor: colors.primary,
+                    }}
+                >
+                    <LinearGradient
+                        colors={[colors.primary, '#00cfb3']}
+                        start={{x: 0, y: 0.5}}
+                        end={{ x: 0.8, y: 0.5 }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 10,
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                        <CustomText weight='bold' size={18} color={colors.background}>Quick Action</CustomText>
+                    </LinearGradient>
+                </TouchableOpacity>
+            }
             
             {route.params?.mapChoose && 
                 <View style={{
