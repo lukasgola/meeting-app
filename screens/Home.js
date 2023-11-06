@@ -18,9 +18,6 @@ import mapSettingsLight from '../data/mapSettingsLight';
 import mapSettingsDark from '../data/mapSettingsDark';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
-//Firestore
-import { db, app } from '../firebase/firebase-config'
-import { collection, getDocs, collectionGroup } from "firebase/firestore";
 
 import { getParties } from '../functions/getParties';
 
