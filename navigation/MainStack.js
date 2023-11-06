@@ -1,13 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
-
-//Components
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Details from '../screens/Details';
@@ -45,6 +41,7 @@ export default function MainStack() {
                     color: colors.text,
                 },
                 headerTitleAlign: 'center',
+                
             }}
         >
 
@@ -53,11 +50,6 @@ export default function MainStack() {
                 component={BottomTabs}
                 options={{
                     headerShown: false,
-                    //title: 'Home',
-                                
-                    headerRight: () =>  <TouchableOpacity onPress={() => navigation.navigate('AddEvent')}>
-                                            <Ionicons name='create-outline' size={25} color={colors.primary}/>
-                                        </TouchableOpacity>,
                 }}
             />
             <Stack.Screen 

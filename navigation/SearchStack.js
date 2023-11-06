@@ -3,12 +3,14 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from '../theme/ThemeProvider';
+import { useNavigation } from '@react-navigation/native';
 
 //Components
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Search from '../screens/Search';
+import Map from '../screens/Map';
 import Details from '../screens/Details';
 
 
@@ -17,6 +19,7 @@ const Stack = createNativeStackNavigator();
 export default function SearchStack() {
 
     const {colors} = useTheme();
+    const navigation = useNavigation();
     
     return(
         <Stack.Navigator
@@ -46,9 +49,12 @@ export default function SearchStack() {
                 options={{
                     title: 'Search',
                                 
-                    headerRight: () =>  <TouchableOpacity>
-                                            <Ionicons name='options-outline' size={25} color={colors.primary}/>
-                                        </TouchableOpacity>
+                    headerRight: () =>  
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Map')}
+                        >
+                            <Ionicons name='options-outline' size={25} color={colors.primary}/>
+                        </TouchableOpacity>
                   
                 }}
             />
@@ -57,6 +63,14 @@ export default function SearchStack() {
                 component={Details}
                 options={{
                     title: 'Details',
+                }}
+            />
+
+            <Stack.Screen 
+                name='Map' 
+                component={Map}
+                options={{
+                    title: 'Map',
                 }}
             />
         </Stack.Navigator>

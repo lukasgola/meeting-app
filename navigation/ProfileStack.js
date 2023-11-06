@@ -20,11 +20,6 @@ export default function ProfileStack() {
 
     const navigation = useNavigation();
 
-    const toggleDrawer = () => {
-        navigation.toggleDrawer();
-    };
-
-
     return(
         <Stack.Navigator
             initialRouteName='Profile'

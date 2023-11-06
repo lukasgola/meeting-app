@@ -11,6 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Home from '../screens/Home';
+import AddEvent from '../screens/AddEvent';
 
 
 const Stack = createNativeStackNavigator();
@@ -18,9 +19,7 @@ const Stack = createNativeStackNavigator();
 export default function HomeStack() {
 
     const {colors} = useTheme();
-
     const navigation = useNavigation();
-
 
     return(
         <Stack.Navigator

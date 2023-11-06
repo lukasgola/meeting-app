@@ -17,6 +17,7 @@ import { onAuthStateChanged } from "firebase/auth";
 //Stacks
 import LoginStack from './navigation/LoginStack';
 import BottomTabs from './navigation/BottomTabs';
+import MainStack from './navigation/MainStack';
 
 
 import { LogBox } from 'react-native';
@@ -82,7 +83,7 @@ export default function App() {
                       barStyle="dark-content" // Here is where you change the font-color
                   />
 
-                  {isUser == 2 ? <BottomTabs/> : isUser == 0  ? <Indicator /> : <LoginStack/> }
+                  {isUser == 2 ? <MainStack/> : isUser == 0  ? <Indicator /> : <LoginStack/> }
 
                 </NavigationContainer>
             </CurrentLocationProvider>

@@ -82,7 +82,8 @@ const MapPartyCard = (props) => {
                 width: '95%',
                 position: 'absolute',
                 bottom: leftValue,
-                marginLeft: '2.5%'
+                marginLeft: '2.5%',
+                marginBottom: 10
             }}
         >
             {props.route !== null ? 

@@ -145,7 +145,7 @@ if(currentLocation && city && user){
                 backgroundColor: colors.background, 
                 shadowColor: colors.primary,
                 borderTopColor: colors.grey,
-                height: Platform.OS === 'ios' ? 60 : 60,
+                height: Platform.OS === 'ios' ? 80 : 60,
             }]}>
                 <TouchableOpacity 
                     onPress={() => alert('Send message')}
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         borderTopWidth: 1,
-        alignItems: 'center'
+        paddingTop: 10
 
         
     },
