@@ -1,28 +1,17 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {useTheme} from '../theme/ThemeProvider';
-import { useNavigation } from '@react-navigation/native';
-
+import { useTheme } from '../theme/ThemeProvider';
 
 //Screens
 import Map from '../screens/Map';
 import Details from '../screens/Details';
-
 
 const Stack = createNativeStackNavigator();
 
 export default function MapStack() {
 
     const {colors} = useTheme();
-
-    const navigation = useNavigation();
-
-    const toggleDrawer = () => {
-        navigation.toggleDrawer();
-    };
-
 
     return(
         <Stack.Navigator

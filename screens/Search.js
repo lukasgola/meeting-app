@@ -2,21 +2,16 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, Image, FlatList, TouchableOpacity, StyleSheet, Dimensions, LayoutAnimation} from 'react-native';
 
 
-
 //Components
 import CustomText from '../components/CustomText';
 import FlatListItem from '../components/FlatListItem';
 
 //Providers
-import {useTheme} from '../theme/ThemeProvider';
+import { useTheme } from '../theme/ThemeProvider';
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 import { useIsFocused } from '@react-navigation/native';
 
 import { getParties } from '../functions/getParties';
-
-//Firebase
-import { db } from '../firebase/firebase-config'
-import { getDocs, collectionGroup, where, query } from "firebase/firestore";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -33,14 +28,12 @@ export default function Search({navigation}){
     const [parties, setParties] = useState();
     const [filteredData, setFilteredData] = useState();
 
-    const [ data, setData ] = useState();
-
-    
+    const [ data, setData ] = useState();    
 
     const CATEGORIES = [
         {
             title: 'all',
-            icon: 'beer-outline'
+            icon: 'at-outline'
         },
         {
             title: 'parties',
@@ -111,12 +104,10 @@ export default function Search({navigation}){
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             })
-            
             setFilteredData(newData);
         } else {
             setFilteredData(parties);
         }
-        
       }
 
     
@@ -131,6 +122,7 @@ export default function Search({navigation}){
           });
           return unsubscribe;
     }, [navigation])
+
 
     const CategoryItem = ({item}) => {
 
@@ -204,7 +196,6 @@ export default function Search({navigation}){
                     </View>
                 }
             />
-            
         </View>
     );
 }

@@ -140,12 +140,12 @@ export default function Details(){
 
 if(currentLocation && city && user){
     return (
-        <View style={[styles.container, {height: '40%'}]}>
+        <View style={[styles.container]}>
             <View style={[styles.footer,{
                 backgroundColor: colors.background, 
                 shadowColor: colors.primary,
                 borderTopColor: colors.grey,
-                height: Platform.OS === 'ios' ? 80 : 65
+                height: Platform.OS === 'ios' ? 60 : 60,
             }]}>
                 <TouchableOpacity 
                     onPress={() => alert('Send message')}
@@ -349,8 +349,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
-        paddingTop: 10,
         borderTopWidth: 1,
+        alignItems: 'center'
 
         
     },

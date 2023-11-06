@@ -2,14 +2,14 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {useTheme} from '../theme/ThemeProvider';
-import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '../theme/ThemeProvider';
 
 //Components
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Search from '../screens/Search';
+import Details from '../screens/Details';
 
 
 const Stack = createNativeStackNavigator();
@@ -50,6 +50,13 @@ export default function SearchStack() {
                                             <Ionicons name='options-outline' size={25} color={colors.primary}/>
                                         </TouchableOpacity>
                   
+                }}
+            />
+            <Stack.Screen 
+                name='Details' 
+                component={Details}
+                options={{
+                    title: 'Details',
                 }}
             />
         </Stack.Navigator>
