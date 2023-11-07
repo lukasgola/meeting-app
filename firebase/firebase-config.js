@@ -154,12 +154,12 @@ export async function setLikeParty(id, organizer, likes, mode){
     try {
       await setDoc(doc(db, `users/${auth.currentUser.uid}/liked`, id), {
         partyID: id
-      }).then( async() => {
-        await updateDoc(doc(db, `users/${organizer}/parties`, id), {
-          likes: likes
-        });
+      })
+
+      await updateDoc(doc(db, `users/${organizer}/parties`, id), {
+        likes: likes
       });
-      
+    
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -167,10 +167,10 @@ export async function setLikeParty(id, organizer, likes, mode){
     try {
       await deleteDoc(doc(db, `users/${auth.currentUser.uid}/liked`, id), {
         partyID: id
-      }).then( async() => {
-        await updateDoc(doc(db, `users/${organizer}/parties`, id), {
-          likes: likes
-        });
+      })
+
+      await updateDoc(doc(db, `users/${organizer}/parties`, id), {
+        likes: likes
       });
       
     } catch (e) {
@@ -191,7 +191,7 @@ export async function addQuickAction(event){
   }
 }
 
-async function uploadImage(uid, avatar, type) {
+export async function uploadImage(uid, avatar, type) {
 
   const metadata = {
     contentType: 'image/jpeg'
@@ -252,11 +252,10 @@ async function uploadImage(uid, avatar, type) {
       
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log('File available at', downloadURL);
+        temp = downloadURL
       });
       
     }
   );
   return temp
 }
-
-export {uploadImage}

@@ -8,7 +8,7 @@ import CustomText from './CustomText';
 import UserIcon from '../components/UserIcon';
 
 //Providers
-import {useTheme} from '../theme/ThemeProvider';
+import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
 import { useCurrentLocation } from '../providers/CurrentLocationProvider';
 
@@ -17,7 +17,7 @@ import {getDistance} from 'geolib';
 
 //Firebase
 import { db, auth, setLikeParty } from '../firebase/firebase-config';
-import { getDocs, getDoc, doc }  from "firebase/firestore";
+import { getDoc, doc }  from "firebase/firestore";
 
 
 const FlatListItem = ({item}) => {

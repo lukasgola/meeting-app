@@ -38,16 +38,13 @@ export default function QuickAction({navigation}) {
         {
             text: 'Yes',
             onPress: async () => {
-                let event = {}
                 const {description} = data;
-                await uploadImage(auth.currentUser.uid, image, 'quickActions').then((url) => {
-                    console.log(url)
-                    event = {
-                        image: url,
-                        desc: description == undefined ? '' : description
-                    }
-                });
-                addQuickAction(event);
+                const url = await uploadImage(auth.currentUser.uid, image, 'quickActions')
+                const event = {
+                    image: url,
+                    desc: description == undefined ? '' : description
+                }
+                await addQuickAction(event);
                 navigation.goBack();
                 
             }},
