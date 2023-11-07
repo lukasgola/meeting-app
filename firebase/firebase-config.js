@@ -182,7 +182,7 @@ export async function setLikeParty(id, organizer, likes, mode){
 
 export async function addQuickAction(event){
   try {
-    await addDoc(collection(db, `users/${auth.currentUser.uid}/parties`), {
+    await addDoc(collection(db, `users/${auth.currentUser.uid}/quickActions`), {
       image: event.image,
       desc: event.desc,
     });
@@ -191,7 +191,7 @@ export async function addQuickAction(event){
   }
 }
 
-export async function uploadImage(uid, avatar) {
+async function uploadImage(uid, avatar, type) {
 
   const metadata = {
     contentType: 'image/jpeg'
@@ -201,9 +201,13 @@ export async function uploadImage(uid, avatar) {
   const response = await fetch(avatar);
   const blob = await response.blob();
 
+  const directory = type == 'quickActions' ? 'quickActions/' : 'profilePictures/';
+
   // Upload file and metadata to the object 'images/mountains.jpg'
-  const storageRef = ref(storage, 'profilePictures/' + uid);
+  const storageRef = ref(storage, directory + uid);
   const uploadTask = uploadBytesResumable(storageRef, blob);
+
+  let temp = '';
 
   // Listen for state changes, errors, and completion of the upload.
   uploadTask.on('state_changed',
@@ -218,11 +222,15 @@ export async function uploadImage(uid, avatar) {
         case 'running':
           console.log('Upload is running');
           break;
+        default:
+          console.log(snapshot.state)
+          break;
       }
     }, 
     (error) => {
       // A full list of error codes is available at
       // https://firebase.google.com/docs/storage/web/handle-errors
+      console.log(error.code)
       switch (error.code) {
         case 'storage/unauthorized':
           // User doesn't have permission to access the object
@@ -248,5 +256,7 @@ export async function uploadImage(uid, avatar) {
       
     }
   );
-  
+  return temp
 }
+
+export {uploadImage}

@@ -13,7 +13,7 @@ import CustomText from '../components/CustomText';
 
 
 //Firebase
-import { uploadImage } from '../firebase/firebase-config';
+import { auth, uploadImage, addQuickAction } from '../firebase/firebase-config';
 
 export default function QuickAction({navigation}) {
 
@@ -37,14 +37,19 @@ export default function QuickAction({navigation}) {
         },
         {
             text: 'Yes',
-            onPress: () => {
-                uploadImage(auth.currentUser.uid, result.assets[0].uri);
+            onPress: async () => {
+                let event = {}
                 const {description} = data;
-                const event = {
-                    image: image,
-                    desc: description
-                }
-                addEvent(event);
+                await uploadImage(auth.currentUser.uid, image, 'quickActions').then((url) => {
+                    console.log(url)
+                    event = {
+                        image: url,
+                        desc: description == undefined ? '' : description
+                    }
+                });
+                addQuickAction(event);
+                navigation.goBack();
+                
             }},
         ]);
         
