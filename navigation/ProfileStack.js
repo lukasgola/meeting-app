@@ -1,12 +1,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
-
-//Components
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Profile from '../screens/Profile';

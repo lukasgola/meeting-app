@@ -49,7 +49,7 @@ const FlatListItem = ({item}) => {
     }
 
     const onClickLike = async (item) => {
-        checkLike(item.id).then((result) => {
+        const result = checkLike(item.id)
             if(result) {
                 const newLikes = like - 1;
                 setLike(newLikes)
@@ -58,23 +58,7 @@ const FlatListItem = ({item}) => {
                 const newLikes = like + 1;
                 setLike(newLikes)
                 setLikeParty(item.id, item.organizer, newLikes, "add")
-            }
-        })
-        
-        
-        /*
-        if(!checkLike(item.id)){
-            const newLikes = like - 1;
-            setLike(newLikes)
-            setLikeParty(item.id, item.organizer, newLikes, "sub")
-        } else {
-            const newLikes = like + 1;
-            setLike(newLikes)
-            setLikeParty(item.id, item.organizer, newLikes, "add")
-        }
-        */
-        
-        
+            }    
     }
 
     const calculateDistance = (latitude, longitude) => {

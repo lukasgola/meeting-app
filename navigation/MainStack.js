@@ -7,9 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 //Screens
 import Details from '../screens/Details';
 import Map from '../screens/Map';
-import MyProfile from '../screens/MyProfile';
 import Profile from '../screens/Profile';
-import EditProfile from '../screens/EditProfile';
 import AddEvent from '../screens/AddEvent';
 import Avatar from '../screens/Avatar';
 import QuickAction from '../screens/QuickAction';
@@ -69,24 +67,10 @@ export default function MainStack() {
                 }}
             />
             <Stack.Screen 
-                name='MyProfile' 
-                component={MyProfile} 
-                options={{
-                    title: 'Your Profile',
-                }}
-            />
-            <Stack.Screen 
                 name='Profile' 
                 component={Profile} 
                 options={{
                     title: 'Profile',
-                }}
-            />
-            <Stack.Screen 
-                name='EditProfile' 
-                component={EditProfile} 
-                options={{
-                    title: 'Edit Profile'
                 }}
             />
             <Stack.Screen 

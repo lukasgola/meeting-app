@@ -31,6 +31,7 @@ export default function Avatar() {
     const { currentUser, setCurrentUser } = useCurrentUser();
 
     const [avatar, setAvatar] = useState(currentUser.avatar)
+    const [newAvatar, setNewAvatar] = useState();
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -45,24 +46,19 @@ export default function Avatar() {
     
         if (!result.canceled) {
             setAvatar(result.assets[0].uri);
-            uploadImage(auth.currentUser.uid, result.assets[0].uri);
+            setNewAvatar(uploadImage(auth.currentUser.uid, result.assets[0].uri));
         }
     };
 
-    const submit = () => {
-        
-        let storageRef = ref(storage, `/profilePictures/${auth.currentUser.uid}`)
-        getDownloadURL(storageRef).then((url) => {
-          console.log(url)
-          updateAvatar(auth.currentUser.uid, url);
-          setCurrentUser({
-            username: "lolo",
+    const submit = async () => {
+        await updateAvatar(auth.currentUser.uid, url);
+        setCurrentUser({
+            username: currentUser.username,
             email: currentUser.email,
             avatar: url,
             score: currentUser.score
         })
-          navigation.goBack();
-        })
+        navigation.goBack();
     }
 
     const later = () => {
