@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet ,Text, View, Button, Image, TouchableOpacity} from 'react-native';
+import { Dimensions ,Text, View, Button, Image, TouchableOpacity, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Alert} from 'react-native';
 import { Camera } from 'expo-camera';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {useTheme} from '../theme/ThemeProvider';
+import CustomMultilineInput from '../components/CustomMultilineInput';
 
-export default function App() {
+import {useTheme} from '../theme/ThemeProvider';
+import {useForm, Controller} from 'react-hook-form';
+
+import CustomText from '../components/CustomText';
+
+
+//Firebase
+import { uploadImage } from '../firebase/firebase-config';
+
+export default function QuickAction({navigation}) {
+
+
+
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [camera, setCamera] = useState(null);
     const [image, setImage] = useState(null);
@@ -14,7 +26,29 @@ export default function App() {
 
     const {colors} = useTheme();
 
-    
+    const { control, handleSubmit, formState: {errors} } = useForm();
+
+    const onCreateQuickEvent = async data => {
+        Alert.alert('New Quick Action', 'Do you want to public this Quick Action? Your location will become public until you turn it off and everyone will be able to see your photo', [
+        {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+        },
+        {
+            text: 'Yes',
+            onPress: () => {
+                uploadImage(auth.currentUser.uid, result.assets[0].uri);
+                const {description} = data;
+                const event = {
+                    image: image,
+                    desc: description
+                }
+                addEvent(event);
+            }},
+        ]);
+        
+    };
 
     if (!permission) {
     // Camera permissions are still loading
@@ -47,24 +81,35 @@ export default function App() {
         }
     }
 
+
+    const retake = () => {
+        setImage(null)
+    }
+
     if (permission === false) {
         return <Text>No access to camera</Text>;
     }
+
+    if (image == null){
+
     return (
-        <View style={{ flex: 1, backgroundColor: 'red'}}>
+        <View style={{ flex: 1}}>
             <Camera 
                 ref={ref => setCamera(ref)}
                 type={type}
+                ratio="1:1"
                 style={{flex: 1}}
             />
-            <View style={{
-                position: 'absolute',
-                bottom: 50,
-                width: '100%',
-                height: 200,
-                alignItems: 'center',
-                justifyContent: 'space-around',
-            }}>
+            <View 
+                style={{
+                    position: 'absolute',
+                    bottom: 50,
+                    width: '100%',
+                    height: 200,
+                    alignItems: 'center',
+                    justifyContent: 'space-around',
+                }}
+            >
                 <TouchableOpacity 
                     onPress={() => takePicture()} 
                     style={{
@@ -102,4 +147,80 @@ export default function App() {
             </View>
         </View>
     );
+    } else {
+
+    return (
+        <KeyboardAvoidingView 
+            behavior='padding'
+            keyboardShouldPersistTaps='handled'
+            style={{ flex: 1, padding: '5%', justifyContent: 'space-around'}}
+        >
+            <TouchableWithoutFeedback
+                onPress={() => {
+                    Keyboard.dismiss();
+                }}
+            >
+                <Image 
+                    source={{uri: image}}
+                    style={{
+                        width: '100%',
+                        height: '70%',
+                        borderRadius: 10,
+
+                    }}
+                />
+            </TouchableWithoutFeedback>
+                <View style={{
+                    width: '100%',
+                    height: '10%',
+                }}>
+                    <CustomMultilineInput
+                        name="description"
+                        control={control}
+                        placeholder="Write a few words about the event ..."
+                        size={12} 
+                        color={colors.grey_l} 
+                        multiline={true}
+                    />
+                </View>
+                
+                <View style={{
+                    width: '100%',
+                    marginBottom: '10%',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+
+                }}>
+                    <TouchableOpacity 
+                        onPress={() => retake()} 
+                        style={{
+                            width: '30%',
+                            height: 50,
+                            borderRadius: 10,
+                            backgroundColor: colors.background,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <CustomText weight='bold'>RETAKE</CustomText>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity 
+                        onPress={handleSubmit(onCreateQuickEvent)}
+                        style={{
+                            width: '60%',
+                            height: 50,
+                            borderRadius: 10,
+                            backgroundColor: colors.primary,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <CustomText weight='bold' color={colors.background}>NEXT</CustomText>
+                    </TouchableOpacity>
+                </View>
+        </KeyboardAvoidingView>
+    )
+    }
 }

@@ -11,7 +11,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import Home from '../screens/Home';
-import AddEvent from '../screens/AddEvent';
 
 
 const Stack = createNativeStackNavigator();

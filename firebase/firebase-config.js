@@ -180,6 +180,17 @@ export async function setLikeParty(id, organizer, likes, mode){
   
 }
 
+export async function addQuickAction(event){
+  try {
+    await addDoc(collection(db, `users/${auth.currentUser.uid}/parties`), {
+      image: event.image,
+      desc: event.desc,
+    });
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
 export async function uploadImage(uid, avatar) {
 
   const metadata = {

@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useTheme} from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
@@ -65,7 +64,7 @@ export default function MainStack() {
                 name='Map' 
                 component={Map}
                 options={{
-                    title: 'Home',
+                    title: 'Map',
                     headerBackTitle: 'Back',
                 }}
             />
