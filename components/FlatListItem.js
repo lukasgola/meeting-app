@@ -62,11 +62,13 @@ const FlatListItem = ({item}) => {
     }
 
     const calculateDistance = (latitude, longitude) => {
-        var dis = getDistance(
-            {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
-            {latitude: latitude, longitude: longitude},
-        );
-        return Math.round(dis/1000);
+        if(currentLocation != undefined){
+            var dis = getDistance(
+                {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
+                {latitude: latitude, longitude: longitude},
+            );
+            return Math.round(dis/1000);
+        } 
     };
 
     const getUser = () => {
@@ -104,7 +106,7 @@ const FlatListItem = ({item}) => {
                 <CustomText weight='bold' size={16} >{item.title}</CustomText>
                 <View style={styles.card_main_info_row}>
                     <Ionicons style={{marginRight: 5}} name='location-outline' size={16} color={colors.text} />
-                    <CustomText size={14} color={colors.grey_d} >calculateDistance(item.latitude, item.longitude).toString() km from you</CustomText>
+                    <CustomText size={14} color={colors.grey_d} >{calculateDistance(item.latitude, item.longitude).toString()} km from you</CustomText>
                 </View>
                 <View style={styles.card_main_info_row}>
                     <View style={{flexDirection: 'row', width: '40%',}}>

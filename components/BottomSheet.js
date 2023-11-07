@@ -3,8 +3,6 @@ import { View, Modal, KeyboardAvoidingView, Text, TouchableOpacity, Animated, Pr
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import LottieView from 'lottie-react-native';
-
 import * as Haptics from 'expo-haptics';
 
 import { BlurView } from 'expo-blur';
