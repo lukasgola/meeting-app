@@ -17,7 +17,7 @@ import { getFirestore } from "firebase/firestore";
 import { collection, setDoc, getDoc, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore"; 
 
 //Storage
-import { getStorage, ref, getDownloadURL, uploadBytesResumable, } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, uploadBytes, uploadBytesResumable, } from "firebase/storage";
 
 
 // Your web app's Firebase configuration
@@ -207,10 +207,8 @@ export async function uploadImage(uid, avatar, type) {
   const storageRef = ref(storage, directory + uid);
   const uploadTask = uploadBytesResumable(storageRef, blob);
 
-  let temp = '';
-
-  // Listen for state changes, errors, and completion of the upload.
-  uploadTask.on('state_changed',
+  return new Promise((resolve, reject) => {
+    uploadTask.on('state_changed',
     (snapshot) => {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -228,34 +226,19 @@ export async function uploadImage(uid, avatar, type) {
       }
     }, 
     (error) => {
-      // A full list of error codes is available at
-      // https://firebase.google.com/docs/storage/web/handle-errors
-      console.log(error.code)
-      switch (error.code) {
-        case 'storage/unauthorized':
-          // User doesn't have permission to access the object
-          break;
-        case 'storage/canceled':
-          // User canceled the upload
-          break;
-
-        // ...
-
-        case 'storage/unknown':
-          // Unknown error occurred, inspect error.serverResponse
-          break;
-      }
-    }, 
-    () => {
+      // Handle errors and log them
+      reject(error)
+    },
+    async () => {
       // Upload completed successfully, now we can get the download URL
 
       
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        console.log('File available at', downloadURL);
-        temp = downloadURL
-      });
-      
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+      resolve({
+        downloadURL,
+        metadata: uploadTask.snapshot.metadata
+      })
     }
   );
-  return temp
+  })
 }

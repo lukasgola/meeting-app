@@ -44,21 +44,31 @@ export default function Avatar() {
     
         console.log(result);
     
-        if (!result.canceled) {
-            setAvatar(result.assets[0].uri);
-            setNewAvatar(uploadImage(auth.currentUser.uid, result.assets[0].uri));
+        try {
+            if (!result.canceled) {
+                setAvatar(result.assets[0].uri);
+                setNewAvatar(uploadImage(auth.currentUser.uid, result.assets[0].uri));
+            }
+        } catch (error) {
+            console.log(error)
         }
+        
     };
 
     const submit = async () => {
-        await updateAvatar(auth.currentUser.uid, url);
-        setCurrentUser({
-            username: currentUser.username,
-            email: currentUser.email,
-            avatar: url,
-            score: currentUser.score
-        })
-        navigation.goBack();
+        try {
+            await updateAvatar(auth.currentUser.uid, url);
+            setCurrentUser({
+                username: currentUser.username,
+                email: currentUser.email,
+                avatar: url,
+                score: currentUser.score
+            })
+            navigation.goBack();
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     const later = () => {
