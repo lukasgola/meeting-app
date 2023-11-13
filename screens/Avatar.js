@@ -12,8 +12,6 @@ import CustomInput from '../components/CustomInput';
 
 //Image Picker
 import * as ImagePicker from 'expo-image-picker';
-import ImageResizer from 'react-native-image-resizer';
-
 //Firebase
 import { uploadImage, auth, storage, updateAvatar } from '../firebase/firebase-config'
 import { ref, getDownloadURL } from "firebase/storage";
@@ -32,20 +30,6 @@ export default function Avatar() {
     const { currentUser, setCurrentUser } = useCurrentUser();
 
     const [avatar, setAvatar] = useState(currentUser.avatar)
-    const [newAvatar, setNewAvatar] = useState();
-
-    const compressImage = async (uri) => {
-        const compressedImage = await ImageResizer.createResizedImage(
-            uri,
-            600, // Width
-            800, // Height
-            'JPEG',
-            80, // Quality (0 to 100)
-            0, // Rotation (0, 90, 180, or 270)
-        );
-        
-        return compressedImage;
-    };
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -60,10 +44,7 @@ export default function Avatar() {
     
         try {
             if (!result.canceled) {
-                const result = result.assets[0]
-                setAvatar(result);
-
-                setNewAvatar(uploadImage(auth.currentUser.uid, result));
+                setAvatar(result.assets[0].uri);
             }
         } catch (error) {
             console.log(error)
@@ -73,6 +54,7 @@ export default function Avatar() {
 
     const submit = async () => {
         try {
+            const url = await uploadImage(auth.currentUser.uid, avatar);
             await updateAvatar(auth.currentUser.uid, url);
             setCurrentUser({
                 username: currentUser.username,
