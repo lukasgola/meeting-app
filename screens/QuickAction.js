@@ -11,6 +11,9 @@ import {useForm, Controller} from 'react-hook-form';
 
 import CustomText from '../components/CustomText';
 
+import ImageResizer from 'react-native-image-resizer';
+//import { Image as ImageCompress } from 'react-native-compressor';
+
 
 //Firebase
 import { auth, uploadImage, addQuickAction } from '../firebase/firebase-config';
@@ -40,7 +43,8 @@ export default function QuickAction({navigation}) {
             onPress: async () => {
                 try {
                     const {description} = data;
-                    const url = await uploadImage(auth.currentUser.uid, image, 'quickActions')
+                    const compressed = await compressImage(image)
+                    const url = await uploadImage(auth.currentUser.uid, compressed, 'quickActions')
                     const event = {
                         image: url,
                         desc: description == undefined ? '' : description
@@ -84,9 +88,23 @@ export default function QuickAction({navigation}) {
     const takePicture = async () => {
         if(camera){
             const data = await camera.takePictureAsync(null)
+            //const compressed = await compressImage(data.uri)
             setImage(data.uri);
         }
     }
+
+    const compressImage = async (uri) => {
+        const compressedImage = await ImageResizer.createResizedImage(
+            uri,
+            600, // Width
+            800, // Height
+            'JPEG',
+            80, // Quality (0 to 100)
+            0, // Rotation (0, 90, 180, or 270)
+        );
+        
+        return compressedImage;
+    };
 
 
     const retake = () => {
