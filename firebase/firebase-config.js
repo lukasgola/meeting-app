@@ -22,12 +22,7 @@ import { getStorage, ref, getDownloadURL, uploadBytes, uploadBytesResumable, } f
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBYrT9oMv1ixL5t1xia9A1u7brVv-BUMlg",
-  authDomain: "meetme-8190f.firebaseapp.com",
-  projectId: "meetme-8190f",
-  storageBucket: "meetme-8190f.appspot.com",
-  messagingSenderId: "824259763699",
-  appId: "1:824259763699:web:3c5e3b55809ab81e6f4686"
+  
 };
 
 // Initialize Firebase
