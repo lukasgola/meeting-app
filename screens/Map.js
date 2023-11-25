@@ -292,7 +292,7 @@ export default function Map({navigation}){
                         strokeWidth={3}
                         strokeColor={colors.primary}
                         mode={directionMode}
-                        apikey='AIzaSyAW_vjG_Tr8kxNtZF7Iq6n72JF1Spi2RZE'
+                        apikey='API_KEY'
                         onReady={result => {
                             
                             mapRef.current.fitToCoordinates(result.coordinates, {
