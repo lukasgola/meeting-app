@@ -7,14 +7,13 @@
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Preview](#preview)
+- [Working On](#working-on)
 
 ## Introduction
 The Meeting App is a React Native-based platform aimed at fostering meaningful connections between individuals seeking to expand their social circles and engage with diverse personalities.
 
 ## Features
 - **User Profiles**: Create personalized profiles showcasing interests and preferences.
-- **Matching Algorithm**: Utilizes intelligent matching algorithms to suggest potential connections based on user preferences.
-- **Real-time Chat**: Engage in seamless conversations with matched users through Firebase-powered real-time messaging.
 - **Secure Authentication**: Secure user authentication provided by Firebase Authentication services.
 
 ## Technologies Used
@@ -33,3 +32,8 @@ The Meeting App is a React Native-based platform aimed at fostering meaningful c
   <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a6.png?raw=true' width=200 />
 </div>
 
+## Working On
+Here are some planned features we're working on adding in the future:
+- **Scoring Algorithm**: Utilizes a scoring algorithm to suggest potential connections based on user preferences.
+- **Matching Algorithm**: Utilizes intelligent matching algorithms to suggest potential connections based on user preferences.
+- **Real-time Chat**: Engage in seamless conversations with matched users through Firebase-powered real-time messaging.
