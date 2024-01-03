@@ -7,11 +7,6 @@
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Preview](#preview)
-- [Getting Started](#getting-started)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 The Meeting App is a React Native-based platform aimed at fostering meaningful connections between individuals seeking to expand their social circles and engage with diverse personalities.
@@ -26,33 +21,15 @@ The Meeting App is a React Native-based platform aimed at fostering meaningful c
 - React Native: Frontend development framework.
 - Context API: State management for React components.
 - Firebase: Backend services for authentication, real-time database, and storage.
+- Google Maps API: Geolocation services and interactive mapping functionalities
 
 ## Preview
 <div>
   <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a1.png?raw=true' width=200 />
-  <!-- Add more specific descriptions for each image if necessary -->
-  <!-- <img src='image_url' width=200 /> -->
+  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a2.png?raw=true' width=200 />
+  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a3.png?raw=true' width=200 />
+  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a4.png?raw=true' width=200 />
+  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a5.png?raw=true' width=200 />
+  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a6.png?raw=true' width=200 />
 </div>
 
-## Getting Started
-To get a local copy of the project up and running, follow these steps:
-
-### Installation
-1. Clone the repository: `git clone https://github.com/lukasgola/meeting-app.git`
-2. Navigate to the project directory: `cd meeting-app`
-3. Install dependencies: `npm install`
-
-### Usage
-1. Start the development server: `npm start`
-2. Open the app on your emulator or device using Expo.
-
-## Contributing
-We welcome contributions! If you'd like to contribute to the Meeting App, please follow these guidelines:
-- Fork the repository
-- Create your branch: `git checkout -b feature/YourFeature`
-- Commit your changes: `git commit -m 'Add your feature'`
-- Push to the branch: `git push origin feature/YourFeature`
-- Submit a pull request
-
-## License
-This project is licensed under the [MIT License](LICENSE).
