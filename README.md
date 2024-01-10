@@ -4,23 +4,13 @@
 
 ## Table of Contents
 - [Introduction](#introduction)
+- [Preview](#preview)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [Preview](#preview)
 - [Working On](#working-on)
 
 ## Introduction
 The Meeting App is a React Native-based platform aimed at fostering meaningful connections between individuals seeking to expand their social circles and engage with diverse personalities.
-
-## Features
-- **User Profiles**: Create personalized profiles showcasing interests and preferences.
-- **Secure Authentication**: Secure user authentication provided by Firebase Authentication services.
-
-## Technologies Used
-- React Native: Frontend development framework.
-- Context API: State management for React components.
-- Firebase: Backend services for authentication, real-time database, and storage.
-- Google Maps API: Geolocation services and interactive mapping functionalities
 
 ## Preview
 <div>
@@ -31,6 +21,16 @@ The Meeting App is a React Native-based platform aimed at fostering meaningful c
   <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a5.png?raw=true' width=200 />
   <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a6.png?raw=true' width=200 />
 </div>
+
+## Features
+- **User Profiles**: Create personalized profiles showcasing interests and preferences.
+- **Secure Authentication**: Secure user authentication provided by Firebase Authentication services.
+
+## Technologies Used
+- React Native: Frontend development framework.
+- Context API: State management for React components.
+- Firebase: Backend services for authentication, real-time database, and storage.
+- Google Maps API: Geolocation services and interactive mapping functionalities
 
 ## Working On
 Here are some planned features we're working on adding in the future:
