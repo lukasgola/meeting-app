@@ -14,12 +14,12 @@ The Meeting App is a React Native-based platform aimed at fostering meaningful c
 
 ## Preview
 <div>
-  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a1.png?raw=true' width=200 />
-  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a2.png?raw=true' width=200 />
-  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a3.png?raw=true' width=200 />
-  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a4.png?raw=true' width=200 />
-  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a5.png?raw=true' width=200 />
-  <img src='https://github.com/lukasgola/myportfolio/blob/main/src/assets/m-a6.png?raw=true' width=200 />
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/m-a1.png' width=200 />
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/m-a2.png' width=200 />
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/m-a3.png' width=200 />
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/m-a4.png' width=200 />
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/m-a5.png' width=200 />
+  <img src='https://github.com/lukasgola/meeting-app/blob/main/assets/m-a6.png' width=200 />
 </div>
 
 ## Features
